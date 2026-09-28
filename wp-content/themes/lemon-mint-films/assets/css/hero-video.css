@@ -1,0 +1,236 @@
+/* ==========================================================================
+   HERO · КАДР НА ВЕСЬ ЭКРАН
+   --------------------------------------------------------------------------
+   Первый экран отдан видео: заголовок и две кнопки, больше ничего (кикер
+   «Dubai · Est. 2023…» убран по просьбе клиента). Сменилась подложка и, вслед за ней,
+   краска: на кадре работает реверс из брендбука (чёрное → тёплый белый,
+   мята → лимон), ровно как на мятной плашке ниже по странице.
+
+   Шапка уходит из потока и ложится на кадр. Как только первый экран уехал,
+   она возвращается в обычное состояние — тёплый белый фон, чёрный логотип.
+   Оба состояния описаны здесь и нигде больше: style.css не тронут.
+
+   Подключается только на главной (см. lmf_assets в functions.php).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. СЕКЦИЯ
+   -------------------------------------------------------------------------- */
+.hero-video {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	min-height: 100vh;
+	/* svh — высота без адресной строки: на мобильных 100vh выше экрана,
+	   и низ композиции уезжает под браузерный хром */
+	min-height: 100svh;
+	padding: 0;
+	overflow: hidden;
+	background: var(--ink);
+	color: var(--warm);
+	isolation: isolate;
+}
+
+/* Содержимое — в той же сетке, что и вся страница: .wrap, поля --pad.
+   Внутри: заголовок → действия. */
+.hero-video .hero-in {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	padding-top: calc(var(--nav-h) + clamp(28px, 7vh, 72px));
+	padding-bottom: clamp(52px, 9vh, 104px);
+}
+
+/* --------------------------------------------------------------------------
+   2. ПОДЛОЖКА
+   -------------------------------------------------------------------------- */
+.hero-bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-color: var(--ink);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.hero-bg__v {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Тонировка. Не новый цвет: та же чёрная краска палитры, взятая альфой.
+   Сверху плотнее — под шапкой, снизу плотнее — под заголовком и кнопками;
+   в середине кадр почти открыт. */
+.hero-bg::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(
+			to bottom,
+			rgba(17, 17, 17, .58) 0,
+			rgba(17, 17, 17, .18) 22%,
+			rgba(17, 17, 17, .16) 46%,
+			rgba(17, 17, 17, .78) 100%
+		),
+		rgba(17, 17, 17, .14);
+}
+
+/* --------------------------------------------------------------------------
+   3. КРАСКА НА КАДРЕ
+   -------------------------------------------------------------------------- */
+.hero-video .h1      { color: var(--warm); }
+.hero-video .h1-dot  { color: var(--lemon); }    /* мята на кадре не читается */
+
+.hero-video .link-u {
+	color: var(--warm);
+	border-bottom-color: var(--lemon);
+}
+.hero-video .link-u:hover { border-bottom-color: var(--warm); }
+
+/* Лимонная кнопка остаётся лимонной: это единственное действие экрана. */
+
+/* --------------------------------------------------------------------------
+   4. ПОДСКАЗКА «ЛИСТАЙТЕ»
+   -------------------------------------------------------------------------- */
+.hero-cue {
+	position: absolute;
+	right: var(--pad);
+	bottom: clamp(52px, 9vh, 104px);
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	pointer-events: none;
+}
+.hero-cue b {
+	font-family: "Montserrat", sans-serif;
+	font-weight: 500;
+	font-size: 10.5px;
+	letter-spacing: .28em;
+	text-transform: uppercase;
+	color: rgba(247, 245, 239, .7);
+}
+.hero-cue i {
+	display: block;
+	width: 1px;
+	height: 46px;
+	background: rgba(247, 245, 239, .28);
+	position: relative;
+	overflow: hidden;
+}
+/* по волоску сверху вниз — как счётчик на ракорде */
+.hero-cue i::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1px;
+	height: 16px;
+	background: var(--lemon);
+	animation: heroCue 2.4s cubic-bezier(.6, 0, .3, 1) infinite;
+}
+@keyframes heroCue {
+	0%        { transform: translateY(-16px); }
+	55%, 100% { transform: translateY(46px); }
+}
+
+/* ниже 900px справа стоит бургер и кнопка — подсказке там тесно */
+@media (max-width: 900px) {
+	.hero-cue { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   5. ШАПКА НА КАДРЕ
+   --------------------------------------------------------------------------
+   Шапка становится fixed — иначе она заняла бы 72px над кадром, и «на видео»
+   не получилось бы. Высоту, которую она перестала занимать в потоке, секция
+   добирает своим padding-top (см. .hero-in выше), поэтому ничего не съезжает.
+   -------------------------------------------------------------------------- */
+body.has-video-hero header#nav {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	background: transparent;
+	border-bottom-color: transparent;
+	transition: background .34s ease, border-color .34s ease;
+}
+
+/* logged in: the WordPress admin bar sits above the page, the header under it */
+body.admin-bar.has-video-hero header#nav { top: 32px; }
+@media (max-width: 782px) { body.admin-bar.has-video-hero header#nav { top: 46px; } }
+@media (max-width: 600px) { body.admin-bar.has-video-hero header#nav { top: 0; } }
+
+body.has-video-hero header#nav .nlink        { color: rgba(247, 245, 239, .76); }
+body.has-video-hero header#nav .nlink:hover  { color: var(--warm); }
+body.has-video-hero header#nav .nlink.on     { color: var(--lemon); }
+body.has-video-hero header#nav .burger i,
+body.has-video-hero header#nav .burger i::before,
+body.has-video-hero header#nav .burger i::after { background: var(--warm); }
+
+/* Логотип в реверсе. Заливки размечены классами на выводе (inc/template-tags),
+   значения красок не трогались: в покое файл тот же, что и был.
+   Реверс включается только после того, как прелоадер отдал марку в шапку, —
+   иначе краска сменилась бы на глазах, прямо в момент посадки. */
+body.has-video-hero header#nav .lockup .i,
+body.has-video-hero header#nav .lockup .m { transition: fill .4s ease; }
+body.has-video-hero header#nav .lockup .si { transition: stroke .4s ease; }
+
+body.has-video-hero.hero-live header#nav .lockup .i { fill: var(--warm); }
+body.has-video-hero.hero-live header#nav .lockup .m { fill: var(--lemon); }
+body.has-video-hero.hero-live header#nav .lockup .si { stroke: var(--warm); }
+
+/* Первый экран уехал — шапка возвращается к себе обычной.
+   Блок стоит последним намеренно: он должен перебивать реверс выше. */
+body.has-video-hero.nav-solid header#nav {
+	/* Сплошная шапка. Под ней больше ничего не должно просвечивать —
+	   крупный чёрный Anton при 98.5 % уже читался сквозь неё призраком. */
+	background: var(--warm);
+	border-bottom-color: var(--rule);
+}
+/* Только над закреплённой WebGL-плёнкой (секция услуг) шапка 98.5 %, а не
+   100 %: непрозрачный слой над ней включает в Chromium отсечение
+   перекрытых областей, и оно применяется к холсту зеркально по вертикали —
+   низ плёнки на высоту шапки пропадает в чёрное. Класс ставит
+   services-reel.js, пока плёнка на экране. */
+body.has-video-hero.nav-solid.over-gl header#nav { background: rgba(247, 245, 239, .985); }
+
+body.has-video-hero.nav-solid header#nav .nlink       { color: var(--ink-70); }
+body.has-video-hero.nav-solid header#nav .nlink:hover { color: var(--ink); }
+body.has-video-hero.nav-solid header#nav .nlink.on    { color: var(--mint); }
+body.has-video-hero.nav-solid header#nav .burger i,
+body.has-video-hero.nav-solid header#nav .burger i::before,
+body.has-video-hero.nav-solid header#nav .burger i::after { background: var(--ink); }
+body.has-video-hero.nav-solid header#nav .lockup .i   { fill: rgb(9.01947%, 9.01947%, 9.01947%); }
+body.has-video-hero.nav-solid header#nav .lockup .m   { fill: rgb(9.411621%, 50.588989%, 36.470032%); }
+body.has-video-hero.nav-solid header#nav .lockup .si  { stroke: rgb(0%, 0%, 0%); }
+
+/* --------------------------------------------------------------------------
+   6. ПЕРФОРАЦИЯ НА КАДРЕ
+   Полоса из hero-film.css остаётся на месте — меняется только краска:
+   чёрная линия на кадре не видна.
+   -------------------------------------------------------------------------- */
+.hero-video .film-edge { opacity: .68; }
+.hero-video .film-edge::before,
+.hero-video .film-edge::after { background: var(--warm); opacity: .42; }
+.hero-video .film-edge__tape {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='34'%3E%3Crect x='6' y='7' width='14' height='20' rx='3' fill='none' stroke='%23F7F5EF' stroke-width='1'/%3E%3C/svg%3E");
+}
+.hero-video .film-edge__flicker { opacity: 0; }
+
+/* --------------------------------------------------------------------------
+   7. ПОКОЙ
+   При reduce видео не играет (его останавливает hero-video.js) — на экране
+   остаётся постер. Мигать и ехать тоже нечему.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	.hero-cue i::after { animation: none; }
+	body.has-video-hero header#nav { transition: none; }
+}

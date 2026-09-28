@@ -1,0 +1,100 @@
+/* ==========================================================================
+   CURSOR — a camera viewfinder
+   A dot, and four corner brackets that trail it a little. Over a link or a
+   button the brackets lock round it, the way autofocus boxes a subject.
+   On a press they close in — the shutter. Over dark footage (hero, zoomed
+   reel, mint surface) the ink turns warm white.
+
+   Only with a mouse or trackpad: html.has-lmf-cursor is set by cursor.js,
+   so touch screens, no-JS and reduced-motion users keep the system cursor.
+   ========================================================================== */
+
+html.has-lmf-cursor,
+html.has-lmf-cursor * { cursor: none !important; }
+
+/* fields keep a real text caret — you need to see where you are typing */
+html.has-lmf-cursor input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),
+html.has-lmf-cursor textarea,
+html.has-lmf-cursor select,
+html.has-lmf-cursor [contenteditable="true"] { cursor: auto !important; }
+
+.lmf-cursor {
+	--c: var(--ink);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 2147483000;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity .25s ease;
+}
+.lmf-cursor.is-on { opacity: 1; }
+.lmf-cursor.is-light { --c: var(--warm); }
+.lmf-cursor.is-hidden { opacity: 0; }
+
+/* the dot */
+.lmf-cursor .c-dot {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 6px;
+	height: 6px;
+	margin: -3px 0 0 -3px;
+	border-radius: 50%;
+	background: var(--c);
+	transition: background .25s ease, transform .2s ease;
+	will-change: transform;
+}
+.lmf-cursor.is-lock .c-dot { transform: scale(0); }
+
+/* the viewfinder: four corners; position and size are set by the script */
+.lmf-cursor .c-frame {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 34px;
+	height: 34px;
+	will-change: transform, width, height;
+}
+.lmf-cursor .c-frame b {
+	position: absolute;
+	width: 9px;
+	height: 9px;
+	border: 0 solid var(--c);
+	transition: border-color .25s ease, width .2s ease, height .2s ease;
+}
+.lmf-cursor .c-frame b:nth-child(1) { left: 0;  top: 0;    border-left-width: 1.5px;  border-top-width: 1.5px; }
+.lmf-cursor .c-frame b:nth-child(2) { right: 0; top: 0;    border-right-width: 1.5px; border-top-width: 1.5px; }
+.lmf-cursor .c-frame b:nth-child(3) { left: 0;  bottom: 0; border-left-width: 1.5px;  border-bottom-width: 1.5px; }
+.lmf-cursor .c-frame b:nth-child(4) { right: 0; bottom: 0; border-right-width: 1.5px; border-bottom-width: 1.5px; }
+.lmf-cursor.is-lock .c-frame b { width: 12px; height: 12px; }
+
+/* a word under the viewfinder: PLAY, VIEW… */
+.lmf-cursor .c-label {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font: 500 9.5px/1 "Montserrat", Arial, sans-serif;
+	letter-spacing: .24em;
+	text-transform: uppercase;
+	font-style: normal;
+	white-space: nowrap;
+	color: var(--c);
+	opacity: 0;
+	transition: opacity .2s ease, color .25s ease;
+}
+.lmf-cursor.has-label .c-label { opacity: 1; }
+
+/* REC — a lemon dot that blinks while the label shows, like a camera's tally */
+.lmf-cursor .c-label::before {
+	content: "";
+	display: inline-block;
+	width: 5px;
+	height: 5px;
+	margin: 0 7px 1px 0;
+	border-radius: 50%;
+	background: var(--lemon);
+	vertical-align: middle;
+	animation: lmfRec 1.1s steps(1, end) infinite;
+}
+@keyframes lmfRec { 50% { opacity: 0; } }

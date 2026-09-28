@@ -1,0 +1,219 @@
+/* ==========================================================================
+   MENU — full screen, big words, the page blurred behind
+   The burger stays in the bar at every width; the five destinations open
+   over the page as a title card. The veil is the page itself, out of focus
+   and washed with warm white — not a black panel (the guideline has none).
+   ========================================================================== */
+
+/* the bar: links move into the menu, the burger is always there */
+header#nav .nav-links { display: none; }
+
+.burger {
+	display: inline-flex !important;
+	align-items: center;
+	gap: 12px;
+	width: auto;
+	height: 40px;
+	padding: 0 2px 0 6px;
+	color: var(--ink);
+}
+.burger-word {
+	font: 500 11.5px/1 "Montserrat", Arial, sans-serif;
+	letter-spacing: .24em;
+	text-transform: uppercase;
+}
+.burger-lines {
+	position: relative;
+	display: block;
+	width: 26px;
+	height: 12px;
+}
+.burger-lines i {
+	position: absolute;
+	left: 0;
+	width: 26px;
+	height: 1.5px;
+	background: currentColor;
+	transition: transform .45s cubic-bezier(.7, 0, .2, 1), top .45s cubic-bezier(.7, 0, .2, 1), width .3s ease;
+}
+/* the old two-line icon in style.css draws extra bars with ::before/::after,
+   and the hero recolours .burger i directly — both are neutralised here so
+   the lines simply take the button's colour */
+header#nav .burger .burger-lines i { background: currentColor !important; }
+header#nav .burger .burger-lines i::before,
+header#nav .burger .burger-lines i::after { display: none !important; }
+.burger-lines i:nth-child(1) { top: 2px; }
+.burger-lines i:nth-child(2) { top: 9px; width: 18px; }
+.burger:hover .burger-lines i:nth-child(2) { width: 26px; }
+.burger[aria-expanded="true"] .burger-lines i:nth-child(1) { top: 5.5px; transform: rotate(45deg); }
+.burger[aria-expanded="true"] .burger-lines i:nth-child(2) { top: 5.5px; width: 26px; transform: rotate(-45deg); }
+
+/* on the video hero the bar is in reverse — the burger follows it */
+body.has-video-hero header#nav .burger { color: var(--warm); }
+body.has-video-hero.nav-solid header#nav .burger { color: var(--ink); }
+
+@media (max-width: 480px) {
+	.burger-word { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   The overlay
+   -------------------------------------------------------------------------- */
+.menu {
+	position: fixed;
+	inset: 0;
+	z-index: 590;              /* under the bar (600): the burger closes it */
+	display: flex;
+	overflow: hidden;
+	visibility: hidden;
+}
+.menu[hidden] { display: flex !important; }   /* kept in layout for the fade; hidden = not announced */
+.menu.is-open { visibility: visible; }
+
+.menu-veil {
+	position: absolute;
+	inset: 0;
+	background: rgba(247, 245, 239, 0);
+	-webkit-backdrop-filter: blur(0);
+	        backdrop-filter: blur(0);
+	transition: background .6s ease, -webkit-backdrop-filter .6s ease, backdrop-filter .6s ease;
+}
+.menu.is-open .menu-veil {
+	background: rgba(247, 245, 239, .7);
+	-webkit-backdrop-filter: blur(26px) saturate(.85);
+	        backdrop-filter: blur(26px) saturate(.85);
+}
+/* no blur support: a denser wash keeps the words readable */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.menu.is-open .menu-veil { background: rgba(247, 245, 239, .96); }
+}
+
+.menu-in {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	display: grid;
+	grid-template-rows: 1fr auto;
+	padding-top: calc(var(--nav-h) + clamp(18px, 4vh, 48px));
+	padding-bottom: clamp(24px, 4vh, 44px);
+	min-height: 100%;
+}
+
+/* the words */
+.menu-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	align-self: center;
+}
+.menu-link {
+	display: flex;
+	align-items: flex-start;
+	gap: clamp(14px, 2vw, 28px);
+	color: var(--ink);
+	text-decoration: none;
+	transition: opacity .35s ease;
+}
+.menu-n {
+	color: var(--mint);
+	padding-top: .9em;
+	min-width: 2.2em;
+}
+.menu-w {
+	display: block;
+	overflow: hidden;              /* the word rises out of this line */
+	padding-bottom: .04em;
+}
+.menu-w-in {
+	display: block;
+	font-family: "Anton", "Arial Narrow", Arial, sans-serif;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: .02em;
+	line-height: .98;
+	font-size: min(11.5vw, 13.2vh);
+	transform: translateY(105%);
+	transition: transform .75s cubic-bezier(.16, .84, .24, 1), text-shadow .35s ease;
+	transition-delay: calc(var(--i) * 55ms);
+}
+.menu.is-open .menu-w-in {
+	transform: none;
+	transition-delay: calc(120ms + var(--i) * 70ms);
+}
+
+/* hover / focus: the others step back, this one slides and registers —
+   the lemon/mint split from the hero heading */
+/* dim the rest only while a word is actually pointed at — mouse, or keyboard
+   focus that shows (a programmatic focus on open must not grey everything) */
+.menu-list:hover .menu-link,
+.menu-list:has(.menu-link:focus-visible) .menu-link { opacity: .26; }
+.menu-list .menu-link:hover,
+.menu-list .menu-link:focus-visible { opacity: 1; }
+.menu-w { transition: transform .45s cubic-bezier(.16, .84, .24, 1); }
+/* the whole line slides, so its mask travels with the word and nothing clips */
+.menu-link:hover .menu-w,
+.menu-link:focus-visible .menu-w { transform: translateX(clamp(10px, 1.6vw, 26px)); }
+.menu-link:hover .menu-w-in,
+.menu-link:focus-visible .menu-w-in {
+	animation: menuRegister .5s cubic-bezier(.2, .72, .2, 1);
+}
+@keyframes menuRegister {
+	0%   { text-shadow: -9px 0 0 var(--lemon), 9px 0 0 var(--mint); }
+	100% { text-shadow: 0 0 0 rgba(245, 184, 46, 0), 0 0 0 rgba(23, 128, 92, 0); }
+}
+.menu-link:focus-visible { outline: none; }
+.menu-link:focus-visible .menu-w-in { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; text-decoration-color: var(--lemon); }
+
+/* the current page */
+.menu-link[aria-current="page"] .menu-n::after {
+	content: " ●";
+	color: var(--lemon);
+}
+
+/* foot: how to reach them, and the one lemon action */
+.menu-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 18px clamp(24px, 4vw, 64px);
+	border-top: 1px solid var(--rule);
+	padding-top: 18px;
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity .4s ease, transform .4s ease;
+}
+.menu.is-open .menu-foot {
+	opacity: 1;
+	transform: none;
+	transition-delay: .5s;
+}
+.menu-ch { display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.menu-ch a { color: var(--ink); border-bottom: 1px solid var(--rule); align-self: flex-start; }
+.menu-ch a:hover { border-color: var(--ink); }
+.menu-cta { margin-left: auto; }
+
+@media (max-width: 700px) {
+	.menu-foot { gap: 14px 24px; }
+	.menu-ch:nth-child(3) { display: none; }
+	.menu-cta { margin-left: 0; width: 100%; justify-content: center; }
+}
+
+/* --------------------------------------------------------------------------
+   The bar while the menu is open: ink on the veil, whatever page it is on.
+   !important because the hero's reverse and the solid state both carry
+   strong selectors; this is the one moment that must beat them all.
+   -------------------------------------------------------------------------- */
+html.menu-open { overflow: hidden; }
+html.menu-open header#nav {
+	background: transparent !important;
+	border-bottom-color: transparent !important;
+}
+html.menu-open header#nav .burger { color: var(--ink) !important; }
+html.menu-open header#nav .lockup .i { fill: rgb(9.01947%, 9.01947%, 9.01947%) !important; }
+html.menu-open header#nav .lockup .m { fill: rgb(9.411621%, 50.588989%, 36.470032%) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+	.menu-veil, .menu-w-in, .menu-foot, .burger-lines i { transition: none !important; }
+	.menu-link:hover .menu-w-in { animation: none; }
+	.menu-w { transition: none; }
+}

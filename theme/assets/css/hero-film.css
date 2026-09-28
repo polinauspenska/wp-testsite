@@ -1,0 +1,204 @@
+/* ==========================================================================
+   HERO · FILM EDGE + REGISTRATION
+   --------------------------------------------------------------------------
+   Слой поверх готовой секции. Существующая раскладка, сетка, цвета и отступы
+   не трогаются: перфорация лежит абсолютом внутри .hero, в её собственном
+   левом поле (--pad), поэтому НИ ОДИН элемент не сдвигается.
+
+   Единственное изменение в чужом правиле — .hero{position:relative}: оно
+   нужно как система координат для полосы и не меняет ни размеров, ни потока.
+
+   Ничего не скрывается по умолчанию. Стартовые состояния заголовка ставит
+   только JS (класс .is-film на .hero), поэтому без JS первый экран остаётся
+   просто первым экраном, а не невидимым заголовком.
+   ========================================================================== */
+
+.hero { position: relative; }
+
+/* --------------------------------------------------------------------------
+   1. ПЕРФОРАЦИЯ
+   -------------------------------------------------------------------------- */
+.film-edge {
+	position: absolute;
+	/* по центру левого поля: (поле − ширина полосы) / 2 */
+	left: calc((var(--pad) - 26px) / 2);
+	/* Высота — строго по заголовку. Значения подставляет JS после того, как
+	   загрузится Anton: до загрузки шрифта высота h1 другая, и полоса встала
+	   бы не по набору. Фолбэки — на случай, если замер почему-то не прошёл. */
+	top: var(--edge-top, clamp(36px, 5vw, 72px));
+	height: var(--edge-height, 42vh);
+	width: 26px;
+	pointer-events: none;
+	z-index: 1;
+	opacity: .5;
+	/* окно, в котором едет плёнка */
+	overflow: hidden;
+	/* края уходят в бумагу, а не обрываются */
+	-webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%);
+	        mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 91%, transparent 100%);
+}
+
+/* две направляющие — край плёнки */
+.film-edge::before,
+.film-edge::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 1px;
+	background: var(--ink);
+	opacity: .55;
+}
+.film-edge::before { left: 0; }
+.film-edge::after  { right: 0; }
+
+/* сама лента: перфорация повторяется по вертикали.
+   Двигаем background-position ровно на высоту одной ячейки (34px) —
+   петля сходится идеально, без шва и без второго слоя в разметке. */
+.film-edge__tape {
+	position: absolute;
+	inset: 0;
+	background-repeat: repeat-y;
+	background-position: 0 0;
+	background-size: 26px 34px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='34'%3E%3Crect x='6' y='7' width='14' height='20' rx='3' fill='none' stroke='%23111111' stroke-width='1'/%3E%3C/svg%3E");
+	animation: filmRun 2.2s linear infinite;
+}
+
+@keyframes filmRun {
+	to { background-position: 0 34px; }
+}
+
+/* мерцание лампы: держим кадр, а не плавно дышим — steps(1) */
+.film-edge__flicker {
+	position: absolute;
+	inset: 0;
+	background: var(--warm);
+	mix-blend-mode: normal;
+	opacity: 0;
+	animation: filmFlicker 5.4s steps(1, end) infinite;
+}
+
+@keyframes filmFlicker {
+	0%, 46%  { opacity: 0; }
+	47%      { opacity: .34; }
+	48%      { opacity: .06; }
+	49%      { opacity: .28; }
+	50%, 82% { opacity: 0; }
+	83%      { opacity: .2; }
+	84%, 100%{ opacity: 0; }
+}
+
+/* Поле сужается вместе с экраном. Ниже 900px полосе уже негде стоять,
+   не поджимая набор, — поэтому она просто не выводится. */
+@media (max-width: 900px) {
+	.film-edge { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   2. ЗАГОЛОВОК · СВЕДЕНИЕ КРАСОК
+   Строка приходит с разведёнными каналами и сводится в один — так выглядит
+   несведённая печать и объектив, который берёт резкость. Каналы берём не
+   красный с голубым, а лимон с мятой: тот же приём, но внутри палитры.
+   -------------------------------------------------------------------------- */
+/* РАСКЛАДКА. Пока заголовок разбит на строки, она нужна всегда — и во
+   время входа, и после него, и на ресайзе. Раньше эти правила висели на
+   том же классе, что и анимация: класс снимался при пересчёте строк, и
+   строки схлопывались в один абзац — соседние слова слипались
+   («THESCREEN»), а <i> возвращался к своему курсиву по умолчанию. */
+.hero .fl { display: block; overflow: hidden; }
+.hero .fl > i {
+	display: block;
+	font-style: normal;
+}
+
+/* ВХОД. Отдельный класс: его можно снимать и ставить сколько угодно,
+   раскладка от этого не зависит. */
+.hero.is-enter .fl > i {
+	will-change: transform, opacity, text-shadow;
+	animation:
+		filmStrike .34s steps(1, end) both var(--fd),
+		filmRegister .72s cubic-bezier(.2, .72, .2, 1) both var(--fd);
+}
+
+/* вспышка проектора: кадр держится, потом следующий */
+@keyframes filmStrike {
+	0%   { opacity: 0; }
+	26%  { opacity: .5; }
+	44%  { opacity: .12; }
+	62%  { opacity: .85; }
+	80%  { opacity: .35; }
+	100% { opacity: 1; }
+}
+
+@keyframes filmRegister {
+	0% {
+		transform: translateY(7px);
+		text-shadow: -7px 0 0 var(--lemon), 7px 0 0 var(--mint);
+	}
+	100% {
+		transform: translateY(0);
+		text-shadow: 0 0 0 rgba(245, 184, 46, 0), 0 0 0 rgba(23, 128, 92, 0);
+	}
+}
+
+/* --------------------------------------------------------------------------
+   2б. ПОРЯДОК ПЕРВОГО ЭКРАНА
+   Кадр → заголовок построчно → кнопки → полоса и подсказка. Раньше
+   заголовок стоял готовым, пока логотип летел в шапку, потом пропадал ради
+   входа и появлялся снова — порядок читался как случайный.
+
+   До старта всё содержимое спрятано (html.hero-wait ставит строка в
+   front-page.php ещё до отрисовки). Старт — момент, когда прелоадер
+   поднимает занавес; на повторном визите — сразу.
+   -------------------------------------------------------------------------- */
+html.hero-wait .hero .h1,
+html.hero-wait .hero .hero-foot,
+html.hero-wait .hero .hero-cue,
+html.hero-wait .hero .film-edge {
+	opacity: 0;
+	/* Страховка: если скрипт не загрузился, через 16 с экран покажется сам.
+	   В обычной работе класс снимается задолго до этого. */
+	animation: heroSafety .01s 16s forwards;
+}
+@keyframes heroSafety { to { opacity: 1; } }
+
+/* кнопки — после последней строки заголовка */
+.hero.is-enter .hero-foot {
+	animation: heroRise .7s cubic-bezier(.2, .72, .2, 1) both var(--foot-delay, .9s);
+}
+/* полоса и подсказка — последними, тихо */
+.hero.is-enter .hero-cue,
+.hero.is-enter .film-edge {
+	animation: heroFade .9s ease both var(--edge-delay, 1.25s);
+}
+@keyframes heroRise {
+	0%   { opacity: 0; transform: translateY(14px); }
+	100% { opacity: 1; transform: none; }
+}
+@keyframes heroFade {
+	0%   { opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   3. ПОКОЙ
+   Движение — украшение, а не условие читаемости: при reduce всё замирает
+   в конечном состоянии, ничего не пропадает.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	.film-edge__tape,
+	.film-edge__flicker { animation: none; }
+	.film-edge__flicker { opacity: 0; }
+	.hero.is-enter .hero-foot,
+	.hero.is-enter .hero-cue,
+	.hero.is-enter .film-edge { animation: none; }
+	.hero.is-enter .fl > i {
+		animation: none;
+		opacity: 1;
+		transform: none;
+		text-shadow: none;
+	}
+}
+
+/* The perforation strip is switched off (see SHOW_EDGE in hero-film.js). */
+.film-edge { display: none !important; }

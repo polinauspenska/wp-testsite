@@ -1,0 +1,127 @@
+/*!
+ * Lemon Mint Films — cinematic preloader
+ * Palette follows Brand Guidelines Ed.02 (the 1A system): warm white is
+ * the ground, lemon the single accent, mint for rules, film black for ink.
+ */
+
+:root{
+  --lmf-mint:  #17805c;
+  --lmf-ink:   #111111;
+  --lmf-track: rgba(146,138,126,.30);
+  --lmf-z:     99990;
+}
+
+/* Tokens are per-staging, not global. 'room' carries the values the ident
+   was signed off on — the artwork's own lemon #f8be1b on the #f6f3ec resting
+   ground. 'light' carries the Ed.02 1A values, warm white #f7f5ef with the
+   brand lemon #f5b82e. Both are overridable from the settings screen. */
+.lmf-stage[data-staging="room"]{
+  --lmf-ground: #080a0c;   /* the darkened room, before the lamp strikes */
+  --lmf-rest:   #f6f3ec;   /* what it develops up to */
+  --lmf-accent: #f8be1b;
+}
+.lmf-stage[data-staging="light"]{
+  --lmf-ground: #f7f5ef;
+  --lmf-rest:   #f7f5ef;
+  --lmf-accent: #f5b82e;
+}
+
+/* Scroll lock lives on <html> so the inline head script can set it before
+   <body> exists. Both elements are pinned: iOS ignores overflow on one. */
+html.lmf-locked,
+html.lmf-locked body{ overflow: hidden !important; height: 100%; }
+
+/* ============================================================
+   STAGE
+     1. canvas.lmf-gl-back    ground, light, dust
+     2. .lmf-lockup           the artwork + the progress bar
+     3. .lmf-flash            shutter exposure
+     4. canvas.lmf-gl-front   film grain (soft-light, works on any ground)
+   ============================================================ */
+.lmf-stage{
+  position: fixed; inset: 0; z-index: var(--lmf-z);
+  isolation: isolate;
+  background: var(--lmf-ground);
+  overflow: hidden;
+  display: grid; place-items: center;
+  contain: strict;
+  transition: opacity .6s ease;
+}
+.lmf-stage.is-leaving{ opacity: 0; pointer-events: none; }
+
+/* ---- the handover -------------------------------------------
+   The mark travels to the header while the stage sheds everything
+   around it. The stage's own opacity is left alone on purpose: fading
+   it would fade the travelling logo with it, so only the atmosphere
+   and the ground go, and the logo stays solid the whole way. */
+.lmf-stage.is-handing{ pointer-events: none; }
+.lmf-stage.is-handing .lmf-gl-back,
+.lmf-stage.is-handing .lmf-gl-front,
+.lmf-stage.is-handing .lmf-flash{
+  opacity: 0; transition: opacity .34s ease;
+}
+/* the bar goes invisible but keeps its box — collapsing it would
+   re-centre the column and jerk the logo at the moment of take-off */
+.lmf-stage.is-handing .lmf-progress{
+  opacity: 0 !important; transition: opacity .24s ease;
+}
+
+.lmf-gl-back,
+.lmf-gl-front{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block; pointer-events: none;
+}
+.lmf-gl-front{ mix-blend-mode: soft-light; }
+
+.lmf-lockup{
+  position: relative; z-index: 2;
+  width: min(33.6vw, 455px);
+  display: flex; flex-direction: column; align-items: center;
+  /* reserved up front so the bar can never shift the logo */
+  gap: clamp(26px, 5vh, 52px);
+}
+.lmf-logo{
+  width: 100%; display: block;
+  will-change: transform, filter;
+  transform: translateZ(0);
+}
+.lmf-logo svg{ width: 100%; height: auto; display: block; overflow: visible; }
+
+/* ---- progress ---------------------------------------------- */
+.lmf-progress{
+  width: min(38%, 340px); height: 2px; border-radius: 2px;
+  background: var(--lmf-track);
+  overflow: hidden; opacity: 0;   /* the engine fades it up */
+  will-change: opacity;
+}
+.lmf-progress-fill{
+  display: block; height: 100%; width: 0%;
+  background: var(--lmf-accent); border-radius: 2px;
+}
+
+/* The shutter: warm, tight, screen-blended — an exposure, not a white page. */
+.lmf-flash{
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0;
+  background: radial-gradient(56% 40% at 58% 50%,
+              rgba(255,252,244,1) 0%, rgba(255,247,228,.66) 24%,
+              rgba(255,240,208,.18) 50%, rgba(255,240,208,0) 74%);
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 700px){
+  .lmf-lockup{ width: 39.2vw; }
+  .lmf-progress{ width: min(58%, 260px); }
+}
+
+/* If the script never runs, the resting lockup is already what is on
+   screen — the stage degrades to a correct logo, not a blank hold. */
+.lmf-stage:not(.is-armed) .lmf-logo{ opacity: 1; filter: none; transform: none; }
+
+@media (prefers-reduced-motion: reduce){
+  .lmf-gl-back, .lmf-gl-front, .lmf-flash{ display: none !important; }
+  .lmf-stage{ transition: none; }
+}
+
+/* Print, and any context without scripting, must never see the overlay. */
+@media print{ .lmf-stage{ display: none !important; } }

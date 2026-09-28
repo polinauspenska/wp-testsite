@@ -1,0 +1,165 @@
+/* ==========================================================================
+   THE STUDIO — "why us"
+   Calm after the reel: paper, ink, precise type. No pinning — the scroll
+   runs free here. Motion is small and exact:
+     • headline words pull into focus (lens), with a lemon/mint fringe while
+       soft — the same registration idea as the hero heading;
+     • the reason nearest the middle of the screen is lit, the rest wait —
+       the reel's "only the gate is lit", in type;
+     • figures roll into place like a camera frame counter.
+   Everything reads fine with no JS: all states below are only applied once
+   studio.js adds .is-live.
+   ========================================================================== */
+
+.studio {
+	position: relative;
+	padding: clamp(80px, 11vw, 180px) 0 clamp(72px, 9vw, 150px);
+	background: var(--warm);
+}
+
+/* 1. HEADLINE ------------------------------------------------------------ */
+.studio-title {
+	font-family: "Anton", "Arial Narrow", Arial, sans-serif;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: .02em;
+	line-height: .96;
+	font-size: clamp(2.3rem, 5.6vw, 5.8rem);
+	max-width: 17ch;
+	margin: 18px 0 0;
+}
+.studio-title .sw { display: inline-block; }
+.studio.is-live .studio-title .sw { will-change: filter, opacity; }
+
+/* 2. REASONS — a typeset index ------------------------------------------- */
+.studio-list {
+	list-style: none;
+	margin: clamp(56px, 7vw, 110px) 0 0;
+	padding: 0;
+	border-top: 1px solid var(--rule);
+}
+.studio-row {
+	display: grid;
+	grid-template-columns: 64px minmax(0, 1.25fr) minmax(0, 1fr);
+	gap: 8px 28px;
+	align-items: baseline;
+	padding: clamp(22px, 2.6vw, 38px) 0;
+	border-bottom: 1px solid var(--rule);
+	transition: opacity .45s ease;
+	cursor: default;
+}
+.studio-n { color: var(--mint); }
+.studio-name {
+	font-family: "Anton", "Arial Narrow", Arial, sans-serif;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: .02em;
+	line-height: .95;
+	font-size: clamp(1.9rem, 4.2vw, 4.2rem);
+	margin: 0;
+}
+.studio-text {
+	margin: 0;
+	color: var(--ink-70);
+	max-width: 36ch;
+	font-size: clamp(15px, 1.1vw, 17px);
+}
+/* lit / waiting — only once the script runs */
+.studio.is-live .studio-row { opacity: .24; }
+.studio.is-live .studio-row.is-lit { opacity: 1; }
+
+@media (max-width: 760px) {
+	.studio-row { grid-template-columns: 44px 1fr; }
+	.studio-text { grid-column: 2; }
+}
+
+/* the frame that follows the cursor: a single 35 mm frame, perforated */
+.studio-loupe {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 40;
+	width: clamp(220px, 20vw, 320px);
+	margin: 0;
+	padding: 16px 9px;
+	background: var(--ink);
+	border-radius: 2px;
+	pointer-events: none;
+	opacity: 0;
+	transform: translate3d(-9999px, 0, 0);
+	transition: opacity .3s ease;
+	will-change: transform, opacity;
+}
+.studio-loupe::before,
+.studio-loupe::after {
+	content: "";
+	position: absolute;
+	left: 6px;
+	right: 6px;
+	height: 6px;
+	background-repeat: repeat-x;
+	background-size: 12px 6px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6'%3E%3Crect x='3' y='0' width='6' height='6' rx='1.5' fill='%23F7F5EF'/%3E%3C/svg%3E");
+}
+.studio-loupe::before { top: 5px; }
+.studio-loupe::after  { bottom: 5px; }
+.studio-loupe img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 3 / 2;
+	object-fit: cover;
+	border-radius: 2px;
+}
+.studio-loupe.is-on { opacity: 1; }
+@media (hover: none), (pointer: coarse) { .studio-loupe { display: none; } }
+
+/* 3. FIGURES — frame counter -------------------------------------------- */
+.studio-figures {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 28px;
+	margin: clamp(56px, 7vw, 110px) 0 0;
+}
+.studio-fig {
+	border-top: 1px solid var(--mint);
+	padding-top: 14px;
+	margin: 0;
+}
+.studio-fig dt { display: block; }
+.studio-num {
+	margin: 10px 0 0;
+	font-family: "Anton", "Arial Narrow", Arial, sans-serif;
+	font-size: clamp(2.6rem, 5vw, 5rem);
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+	display: flex;
+	align-items: flex-start;
+}
+.studio-suffix { color: var(--lemon); }
+
+/* rolling digits (built by studio.js) */
+.studio-digit {
+	display: inline-block;
+	height: 1em;
+	overflow: hidden;
+	vertical-align: top;
+}
+.studio-digit > span {
+	display: block;
+	transition: transform 1.4s cubic-bezier(.16, .84, .24, 1);
+	transition-delay: var(--dd, 0s);
+}
+.studio-digit > span > b {
+	display: block;
+	height: 1em;
+	font-weight: 400;
+}
+
+@media (max-width: 760px) {
+	.studio-figures { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.studio-digit > span { transition: none; }
+	.studio.is-live .studio-row { opacity: 1; }
+}
