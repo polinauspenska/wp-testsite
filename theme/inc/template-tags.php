@@ -225,6 +225,10 @@ function lmf_caption_row( $post_id = 0 ) {
 	}
 	echo '</span>';
 
+	// The client line is dropped when it only repeats the title.
+	if ( $client && 0 === strcasecmp( $client, get_the_title( $post_id ) ) ) {
+		$client = '';
+	}
 	$sub = array_filter( array( $subtitle, $client ) );
 	if ( $sub ) {
 		printf( '<span class="sub">%s</span>', esc_html( implode( ' · ', $sub ) ) );

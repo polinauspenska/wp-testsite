@@ -91,7 +91,7 @@ function lmf_home_content() {
 				),
 				array(
 					'code'    => 'LMF / AD-01',
-					'client'  => 'NKN International Property Expo',
+					'client'  => 'with Jacqueline Fernandez',
 					'type'    => 'Ad film',
 					'title'   => 'NKN Property Expo',
 					'result'  => 'Celebrity-led',
@@ -100,7 +100,7 @@ function lmf_home_content() {
 				),
 				array(
 					'code'    => 'LMF / AD-02',
-					'client'  => 'Falcons of Majlis',
+					'client'  => 'with Suniel Shetty',
 					'type'    => 'Promotional film',
 					'title'   => 'Falcons of Majlis',
 					'result'  => 'Team launch',
@@ -127,7 +127,7 @@ function lmf_home_content() {
 				),
 				array(
 					'code'    => 'LMF / PD-01',
-					'client'  => 'All Real Konvos',
+					'client'  => '',
 					'type'    => 'Podcast series',
 					'title'   => 'All Real Konvos',
 					'result'  => '13 episodes',
@@ -136,7 +136,7 @@ function lmf_home_content() {
 				),
 				array(
 					'code'    => 'LMF / SM-01',
-					'client'  => 'Taqdeer Awards',
+					'client'  => '',
 					'type'    => 'Social & event',
 					'title'   => 'Taqdeer Awards',
 					'result'  => 'Full account',
@@ -367,7 +367,13 @@ function lmf_home_cases() {
 						<span class="wk-thumb" aria-hidden="true" style="background-image:url('<?php echo esc_url( $at['poster'] ); ?>')"></span>
 						<span class="meta wk-n"><?php echo esc_html( sprintf( '%02d / %02d', $i + 1, $n ) ); ?> · <?php echo esc_html( $it['type'] ); ?></span>
 						<h3 class="wk-title"><a href="<?php echo esc_url( $it['url'] ); ?>"><?php echo esc_html( $it['title'] ); ?></a></h3>
-						<span class="wk-client"><?php echo esc_html( $it['client'] ); ?></span>
+						<?php
+						// A second line only when it says something the title does not.
+						$lmf_cl = isset( $it['client'] ) ? $it['client'] : '';
+						if ( $lmf_cl && 0 !== strcasecmp( $lmf_cl, $it['title'] ) ) :
+							?>
+							<span class="wk-client"><?php echo esc_html( $lmf_cl ); ?></span>
+						<?php endif; ?>
 						<div class="wk-res">
 							<strong class="wk-big"><?php echo esc_html( $it['result'] ); ?></strong>
 							<span class="wk-out"><?php echo esc_html( $it['outcome'] ); ?></span>
@@ -397,7 +403,12 @@ function lmf_home_cases() {
 					<source src="<?php echo esc_url( $w['dive']['mp4'] ); ?>" type="video/mp4">
 				</video>
 				<div class="wk-dive-in wrap">
-					<span class="kicker"><?php echo esc_html( $last['client'] . ' · ' . $last['type'] ); ?></span>
+					<?php
+					$lmf_dl = array_filter( array( $last['client'], $last['type'] ), function ( $v ) use ( $last ) {
+						return $v && 0 !== strcasecmp( $v, $last['title'] );
+					} );
+					?>
+					<span class="kicker"><?php echo esc_html( implode( ' · ', $lmf_dl ) ); ?></span>
 					<p class="wk-dive-t"><?php echo esc_html( $last['title'] ); ?></p>
 					<p class="wk-dive-o"><b><?php echo esc_html( $last['result'] ); ?></b> <?php echo esc_html( $last['outcome'] ); ?></p>
 					<div class="wk-dive-a">

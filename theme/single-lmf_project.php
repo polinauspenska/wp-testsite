@@ -17,6 +17,10 @@ while ( have_posts() ) :
 	$code     = get_post_meta( $id, '_lmf_code', true );
 	$duration = get_post_meta( $id, '_lmf_duration', true );
 	$client   = get_post_meta( $id, '_lmf_client', true );
+	// never echo the title back as its own client line
+	if ( $client && 0 === strcasecmp( $client, get_the_title( $id ) ) ) {
+		$client = '';
+	}
 	$subtitle = get_post_meta( $id, '_lmf_subtitle', true );
 	$brief    = get_post_meta( $id, '_lmf_brief', true );
 	$video    = get_post_meta( $id, '_lmf_video', true );

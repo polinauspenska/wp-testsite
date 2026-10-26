@@ -182,7 +182,14 @@ function lmf_x_url( $path ) {
 	if ( count( $parts ) > 1 && isset( $map[ $parts[0] ] ) ) {
 		// /work/nafas/ → the project page, when it was exported
 		$file = $parts[0] . '-' . $parts[1] . '.html';
-		if ( in_array( $parts[0], array( 'work', 'services', 'industries' ), true ) && file_exists( $GLOBALS['BUILD'] . '/' . $file ) ) {
+		/*
+		 * The single pages are written after the homepage, so file_exists()
+		 * alone would send every link on the homepage back to the hub. The
+		 * registry says what IS going to be written.
+		 */
+		$known = isset( $GLOBALS['LMF_X_PAGES'][ $parts[0] ] ) ? $GLOBALS['LMF_X_PAGES'][ $parts[0] ] : array();
+		if ( in_array( $parts[0], array( 'work', 'services', 'industries' ), true )
+			&& ( in_array( $parts[1], $known, true ) || file_exists( $GLOBALS['BUILD'] . '/' . $file ) ) ) {
 			return './' . $file . $query . $hash;
 		}
 		return './' . $map[ $parts[0] ] . $query . $hash;
@@ -632,6 +639,14 @@ function comments_template() {}
    ========================================================================== */
 
 $demo = lmf_demo_data();
+
+/* Which single pages this run will write, so links to them resolve from the
+   first page rendered rather than only from the last. */
+$GLOBALS['LMF_X_PAGES'] = array(
+	'services'   => array_map( function ( $s ) { return $s[1]; }, $demo['services'] ),
+	'industries' => array_map( function ( $n ) { return $n[1]; }, $demo['industries'] ),
+	'work'       => array_map( function ( $p ) { return $p['slug']; }, $demo['projects'] ),
+);
 
 foreach ( $demo['services'] as $i => $s ) {
 	lmf_x_post(
