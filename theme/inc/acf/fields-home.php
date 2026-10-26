@@ -120,7 +120,7 @@ lmf_acf_group(
 		/* ---- 3. process ---- */
 		lmf_acf_tab( 'process', __( 'How it works', 'lemonmint' ) ),
 		lmf_acf_field( 'text', 'process_kicker', __( 'Kicker', 'lemonmint' ), array( 'default_value' => 'How it works' ) ),
-		lmf_acf_field( 'text', 'process_headline', __( 'Headline', 'lemonmint' ), array( 'default_value' => 'From first call to final master in six weeks.' ) ),
+		lmf_acf_field( 'text', 'process_headline', __( 'Headline', 'lemonmint' ), array( 'default_value' => 'From the brief to the final cut, with one team throughout.' ) ),
 		lmf_acf_field(
 			'repeater',
 			'process_steps',
@@ -186,7 +186,7 @@ lmf_acf_group(
 						array(
 							'name'    => 'intent',
 							'choices' => array(
-								'production' => __( 'Start a production', 'lemonmint' ),
+								'production' => __( 'Let’s create together', 'lemonmint' ),
 								'call'       => __( 'Book a call', 'lemonmint' ),
 								'quote'      => __( 'Get a quote', 'lemonmint' ),
 							),

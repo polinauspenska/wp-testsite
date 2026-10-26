@@ -9,15 +9,15 @@
  *                  and the sectors we work in.               lmf_home_promise()
  *   2. PROOF     — the wheel: eight wedges, eight films; scroll turns it
  *                  project by project, then dives into one.  lmf_home_cases()
- *   3. (mint)    — the showreel.                              front-page.php
- *   4. PROCESS   — six weeks from first call to master, a fixed quote after
- *                  the treatment, and the one lemon action.    lmf_home_process()
+ *   3. (mint)    — the platforms and brands the work goes out on. front-page.php
+ *   4. PROCESS   — brief to final cut in five steps, the stated turnarounds,
+ *                  and the one lemon action.                   lmf_home_process()
  *   5. VOICES    — what clients said, one at a time.           lmf_home_voices()
  *   6. (lemon)   — the closing call to action.                 lmf_closing_cta()
  *
  * All copy and numbers live in lmf_home_content() and can be replaced whole
- * through the 'lmf_home_content' filter. EVERY figure, result and quote
- * below is a PLACEHOLDER written from the demo projects — confirm with the
+ * through the 'lmf_home_content' filter. Every figure and result below comes
+ * from the client's own website brief — re-confirm with the
  * client before launch.
  *
  * @package LemonMintFilms
@@ -42,17 +42,17 @@ function lmf_home_content() {
 	$c = array(
 
 		'promise' => array(
-			'kicker'   => 'Why brands hire us',
-			'headline' => 'Most brand content gets scrolled past. We make the films people [watch to the end].',
+			'kicker'   => 'Why brands work with us',
+			'headline' => 'Great content should do more than look good. It should make people [feel something].',
 			'figures_kicker' => 'Lemon Mint, in numbers',
-			'text'     => 'Lemon Mint is a Dubai production house for brands that need more than footage. We write the idea, shoot it with our own crew and kit, and finish it in-house — so you get one team, one invoice and a film that does its job on every screen it lands on.',
+			'text'     => 'Lemon Mint Films is a Dubai production company working across corporate films, advertising, television, microdramas, podcasts, live events and music. We develop the idea, produce it and finish it — so the story, the audience and the business objective stay joined up from the brief to delivery.',
 			'figures'  => array(
-				array( 'value' => '120', 'suffix' => '+', 'label' => 'Films delivered since 2023' ),
-				array( 'value' => '96', 'suffix' => '%', 'label' => 'Delivered on the first agreed date' ),
-				array( 'value' => '6', 'suffix' => '', 'label' => 'GCC countries filmed' ),
+				array( 'value' => '100', 'suffix' => '+', 'label' => 'Projects delivered' ),
+				array( 'value' => '60', 'suffix' => '', 'label' => 'Episodes of one television series' ),
+				array( 'value' => '3', 'suffix' => '', 'label' => 'Hollywood short films produced' ),
 			),
 			'sectors_label' => 'Made for teams in',
-			'sectors'  => array( 'Real estate', 'Hospitality', 'Government', 'Automotive', 'Finance', 'Retail & F&B', 'Healthcare', 'Technology' ),
+			'sectors'  => array( 'Real estate', 'Corporate', 'Entertainment', 'Streaming', 'Events & awards', 'Sports', 'Retail & consumer', 'Automotive' ),
 		),
 
 		'cases' => array(
@@ -81,91 +81,92 @@ function lmf_home_content() {
 			),
 			'items'    => array(
 				array(
-					'code'    => 'LMF / 021 · 06:20',
-					'client'  => 'Financial institution, UAE',
-					'type'    => 'Corporate film',
-					'title'   => 'Union Hour',
-					'result'  => 'No. 1',
-					'outcome' => 'Highest engagement of any communication in an eleven-thousand-person merger.',
-					'url'     => home_url( '/work/union-hour/' ),
+					'code'    => 'LMF / TV-01',
+					'client'  => 'Atrangii',
+					'type'    => 'Television series',
+					'title'   => 'Khamosh Aahatein',
+					'result'  => '60 episodes',
+					'outcome' => 'A full scripted season produced and delivered episode by episode to platform specification.',
+					'url'     => home_url( '/work/khamosh-aahatein/' ),
 				),
 				array(
-					'code'    => 'LMF / 033 · 28:00',
-					'client'  => 'Investment group, Dubai',
+					'code'    => 'LMF / AD-01',
+					'client'  => 'NKN International Property Expo',
+					'type'    => 'Ad film',
+					'title'   => 'NKN Property Expo',
+					'result'  => 'Celebrity-led',
+					'outcome' => 'A property expo campaign fronted by Jacqueline Fernandez, built for broadcast and social in one shoot.',
+					'url'     => home_url( '/work/nkn-property-expo/' ),
+				),
+				array(
+					'code'    => 'LMF / AD-02',
+					'client'  => 'Falcons of Majlis',
+					'type'    => 'Promotional film',
+					'title'   => 'Falcons of Majlis',
+					'result'  => 'Team launch',
+					'outcome' => 'A sports identity introduced through its most recognisable supporter, Suniel Shetty.',
+					'url'     => home_url( '/work/falcons-of-majlis/' ),
+				),
+				array(
+					'code'    => 'LMF / CF-01',
+					'client'  => 'Business leaders, UAE',
+					'type'    => 'Corporate film series',
+					'title'   => 'Icons of the UAE',
+					'result'  => '4 films',
+					'outcome' => 'Leadership profiles shot interview-led and cut cinematic, not corporate.',
+					'url'     => home_url( '/work/icons-of-the-uae-ankur-aggarwal/' ),
+				),
+				array(
+					'code'    => 'LMF / MD-01',
+					'client'  => 'StoryTV India',
+					'type'    => 'Microdrama',
+					'title'   => 'Race Raftaar Roar',
+					'result'  => '45 × 2 min',
+					'outcome' => 'A vertical season shot with an AI-hybrid workflow for mobile-first audiences.',
+					'url'     => home_url( '/work/rrr-race-raftaar-roar/' ),
+				),
+				array(
+					'code'    => 'LMF / PD-01',
+					'client'  => 'All Real Konvos',
 					'type'    => 'Podcast series',
-					'title'   => 'The Founders Room',
-					'result'  => '12 / 12',
-					'outcome' => 'Episodes published on schedule, after two earlier attempts never shipped one.',
-					'url'     => home_url( '/work/the-founders-room/' ),
+					'title'   => 'All Real Konvos',
+					'result'  => '13 episodes',
+					'outcome' => 'Multi-camera conversations, cut into episodes and short-form in the same pass.',
+					'url'     => home_url( '/work/all-real-konvos/' ),
 				),
 				array(
-					'code'    => 'LMF / 028 · 01:12',
-					'client'  => 'Automotive brand, GCC',
-					'type'    => 'Campaign',
-					'title'   => 'Chrome Season',
-					'result'  => '1 shoot',
-					'outcome' => 'Film, print and social — the whole campaign from four shooting days.',
-					'url'     => home_url( '/work/chrome-season/' ),
+					'code'    => 'LMF / SM-01',
+					'client'  => 'Taqdeer Awards',
+					'type'    => 'Social & event',
+					'title'   => 'Taqdeer Awards',
+					'result'  => 'Full account',
+					'outcome' => 'Strategy, content calendar, production and event coverage for an awards programme.',
+					'url'     => home_url( '/work/taqdeer-awards/' ),
 				),
 				array(
-					'code'    => 'LMF / 019 · 00:45',
-					'client'  => 'Hospitality group, Dubai',
-					'type'    => 'Commercial',
-					'title'   => 'Sunroom',
-					'result'  => '3 lengths',
-					'outcome' => 'Storyboarded at every duration before the shoot, so no cutdown is a trim.',
-					'url'     => home_url( '/work/sunroom/' ),
-				),
-				array(
-					'code'    => 'LMF / 031 · 01:38',
-					'client'  => 'Property developer, Dubai',
-					'type'    => 'Launch film',
-					'title'   => 'Meridian',
-					'result'  => '6 weeks',
-					'outcome' => 'Brief to master for an off-plan launch — now the template for the masterplan.',
-					'url'     => home_url( '/work/meridian/' ),
-				),
-				array(
-					'code'    => 'LMF / 024 · 02:14',
-					'client'  => 'Wellness brand, Dubai',
-					'type'    => 'Brand film',
-					'title'   => 'Nafas',
-					'result'  => '1 + 6',
-					'outcome' => 'The full film and six verticals, cut from the same grade.',
-					'url'     => home_url( '/work/nafas/' ),
-				),
-				array(
-					'code'    => 'LMF / 022 · 01:00',
-					'client'  => 'F&B group, GCC',
-					'type'    => 'Commercial',
-					'title'   => 'Night Shift',
-					'result'  => '14 h → 60 s',
-					'outcome' => 'Two nights of real service in an operating kitchen, cut to one minute.',
-					'url'     => home_url( '/work/night-shift/' ),
-				),
-				array(
-					'code'    => 'LMF / 017 · 48:00',
-					'client'  => 'Cultural institution, UAE',
-					'type'    => 'Documentary',
-					'title'   => 'The Long Sand',
-					'result'  => '3 rooms',
-					'outcome' => 'One film that plays to a ministry, a broadcaster and a school without a recut.',
-					'url'     => home_url( '/work/the-long-sand/' ),
+					'code'    => 'LMF / MU-01',
+					'client'  => 'Original production',
+					'type'    => 'Music production',
+					'title'   => 'You Can\'t Break Dubai',
+					'result'  => 'Original track',
+					'outcome' => 'A Dubai anthem written, recorded and filmed as one production.',
+					'url'     => home_url( '/work/you-cant-break-dubai/' ),
 				),
 			),
 		),
 
 		'process' => array(
 			'kicker'   => 'How it works',
-			'headline' => 'From first call to final master in six weeks.',
+			'headline' => 'From the brief to the final cut, with one team throughout.',
 			'steps'    => array(
-				array( 'Day 1', 'A free call', '30 minutes on what the film has to do, for whom and by when.' ),
-				array( 'Week 1', 'Treatment & fixed quote', 'The film on paper — idea, look, cast, locations — and a price that holds.' ),
-				array( 'Weeks 2–4', 'Pre-production & shoot', 'Crew, permits and schedule handled. A producer on set who answers to you.' ),
-				array( 'Weeks 5–6', 'Post & delivery', 'Edit, grade and sound in-house. Two revision rounds included. Every format delivered.' ),
+				array( 'Step 1', 'The brief', 'A conversation about what the film has to do, who it is for and when it is needed.' ),
+				array( 'Step 2', 'Concept & script', 'The creative concept, the narrative and the script, developed around that objective.' ),
+				array( 'Step 3', 'Pre-production', 'Planning, scheduling, casting and locations — with permits where the shoot needs them.' ),
+				array( 'Step 4', 'Production', 'Direction, cinematography, lighting and sound, in our studio or on your site.' ),
+				array( 'Step 5', 'Post & delivery', 'Edit, colour, sound and every platform version, including the vertical cutdowns.' ),
 			),
-			'promise'  => 'Fixed quote after the treatment · Two revision rounds included · You own the footage',
-			'cta'      => array( 'Book a free call', add_query_arg( 'i', 'call', $contact ) ),
+			'promise'  => 'Corporate films in 7–14 days · Most productions 2–4 weeks · Event reels in 24–48 hours',
+			'cta'      => array( 'Let\'s create together', add_query_arg( 'i', 'production', $contact ) ),
 		),
 
 		'voices' => array(

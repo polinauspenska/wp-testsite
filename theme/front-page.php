@@ -66,15 +66,15 @@ if ( $lmf_video && preg_match( '/\.mp4$/i', $lmf_video ) ) {
 	</div>
 
 	<div class="wrap hero-in">
-		<h1 class="h1"><?php echo esc_html( lmf_opt( 'hero_line', 'Built for the screen, not the scroll' ) ); ?><span class="h1-dot">.</span></h1>
+		<h1 class="h1"><?php echo esc_html( lmf_opt( 'hero_line', 'We don’t just create content. We create impact' ) ); ?><span class="h1-dot">.</span></h1>
 
 		<!-- Подзаголовок убран: заголовок говорит сам за себя. Строка сетки
 		     осталась одна, поэтому действия выравниваются по левому краю,
 		     под заголовком — см. .hero-foot.is-solo в style.css. -->
 		<div class="hero-foot is-solo">
 			<div style="display:flex;gap:26px;align-items:center;flex-wrap:wrap">
-				<a class="btn btn-lemon" href="<?php echo esc_url( home_url( '/contact/?i=production' ) ); ?>"><?php esc_html_e( 'Start a Production', 'lemonmint' ); ?></a>
-				<button class="link-u" data-reel><?php esc_html_e( 'Watch the reel', 'lemonmint' ); ?></button>
+				<a class="btn btn-lemon" href="<?php echo esc_url( get_post_type_archive_link( 'lmf_project' ) ); ?>"><?php esc_html_e( 'Explore our work', 'lemonmint' ); ?></a>
+				<a class="link-u" href="<?php echo esc_url( home_url( '/contact/?i=production' ) ); ?>" data-brief><?php esc_html_e( 'Let’s create together', 'lemonmint' ); ?></a>
 			</div>
 		</div>
 	</div>
@@ -96,14 +96,15 @@ if ( $lmf_video && preg_match( '/\.mp4$/i', $lmf_video ) ) {
 <?php lmf_home_cases(); ?>
 
 <?php
-// The words on the mint band — editable through Lemon Mint → Header, menu & footer.
+// The mint band: who the work goes out with. Editable through
+// Lemon Mint → Header, menu & footer.
 $lmf_reel = apply_filters(
 	'lmf_reel_copy',
 	array(
-		'kicker'   => __( 'Showreel 2026', 'lemonmint' ),
-		'headline' => __( 'Ninety seconds of the last year.', 'lemonmint' ),
-		'text'     => __( 'Brand films, commercials, documentary and series — cut from work shot and finished in-house.', 'lemonmint' ),
-		'button'   => __( 'Watch the reel', 'lemonmint' ),
+		'kicker'   => __( 'Platforms & brands', 'lemonmint' ),
+		'headline' => __( 'Work that goes out on other people’s platforms.', 'lemonmint' ),
+		'text'     => __( 'Atrangii · Pocket FM · StoryTV · Zee5 · Zee TV · BMW · ANAX Capital · Sirona · Taqdeer Awards · Ultimate Realty Awards', 'lemonmint' ),
+		'button'   => __( 'Explore our work', 'lemonmint' ),
 	)
 );
 ?>
@@ -117,8 +118,7 @@ $lmf_reel = apply_filters(
 				<h2 class="h2" style="max-width:15ch"><?php echo esc_html( $lmf_reel['headline'] ); ?></h2>
 				<p class="body-lg" style="margin-top:20px"><?php echo esc_html( $lmf_reel['text'] ); ?></p>
 				<div style="margin-top:30px;display:flex;gap:26px;align-items:center;flex-wrap:wrap">
-					<button class="btn btn-rev" data-reel>&#9654;&nbsp;&nbsp;<?php echo esc_html( $lmf_reel['button'] ); ?></button>
-					<span class="meta" style="color:rgba(247,245,239,.72)">LMF / REEL · 01:30</span>
+					<a class="btn btn-rev" href="<?php echo esc_url( get_post_type_archive_link( 'lmf_project' ) ); ?>"><?php echo esc_html( $lmf_reel['button'] ); ?></a>
 				</div>
 			</div>
 		</div>
@@ -126,7 +126,13 @@ $lmf_reel = apply_filters(
 </section>
 
 <?php lmf_home_process(); ?>
-<?php lmf_home_voices(); ?>
+<?php
+/*
+ * Client quotes are held back until Lemon Mint supplies approved ones:
+ * lmf_home_voices() is ready for them, and the content sits in
+ * inc/home.php under 'voices'.
+ */
+?>
 
 <?php lmf_closing_cta(); ?>
 <?php get_footer(); ?>

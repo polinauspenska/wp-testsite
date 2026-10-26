@@ -29,16 +29,16 @@ $embed    = (bool) lmf_opt( 'map_embed', true );
 $pid = get_queried_object_id();
 $t   = array(
 	'kicker'     => lmf_field( 'cx_kicker', __( 'Contact us', 'lemonmint' ), $pid ),
-	'line1'      => lmf_field( 'cx_line1', __( 'Let’s shoot', 'lemonmint' ), $pid ),
-	'line2'      => lmf_field( 'cx_line2', __( 'something.', 'lemonmint' ), $pid ),
-	'lede'       => lmf_field( 'cx_lede', __( 'A producer — not a form robot — reads every brief and writes back.', 'lemonmint' ), $pid ),
+	'line1'      => lmf_field( 'cx_line1', __( 'Let’s create', 'lemonmint' ), $pid ),
+	'line2'      => lmf_field( 'cx_line2', __( 'something extraordinary.', 'lemonmint' ), $pid ),
+	'lede'       => lmf_field( 'cx_lede', __( 'Tell us about the project and we will come back with an approach, a timeline and a quotation.', 'lemonmint' ), $pid ),
 	'write'      => lmf_field( 'cx_label_write', __( 'Write', 'lemonmint' ), $pid ),
 	'call'       => lmf_field( 'cx_label_call', __( 'Call', 'lemonmint' ), $pid ),
 	'studio'     => lmf_field( 'cx_label_studio', __( 'Studio', 'lemonmint' ), $pid ),
 	'hours'      => lmf_field( 'cx_label_hours', __( 'Hours', 'lemonmint' ), $pid ),
 	'whatsapp'   => lmf_field( 'cx_whatsapp_label', __( 'WhatsApp a producer', 'lemonmint' ), $pid ),
 	'directions' => lmf_field( 'cx_directions_label', __( 'Get directions', 'lemonmint' ), $pid ),
-	'cta'        => lmf_field( 'cx_cta', __( 'Start a production', 'lemonmint' ), $pid ),
+	'cta'        => lmf_field( 'cx_cta', __( 'Let’s create together', 'lemonmint' ), $pid ),
 	'card'       => lmf_field( 'cx_card_label', __( 'The studio', 'lemonmint' ), $pid ),
 );
 
@@ -63,7 +63,16 @@ $iframe = 'https://www.google.com/maps?q=' . $q . '&z=14&output=embed';
 			<dl class="cx-lines">
 				<div class="cx-line">
 					<dt><?php echo esc_html( $t['write'] ); ?></dt>
-					<dd><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a></dd>
+					<dd>
+						<a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a>
+						<?php
+						// A second address for briefs, when the studio uses one.
+						$lmf_sales = lmf_opt( 'email_briefs', 'sales@lemonmintfilms.com' );
+						if ( $lmf_sales && $lmf_sales !== $email ) :
+							?>
+							<a class="cx-sm" href="mailto:<?php echo esc_attr( $lmf_sales ); ?>"><?php echo esc_html( $lmf_sales ); ?> <span aria-hidden="true">&middot;</span> <?php esc_html_e( 'briefs & quotations', 'lemonmint' ); ?></a>
+						<?php endif; ?>
+					</dd>
 				</div>
 				<div class="cx-line">
 					<dt><?php echo esc_html( $t['call'] ); ?></dt>

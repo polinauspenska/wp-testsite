@@ -34,7 +34,7 @@ function lmf_fields() {
 		),
 		'lmf_service' => array(
 			'_lmf_keyword'  => array( 'Target keyword', 'text', 'The core keyword of this cluster. One page per cluster — never split.' ),
-			'_lmf_cta'      => array( 'CTA label', 'text', 'Matched to this service’s buyer: Start a Production / Book a Discovery Call / Request a Quote / Plan Your Podcast.' ),
+			'_lmf_cta'      => array( 'CTA label', 'text', 'Matched to this service’s buyer: Let’s create together / Request a quote / Ask a question / Plan your podcast.' ),
 			'_lmf_diffs'    => array( 'Differentiators', 'textarea', 'One per line, as "Heading: body copy". Three or four.' ),
 			'_lmf_faq'      => array( 'FAQ', 'textarea', 'One per line, as "Question | Answer". Carries FAQPage schema.' ),
 			'_lmf_kit'      => array( 'Equipment', 'textarea', 'One per line, as "Category: items". Published because production managers ask first.' ),

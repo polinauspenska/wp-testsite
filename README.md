@@ -18,9 +18,9 @@ What you see here is that theme rendered to flat HTML. The pages, the animation 
 
 - **Cinematic preloader** — the camera rolls in, the citrus reels turn, and the mark hands itself over to the header lockup. Vector plus WebGL, and it never redraws the supplied logo.
 - **Video hero** with a scroll-scrubbed title entry.
-- **Services reel** — nine services wrapped around a 35 mm reel, drawn in WebGL and turned by the scroll.
+- **Services reel** — the nine services wrapped around a 35 mm reel, drawn in WebGL and turned by the scroll.
 - **The work wheel** — eight wedges, eight films playing from a single tiled video, and a dive into one of them at full frame.
-- **Scroll-pinned sections** — a headline that lights word by word and resolves into rolling counters; client quotes staged as subtitled film frames; a closing call to action built as a film leader counting 3 · 2 · 1.
+- **Scroll-pinned sections** — a headline that lights word by word and resolves into rolling counters, and a closing call to action built as a film leader counting 3 · 2 · 1.
 - **A brief popup** — four short questions with a clapperboard slate that fills itself in as you answer.
 - **One-screen contact page** with the studio's details and a map drawn in the brand's own colours.
 
@@ -30,9 +30,10 @@ What you see here is that theme rendered to flat HTML. The pages, the animation 
 - Everything on the front end is editable through ACF Pro, with the theme's copy as the fallback, so an empty field never leaves a blank page.
 - Self-hosted fonts, no tracking, no external requests except the map embed.
 
-## What is not real here
+## What is not final here
 
-- **The content is placeholder.** Project titles, clients, results and quotes are written to exercise the templates; no real client work is claimed.
+- **The copy is the studio's own.** Services, projects, figures and turnarounds come from Lemon Mint's website brief. A few sections are still marked in the source as pending the client: the studio's rooms and kit list, the team beyond the founder, and client testimonials — nothing is invented in their place.
+- **The images are placeholders.** No photography or film stills have been supplied yet, so every still is a generated plate.
 - **Nothing sends.** There is no server, so the brief popup and the contact form show their success screen without delivering anything.
 - **The admin is missing.** ACF field groups, the demo-content installer and the enquiry handler live in the theme but need WordPress to run.
 

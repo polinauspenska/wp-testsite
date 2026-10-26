@@ -16,6 +16,7 @@ lmf_acf_group(
 	array(
 		lmf_acf_tab( 'contactdetails', __( 'Contact', 'lemonmint' ) ),
 		lmf_acf_field( 'email', 'lmf_email', __( 'Enquiries email', 'lemonmint' ), array( 'default_value' => 'info@lemonmintfilms.com', 'instructions' => __( 'Where every brief and enquiry is sent.', 'lemonmint' ) ) ),
+		lmf_acf_field( 'text', 'lmf_email_briefs', __( 'Email — briefs', 'lemonmint' ), array( 'default_value' => 'sales@lemonmintfilms.com', 'instructions' => __( 'Shown on the Contact page under the general address. Leave empty to show one address only.', 'lemonmint' ), 'wrapper' => array( 'width' => 50 ) ) ),
 		lmf_acf_field( 'text', 'lmf_phone', __( 'Phone', 'lemonmint' ), array( 'default_value' => '+971 4 332 3054' ) ),
 		lmf_acf_field( 'text', 'lmf_whatsapp', __( 'WhatsApp number', 'lemonmint' ), array( 'instructions' => __( 'Digits only, with the country code — a mobile, e.g. 9715xxxxxxx. A landline cannot receive WhatsApp. Leave empty and the WhatsApp links disappear.', 'lemonmint' ) ) ),
 		lmf_acf_field( 'text', 'lmf_address', __( 'Studio address', 'lemonmint' ), array( 'default_value' => 'Warehouse 28, Al Quoz Industrial Third' ) ),
@@ -30,9 +31,9 @@ lmf_acf_group(
 		lmf_acf_tab( 'videosettings', __( 'Video', 'lemonmint' ) ),
 		lmf_acf_field( 'text', 'lmf_hero_video', __( 'Homepage hero video (mp4)', 'lemonmint' ), array( 'instructions' => __( 'A muted, looping clip. Paste a CDN URL (Mux, Cloudflare Stream, Bunny) or upload and paste the file URL.', 'lemonmint' ) ) ),
 		lmf_acf_field( 'image', 'lmf_hero_poster', __( 'Hero poster frame', 'lemonmint' ), array( 'return_format' => 'url', 'preview_size' => 'medium', 'instructions' => __( 'The still shown while the video loads.', 'lemonmint' ) ) ),
-		lmf_acf_field( 'text', 'lmf_hero_line', __( 'Homepage headline', 'lemonmint' ), array( 'default_value' => 'Built for the screen, not the scroll' ) ),
+		lmf_acf_field( 'text', 'lmf_hero_line', __( 'Homepage headline', 'lemonmint' ), array( 'default_value' => 'We don’t just create content. We create impact' ) ),
 		lmf_acf_field( 'text', 'lmf_reel_url', __( 'Showreel URL', 'lemonmint' ), array( 'instructions' => __( 'Opens in the full-screen player. Self-hosted or CDN, not a YouTube page.', 'lemonmint' ) ) ),
-		lmf_acf_field( 'text', 'lmf_studio_line', __( 'Studio page headline', 'lemonmint' ), array( 'default_value' => 'We make films for people who have something specific to say, and forty seconds to say it.' ) ),
+		lmf_acf_field( 'text', 'lmf_studio_line', __( 'Studio page headline', 'lemonmint' ), array( 'default_value' => 'Dubai’s premium storytelling studio — cinematic production, in-house, end to end.' ) ),
 	),
 	array( array( array( 'param' => 'options_page', 'operator' => '==', 'value' => 'lmf-studio' ) ) )
 );
@@ -45,13 +46,13 @@ lmf_acf_group(
 	__( 'Header, menu & footer', 'lemonmint' ),
 	array(
 		lmf_acf_tab( 'headerbits', __( 'Header', 'lemonmint' ) ),
-		lmf_acf_field( 'text', 'lmf_nav_cta', __( 'Header button', 'lemonmint' ), array( 'default_value' => 'Start a Production', 'instructions' => __( 'Opens the brief popup.', 'lemonmint' ) ) ),
+		lmf_acf_field( 'text', 'lmf_nav_cta', __( 'Header button', 'lemonmint' ), array( 'default_value' => 'Let’s create together', 'instructions' => __( 'Opens the brief popup.', 'lemonmint' ) ) ),
 
 		lmf_acf_tab( 'reelband', __( 'Showreel band (homepage)', 'lemonmint' ) ),
-		lmf_acf_field( 'text', 'reel_kicker', __( 'Kicker', 'lemonmint' ), array( 'default_value' => 'Showreel 2026' ) ),
-		lmf_acf_field( 'text', 'reel_headline', __( 'Headline', 'lemonmint' ), array( 'default_value' => 'Ninety seconds of what we do' ) ),
+		lmf_acf_field( 'text', 'reel_kicker', __( 'Kicker', 'lemonmint' ), array( 'default_value' => 'Platforms & brands' ) ),
+		lmf_acf_field( 'text', 'reel_headline', __( 'Headline', 'lemonmint' ), array( 'default_value' => 'Work that goes out on other people’s platforms.' ) ),
 		lmf_acf_field( 'textarea', 'reel_text', __( 'Sentence under it', 'lemonmint' ), array( 'rows' => 2 ) ),
-		lmf_acf_field( 'text', 'reel_button', __( 'Button', 'lemonmint' ), array( 'default_value' => 'Watch the reel' ) ),
+		lmf_acf_field( 'text', 'reel_button', __( 'Button', 'lemonmint' ), array( 'default_value' => 'Explore our work' ) ),
 
 		lmf_acf_tab( 'footerbits', __( 'Footer', 'lemonmint' ) ),
 		lmf_acf_field( 'textarea', 'lmf_footer_note', __( 'Footer line', 'lemonmint' ), array( 'rows' => 2, 'instructions' => __( 'Optional. Sits under the address block.', 'lemonmint' ) ) ),

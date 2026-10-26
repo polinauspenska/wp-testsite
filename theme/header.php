@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit;
 		</nav>
 
 		<span class="nav-sp"></span>
-		<a class="btn btn-lemon nav-cta" href="<?php echo esc_url( home_url( '/contact/?i=production' ) ); ?>" style="padding:13px 20px"><?php echo esc_html( lmf_opt( 'nav_cta', __( 'Start a Production', 'lemonmint' ) ) ); ?></a>
+		<a class="btn btn-lemon nav-cta" href="<?php echo esc_url( home_url( '/contact/?i=production' ) ); ?>" style="padding:13px 20px"><?php echo esc_html( lmf_opt( 'nav_cta', __( 'Let’s create together', 'lemonmint' ) ) ); ?></a>
 		<button class="burger" id="burger" type="button" aria-controls="lmf-menu" aria-expanded="false">
 			<span class="burger-word" data-open="<?php esc_attr_e( 'Menu', 'lemonmint' ); ?>" data-close="<?php esc_attr_e( 'Close', 'lemonmint' ); ?>"><?php esc_html_e( 'Menu', 'lemonmint' ); ?></span>
 			<span class="burger-lines" aria-hidden="true"><i></i><i></i></span>
@@ -82,7 +82,7 @@ defined( 'ABSPATH' ) || exit;
 				<span class="meta"><?php esc_html_e( 'Studio', 'lemonmint' ); ?></span>
 				<span><?php echo esc_html( lmf_opt( 'address', 'Warehouse 28, Al Quoz Industrial Third' ) ); ?></span>
 			</div>
-			<a class="btn btn-lemon menu-cta" href="<?php echo esc_url( home_url( '/contact/?i=production' ) ); ?>"><?php esc_html_e( 'Start a Production', 'lemonmint' ); ?> <span aria-hidden="true">&rarr;</span></a>
+			<a class="btn btn-lemon menu-cta" href="<?php echo esc_url( home_url( '/contact/?i=production' ) ); ?>"><?php esc_html_e( 'Let’s create together', 'lemonmint' ); ?> <span aria-hidden="true">&rarr;</span></a>
 		</div>
 	</div>
 </div>

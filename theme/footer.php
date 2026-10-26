@@ -27,7 +27,19 @@ defined( 'ABSPATH' ) || exit;
 					<p class="xs" style="margin-top:12px;max-width:34ch"><?php echo esc_html( $lmf_note ); ?></p>
 					<?php
 				endif;
+				/*
+				 * Social links. Lemon Mint → Header, menu & footer overrides this;
+				 * until it does, the studio's own Instagram is the default.
+				 */
 				$lmf_social = lmf_opt( 'socials', array() );
+				if ( ! is_array( $lmf_social ) || ! $lmf_social ) {
+					$lmf_social = array(
+						array(
+							'label'      => __( 'Instagram', 'lemonmint' ),
+							'social_url' => 'https://www.instagram.com/lemonmintfilms_dubai/',
+						),
+					);
+				}
 				if ( is_array( $lmf_social ) && $lmf_social ) :
 					?>
 					<p class="xs" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 18px">

@@ -108,7 +108,7 @@ lmf_acf_group(
 	__( 'Service', 'lemonmint' ),
 	array(
 		lmf_acf_field( 'text', 'lmf_keyword', __( 'Target keyword', 'lemonmint' ), array( 'instructions' => __( 'One page per keyword cluster — never split it across two services.', 'lemonmint' ), 'wrapper' => array( 'width' => 50 ) ) ),
-		lmf_acf_field( 'text', 'lmf_cta', __( 'CTA label', 'lemonmint' ), array( 'instructions' => __( 'Matched to this service’s buyer: Start a Production / Book a Discovery Call / Request a Quote.', 'lemonmint' ), 'wrapper' => array( 'width' => 50 ) ) ),
+		lmf_acf_field( 'text', 'lmf_cta', __( 'CTA label', 'lemonmint' ), array( 'instructions' => __( 'Matched to this service’s buyer: Let’s create together / Request a quote / Ask a question.', 'lemonmint' ), 'wrapper' => array( 'width' => 50 ) ) ),
 		lmf_acf_field( 'textarea', 'lmf_diffs', __( 'What makes it different', 'lemonmint' ), array( 'rows' => 4, 'instructions' => __( 'One per line, as "Heading: the sentence". Three or four.', 'lemonmint' ) ) ),
 		lmf_acf_field( 'textarea', 'lmf_faq', __( 'FAQ', 'lemonmint' ), array( 'rows' => 4, 'instructions' => __( 'One per line, as "Question | Answer". Carries FAQ markup for Google.', 'lemonmint' ) ) ),
 		lmf_acf_field( 'textarea', 'lmf_kit', __( 'Equipment', 'lemonmint' ), array( 'rows' => 4, 'instructions' => __( 'One per line, as "Category: items".', 'lemonmint' ) ) ),

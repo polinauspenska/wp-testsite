@@ -20,10 +20,10 @@ get_header();
 lmf_page_hero(
 	array(
 		'kicker' => __( 'Services', 'lemonmint' ),
-		'title'  => __( 'Every format, one crew', 'lemonmint' ),
-		'lede'   => __( 'Brand films to original series — written, shot, cut, graded and mixed by the same team. Scroll the reel to see them all.', 'lemonmint' ),
+		'title'  => __( 'Nine ways to tell it', 'lemonmint' ),
+		'lede'   => __( 'Corporate films, advertising, television, microdramas, AI-integrated content, podcasts, events, social media and music — produced by one team in Dubai. Scroll the reel to see them all.', 'lemonmint' ),
 		'image'  => lmf_page_img( 'services' ),
-		'cta'    => array( __( 'Start a Production', 'lemonmint' ), home_url( '/contact/?i=production' ) ),
+		'cta'    => array( __( 'Let’s create together', 'lemonmint' ), home_url( '/contact/?i=production' ) ),
 	)
 );
 

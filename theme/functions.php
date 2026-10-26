@@ -388,7 +388,7 @@ function lmf_customize( $wp_customize ) {
 		'lmf_hours'     => array( __( 'Studio hours (Contact page; the live clock assumes Mon–Fri 09–18)', 'lemonmint' ), 'Mon–Fri · 09:00–18:00', 'sanitize_text_field' ),
 		'lmf_city'      => array( __( 'City and country (Contact page, under the address)', 'lemonmint' ), 'Dubai, United Arab Emirates', 'sanitize_text_field' ),
 		'lmf_reel_url'  => array( __( 'Showreel URL (Mux, Cloudflare Stream, Bunny…)', 'lemonmint' ), '', 'esc_url_raw' ),
-		'lmf_hero_line' => array( __( 'Homepage headline', 'lemonmint' ), 'Built for the screen, not the scroll.', 'sanitize_text_field' ),
+		'lmf_hero_line' => array( __( 'Homepage headline', 'lemonmint' ), 'We don’t just create content. We create impact.', 'sanitize_text_field' ),
 			// Клип первого экрана и его постер меняются без правки шаблона.
 			'lmf_hero_video'  => array( __( 'Hero video (mp4, muted loop)', 'lemonmint' ), get_template_directory_uri() . '/assets/video/lmf-hero.mp4', 'esc_url_raw' ),
 			'lmf_hero_poster' => array( __( 'Hero poster frame (jpg)', 'lemonmint' ), get_template_directory_uri() . '/assets/video/lmf-hero-poster.jpg', 'esc_url_raw' ),

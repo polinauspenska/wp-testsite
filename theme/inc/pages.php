@@ -100,18 +100,20 @@ function lmf_about_content() {
 	return apply_filters(
 		'lmf_about_content',
 		array(
-			// PLACEHOLDER — the company story in the founder's own words.
-			'manifesto' => 'We started Lemon Mint because good ideas kept getting lost between the agency, the crew and the edit suite. So we built one team that writes it, shoots it, cuts it, grades it and mixes it — in one building, with one person answering the phone when you call.',
-			// PLACEHOLDER — milestones to be confirmed.
+			// The founder's own words, from the company's website brief.
+			'manifesto' => 'At Lemon Mint Films, we believe great content should do more than look good. It should make people feel something. Founded by Mohammad Faizan, we bring together cinematic storytelling and modern production to create work for brands, businesses, broadcasters and entertainment platforms — corporate films, celebrity-led campaigns, television series, short films, microdramas, podcasts, music productions and live experiences. Every story has a different purpose: a corporate film has to inspire confidence, an advertisement has to hold attention, a series has to keep an audience coming back. We start with the story, the audience and the objective behind the project.',
+			/*
+			 * Not a timeline: the five things the company says make it
+			 * different. Dates and milestones are PENDING from the client.
+			 */
 			'timeline'  => array(
-				array( '2023', 'Founded in Dubai', 'A production house with streaming and broadcast credits on the leadership team.' ),
-				array( '2024', 'Post moves in-house', 'Edit, grade and sound under the same roof as the shoot.' ),
-				array( '2025', 'Across the GCC', 'Shoots in six countries, permits and all.' ),
-				array( '2026', 'Original series', 'Formats and docuseries in development for commissioners.' ),
+				array( '01', 'Premium cinematic quality', 'A cinematic approach across corporate, commercial, entertainment and digital work.' ),
+				array( '02', 'Creative excellence', 'Story-driven concepts built around the audience and the client’s objective.' ),
+				array( '03', 'Proven track record', 'More than 100 projects across industries and content formats.' ),
+				array( '04', 'Rapid turnaround', 'Production efficiency without giving up on the craft.' ),
+				array( '05', 'Scalable infrastructure', 'From digital-first content to long-form entertainment and advertising.' ),
 			),
-			// PLACEHOLDER — used only until People are added in WordPress.
-			// No stand-in photos here on purpose: a stranger's face under a
-			// real name would read as that person. Empty frames until then.
+			// PLACEHOLDER — only the founder is confirmed; the rest are PENDING.
 			'people'    => array(
 				array( 'Mohammad Faizan', 'Founder & CEO', '' ),
 				array( 'Name to confirm', 'Head of Production', '' ),
@@ -218,11 +220,11 @@ function lmf_process_steps() {
 	return apply_filters(
 		'lmf_process_steps',
 		array(
-			array( '00:00', 'Brief', 'A first call. We ask what the film has to do, for whom, and by when.' ),
-			array( '00:48', 'Treatment', 'You see the film on paper — structure, look, cast, locations — before a camera is booked.' ),
-			array( '02:10', 'Pre-production', 'Crew, permits, locations, schedule and a budget that holds.' ),
-			array( '03:36', 'Shoot', 'One crew, our own kit, and a producer on set who answers to you.' ),
-			array( '05:20', 'Post & delivery', 'Edit, grade, sound and every aspect ratio you need, in-house.' ),
+			array( '00:00', 'Brief', 'What the film has to do, who it is for, and when it is needed.' ),
+			array( '00:48', 'Concept & script', 'The creative concept, the narrative and the script, developed around that objective.' ),
+			array( '02:10', 'Pre-production', 'Planning, scheduling, casting and locations — with permits where the shoot needs them.' ),
+			array( '03:36', 'Production', 'Direction, cinematography, lighting and sound, in our studio or on your site.' ),
+			array( '05:20', 'Post & delivery', 'Edit, colour, sound and every platform version, including the vertical cutdowns.' ),
 		)
 	);
 }
@@ -236,11 +238,12 @@ function lmf_services_faq() {
 	return apply_filters(
 		'lmf_services_faq',
 		array(
-			array( 'What does a film cost in Dubai?', 'A single-day brand film with a small crew and in-house post starts in the mid five figures AED. A multi-day commercial with talent and a full lighting package sits well above that. We give a banded estimate after the first conversation and a fixed quote after the treatment.' ),
-			array( 'How long from brief to delivered master?', 'Six to eight weeks is comfortable for a single film including two rounds of revisions. Anything under three weeks means something is being cut, and we will tell you what.' ),
-			array( 'How many rounds of revisions are included?', 'Two full rounds on the edit and one on the grade and mix, written into the quote. Further rounds are quoted rather than refused.' ),
-			array( 'Do you handle filming permits?', 'Yes, including commission permits, location agreements and drone clearances. Permit lead times shape the schedule more than crew availability does, so we file early.' ),
-			array( 'Can you work to an agency’s concept?', 'Regularly. We execute agency creative as a production partner and are comfortable white-labelling.' ),
+			array( 'What does a production cost?', 'Every project is quoted individually. We give an indicative range after the first conversation and a full quotation once the scope and the deliverables are agreed. Talent fees, celebrity engagements, location rentals and permits are quoted separately from production so the figure stays readable.' ),
+			array( 'How long does a project take?', 'A corporate film is typically 7–14 days. Most productions — commercials, brand films, campaigns — run 2–4 weeks. Short films take 4–8 weeks and a microdrama season 3–6 weeks. Event highlights are delivered in 3–5 days, and social reels inside 24–48 hours.' ),
+			array( 'Do you develop the concept and the script?', 'Yes. Concept development, scripting, storyboarding and creative direction are part of the work. We start from the brand, the objective and the audience before anything is written.' ),
+			array( 'Which languages do you work in?', 'English, Hindi, Arabic and Urdu, with subtitles, voiceovers, dubbing and localisation arranged to the project’s requirements.' ),
+			array( 'Where do you film?', 'Dubai, Abu Dhabi and across the UAE — our own studio, corporate offices, developments, hotels, event venues and outdoor locations. International productions are coordinated on request, subject to permits and logistics.' ),
+			array( 'Can one film be cut for different platforms?', 'Yes. A single production can deliver the main film plus 30 and 15-second cutdowns, vertical reels, teasers and platform-specific versions, agreed as deliverables before the shoot.' ),
 		)
 	);
 }
@@ -269,11 +272,13 @@ function lmf_industries_list() {
 	}
 	if ( ! $out ) {
 		$fallback = array(
-			array( 'Real Estate', 'Off-plan launches, completed handovers and masterplan films.', 'real-estate' ),
-			array( 'Automotive', 'Model-year campaigns, launches and dealer content across the GCC.', 'automotive' ),
-			array( 'Government', 'Ministries, authorities and institutions, with the approval chains that come with them.', 'government' ),
-			array( 'Hospitality', 'Properties, restaurants and destination films.', 'hospitality' ),
-			array( 'Retail & F&B', 'Campaigns and always-on content for brands people meet every day.', 'retail-fb' ),
+			array( 'Real Estate', 'Off-plan launches, developer brand films and property-expo campaigns.', 'real-estate' ),
+			array( 'Corporate & Business', 'Company profiles, leadership films and internal communication.', 'corporate-business' ),
+			array( 'Entertainment & Streaming', 'Scripted series, short films and microdramas for platforms.', 'entertainment-streaming' ),
+			array( 'Events & Awards', 'Award ceremonies, conferences and brand activations.', 'events-awards' ),
+			array( 'Sports', 'Teams, tournaments and sports-led promotional films.', 'sports' ),
+			array( 'Retail & Consumer', 'Product campaigns and always-on content for consumer brands.', 'retail-consumer' ),
+			array( 'Automotive', 'Launches, dealer content and brand events across the GCC.', 'automotive' ),
 		);
 		foreach ( $fallback as $i => $f ) {
 			$out[] = array( $f[0], $f[1], home_url( '/industries/' . $f[2] . '/' ), lmf_page_img( $imgs[ $i % count( $imgs ) ] ) );
@@ -303,11 +308,11 @@ function lmf_studio_page_content() {
 			),
 			// PLACEHOLDER — from the strategy document's kit list.
 			'kit'    => array(
-				array( 'Camera', 'Large-format and Super 35 bodies', 'Prime and zoom sets' ),
+				array( 'Camera', 'Cinema bodies, prime and zoom sets', 'Horizontal and 9:16 vertical' ),
 				array( 'Lighting', 'LED panel and tube packages, HMI', 'Full grip and rigging' ),
 				array( 'Sound', 'Multi-channel field recording', 'Boom, lavalier, VO booth' ),
 				array( 'Post', 'Offline and online suites', 'Grading, motion, subtitling' ),
-				array( 'Aerial', 'Licensed drone operators', 'Permits, restricted-airspace clearance' ),
+				array( 'Music', 'Composition and recording', 'Tracks, anthems and score' ),
 			),
 		)
 	);

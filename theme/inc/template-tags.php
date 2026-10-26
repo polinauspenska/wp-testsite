@@ -305,9 +305,9 @@ function lmf_closing_cta() {
 	$routes = apply_filters(
 		'lmf_cta_routes',
 		array(
-			array( '3', __( 'Request a quote', 'lemonmint' ), __( 'You need a number for the budget.', 'lemonmint' ), 'quote' ),
-			array( '2', __( 'Book a discovery call', 'lemonmint' ), __( 'The idea is still taking shape.', 'lemonmint' ), 'call' ),
-			array( '1', __( 'Start a production', 'lemonmint' ), __( 'You have a brief and a date.', 'lemonmint' ), 'production' ),
+			array( '3', __( 'Ask a question', 'lemonmint' ), __( 'You want to know whether this is the right fit.', 'lemonmint' ), 'call' ),
+			array( '2', __( 'Request a quote', 'lemonmint' ), __( 'You have a scope and need a number.', 'lemonmint' ), 'quote' ),
+			array( '1', __( 'Let’s create together', 'lemonmint' ), __( 'You have a brief and a date.', 'lemonmint' ), 'production' ),
 		)
 	);
 
@@ -316,7 +316,7 @@ function lmf_closing_cta() {
 		'lmf_cta_copy',
 		array(
 			'kicker'   => __( 'Contact', 'lemonmint' ),
-			'headline' => __( 'Let’s shoot something', 'lemonmint' ),
+			'headline' => __( 'Let’s create something extraordinary', 'lemonmint' ),
 			'caption'  => __( 'Roll camera', 'lemonmint' ),
 		)
 	);

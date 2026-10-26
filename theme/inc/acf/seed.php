@@ -63,16 +63,17 @@ function lmf_acf_seed( $force = false ) {
 	   --------------------------------------------------------------- */
 	$studio = array(
 		'lmf_email'       => 'info@lemonmintfilms.com',
+		'lmf_email_briefs' => 'sales@lemonmintfilms.com',
 		'lmf_phone'       => '+971 4 332 3054',
 		'lmf_whatsapp'    => '',
 		'lmf_address'     => 'Warehouse 28, Al Quoz Industrial Third',
 		'lmf_city'        => 'Dubai, United Arab Emirates',
 		'lmf_hours'       => 'Mon–Fri · 09:00–18:00',
 		'lmf_response'    => 'Under 4 working hours',
-		'lmf_hero_line'   => 'Built for the screen, not the scroll',
-		'lmf_studio_line' => 'We make films for people who have something specific to say, and forty seconds to say it.',
+		'lmf_hero_line'   => 'We don’t just create content. We create impact',
+		'lmf_studio_line' => 'Dubai’s premium storytelling studio — cinematic production, in-house, end to end.',
 		'lmf_reel_url'    => '',
-		'lmf_nav_cta'     => 'Start a Production',
+		'lmf_nav_cta'     => 'Let’s create together',
 	);
 	foreach ( $studio as $key => $default ) {
 		lmf_seed_field( $key, get_theme_mod( $key, $default ), 'option', $force );
@@ -170,22 +171,22 @@ function lmf_acf_seed( $force = false ) {
 
 	/* ---- the closing countdown and the mint band ---- */
 	lmf_seed_field( 'cta_kicker', __( 'Contact', 'lemonmint' ), 'option', $force );
-	lmf_seed_field( 'cta_headline', __( 'Let’s shoot something', 'lemonmint' ), 'option', $force );
+	lmf_seed_field( 'cta_headline', __( 'Let’s create something extraordinary', 'lemonmint' ), 'option', $force );
 	lmf_seed_field( 'cta_caption', __( 'Roll camera', 'lemonmint' ), 'option', $force );
 	lmf_seed_field(
 		'cta_routes',
 		array(
+			array( 'label' => __( 'Ask a question', 'lemonmint' ), 'line' => __( 'The idea is still taking shape.', 'lemonmint' ), 'intent' => 'call' ),
 			array( 'label' => __( 'Request a quote', 'lemonmint' ), 'line' => __( 'You need a number for the budget.', 'lemonmint' ), 'intent' => 'quote' ),
-			array( 'label' => __( 'Book a discovery call', 'lemonmint' ), 'line' => __( 'The idea is still taking shape.', 'lemonmint' ), 'intent' => 'call' ),
-			array( 'label' => __( 'Start a production', 'lemonmint' ), 'line' => __( 'You have a brief and a date.', 'lemonmint' ), 'intent' => 'production' ),
+			array( 'label' => __( 'Let’s create together', 'lemonmint' ), 'line' => __( 'You have a brief and a date.', 'lemonmint' ), 'intent' => 'production' ),
 		),
 		'option',
 		$force
 	);
-	lmf_seed_field( 'reel_kicker', __( 'Showreel 2026', 'lemonmint' ), 'option', $force );
-	lmf_seed_field( 'reel_headline', __( 'Ninety seconds of the last year.', 'lemonmint' ), 'option', $force );
-	lmf_seed_field( 'reel_text', __( 'Brand films, commercials, documentary and series — cut from work shot and finished in-house.', 'lemonmint' ), 'option', $force );
-	lmf_seed_field( 'reel_button', __( 'Watch the reel', 'lemonmint' ), 'option', $force );
+	lmf_seed_field( 'reel_kicker', __( 'Platforms & brands', 'lemonmint' ), 'option', $force );
+	lmf_seed_field( 'reel_headline', __( 'Work that goes out on other people’s platforms.', 'lemonmint' ), 'option', $force );
+	lmf_seed_field( 'reel_text', __( 'Atrangii · Pocket FM · StoryTV · Zee5 · Zee TV · BMW · ANAX Capital · Sirona · Taqdeer Awards · Ultimate Realty Awards', 'lemonmint' ), 'option', $force );
+	lmf_seed_field( 'reel_button', __( 'Explore our work', 'lemonmint' ), 'option', $force );
 
 	/* ---------------------------------------------------------------
 	   The brief popup
@@ -265,16 +266,16 @@ function lmf_acf_seed( $force = false ) {
 	if ( $contact ) {
 		$cx = array(
 			'cx_kicker'           => __( 'Contact us', 'lemonmint' ),
-			'cx_line1'            => __( 'Let’s shoot', 'lemonmint' ),
-			'cx_line2'            => __( 'something.', 'lemonmint' ),
-			'cx_lede'             => __( 'A producer — not a form robot — reads every brief and writes back.', 'lemonmint' ),
+			'cx_line1'            => __( 'Let’s create', 'lemonmint' ),
+			'cx_line2'            => __( 'something extraordinary.', 'lemonmint' ),
+			'cx_lede'             => __( 'Tell us about the project and we will come back with an approach, a timeline and a quotation.', 'lemonmint' ),
 			'cx_label_write'      => __( 'Write', 'lemonmint' ),
 			'cx_label_call'       => __( 'Call', 'lemonmint' ),
 			'cx_label_studio'     => __( 'Studio', 'lemonmint' ),
 			'cx_label_hours'      => __( 'Hours', 'lemonmint' ),
 			'cx_whatsapp_label'   => __( 'WhatsApp a producer', 'lemonmint' ),
 			'cx_directions_label' => __( 'Get directions', 'lemonmint' ),
-			'cx_cta'              => __( 'Start a production', 'lemonmint' ),
+			'cx_cta'              => __( 'Let’s create together', 'lemonmint' ),
 			'cx_card_label'       => __( 'The studio', 'lemonmint' ),
 		);
 		foreach ( $cx as $k => $line ) {

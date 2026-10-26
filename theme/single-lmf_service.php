@@ -12,7 +12,7 @@ while ( have_posts() ) :
 	$id      = get_the_ID();
 	$keyword = get_post_meta( $id, '_lmf_keyword', true );
 	$cta     = get_post_meta( $id, '_lmf_cta', true );
-	$cta     = $cta ? $cta : __( 'Start a Production', 'lemonmint' );
+	$cta     = $cta ? $cta : __( 'Let’s create together', 'lemonmint' );
 	$diffs   = lmf_get_pairs( $id, '_lmf_diffs' );
 	$kit     = lmf_get_pairs( $id, '_lmf_kit' );
 	$faq     = lmf_get_faq( $id );

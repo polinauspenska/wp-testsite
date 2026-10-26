@@ -29,34 +29,34 @@ function lmf_studio_content() {
 
 	$c = array(
 		'kicker'   => __( 'The studio', 'lemonmint' ),
-		'headline' => lmf_opt( 'studio_line', 'We make films for people who have something specific to say, and forty seconds to say it.' ),
+		'headline' => lmf_opt( 'studio_line', 'Dubai’s premium storytelling studio — cinematic production, in-house, end to end.' ),
 		'reasons'  => array(
 			array(
-				'title' => 'Streaming pedigree',
-				'text'  => 'Netflix-original and broadcast credits on the leadership team.',
+				'title' => 'Premium cinematic quality',
+				'text'  => 'A cinematic approach across corporate, commercial and entertainment work.',
 				'image' => $img . '07.jpg',
 			),
 			array(
 				'title' => 'One roof',
-				'text'  => 'Shot, edited, graded and mixed in-house. No vendor chain.',
+				'text'  => 'Concept, production and post in-house. No vendor chain.',
 				'image' => $img . '04.jpg',
 			),
 			array(
-				'title' => 'GCC, handled',
-				'text'  => 'Permits, locations, drones and government approvals.',
+				'title' => 'Rapid turnaround',
+				'text'  => 'Corporate films in 7–14 days. Event reels in 24–48 hours.',
 				'image' => $img . '01.jpg',
 			),
 			array(
-				'title' => 'Written before it’s shot',
-				'text'  => 'You see the film as a treatment before a camera is booked.',
+				'title' => 'Scalable production',
+				'text'  => 'From a single film to a sixty-episode season, with the same team.',
 				'image' => $img . '06.jpg',
 			),
 		),
 		'figures'  => array(
-			array( 'value' => '120', 'suffix' => '+', 'label' => 'Films delivered' ),
+			array( 'value' => '100', 'suffix' => '+', 'label' => 'Projects delivered' ),
+			array( 'value' => '60', 'suffix' => '', 'label' => 'Episodes of one series' ),
 			array( 'value' => '09', 'suffix' => '', 'label' => 'Services, one team' ),
-			array( 'value' => '2023', 'suffix' => '', 'label' => 'Founded in Dubai' ),
-			array( 'value' => '06', 'suffix' => '', 'label' => 'GCC countries filmed' ),
+			array( 'value' => '04', 'suffix' => '', 'label' => 'Languages produced in' ),
 		),
 	);
 

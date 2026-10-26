@@ -34,7 +34,7 @@ function lmf_contact_choices() {
 		'lmf_contact_choices',
 		array(
 			'intent'   => array(
-				'production' => array( __( 'Start a production', 'lemonmint' ), __( 'We need', 'lemonmint' ) ),
+				'production' => array( __( 'Let’s create together', 'lemonmint' ), __( 'We need', 'lemonmint' ) ),
 				'call'       => array( __( 'Book a call', 'lemonmint' ), __( 'We’re thinking about', 'lemonmint' ) ),
 				'quote'      => array( __( 'Get a quote', 'lemonmint' ), __( 'We need a quote for', 'lemonmint' ) ),
 			),
