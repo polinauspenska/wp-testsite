@@ -101,7 +101,7 @@ function lmf_about_content() {
 		'lmf_about_content',
 		array(
 			// The founder's own words, from the company's website brief.
-			'manifesto' => 'At Lemon Mint Films, we believe great content should do more than look good. It should make people feel something. Founded by Mohammad Faizan, we bring together cinematic storytelling and modern production to create work for brands, businesses, broadcasters and entertainment platforms — corporate films, celebrity-led campaigns, television series, short films, microdramas, podcasts, music productions and live experiences. Every story has a different purpose: a corporate film has to inspire confidence, an advertisement has to hold attention, a series has to keep an audience coming back. We start with the story, the audience and the objective behind the project.',
+			'manifesto' => 'Great content should do more than look good. It should make people feel something. Founded by Mohammad Faizan, Lemon Mint Films brings cinematic storytelling to brands, businesses, broadcasters and entertainment platforms. Every story has a different job to do — a corporate film has to inspire confidence, an advertisement has to hold attention, a series has to bring an audience back. We start with the story, the audience and the objective behind the project.',
 			/*
 			 * Not a timeline: the five things the company says make it
 			 * different. Dates and milestones are PENDING from the client.

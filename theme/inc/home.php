@@ -44,19 +44,19 @@ function lmf_home_content() {
 		'promise' => array(
 			'kicker'   => 'Why brands work with us',
 			'headline' => 'Great content should do more than look good. It should make people [feel something].',
-			'figures_kicker' => 'Lemon Mint, in numbers',
+			'figures_kicker' => 'In numbers',
 			'text'     => 'Lemon Mint Films is a Dubai production company working across corporate films, advertising, television, microdramas, podcasts, live events and music. We develop the idea, produce it and finish it — so the story, the audience and the business objective stay joined up from the brief to delivery.',
 			'figures'  => array(
 				array( 'value' => '100', 'suffix' => '+', 'label' => 'Projects delivered' ),
 				array( 'value' => '60', 'suffix' => '', 'label' => 'Episodes of one television series' ),
 				array( 'value' => '3', 'suffix' => '', 'label' => 'Hollywood short films produced' ),
 			),
-			'sectors_label' => 'Made for teams in',
+			'sectors_label' => 'Sectors',
 			'sectors'  => array( 'Real estate', 'Corporate', 'Entertainment', 'Streaming', 'Events & awards', 'Sports', 'Retail & consumer', 'Automotive' ),
 		),
 
 		'cases' => array(
-			'kicker'   => 'Selected work — and what it did',
+			'kicker'   => 'Selected work',
 			'headline' => 'Proof, not promises.',
 			'more'     => array( 'See all work', get_post_type_archive_link( 'lmf_project' ) ),
 			/*

@@ -70,7 +70,7 @@ $iframe = 'https://www.google.com/maps?q=' . $q . '&z=14&output=embed';
 						$lmf_sales = lmf_opt( 'email_briefs', 'sales@lemonmintfilms.com' );
 						if ( $lmf_sales && $lmf_sales !== $email ) :
 							?>
-							<a class="cx-sm" href="mailto:<?php echo esc_attr( $lmf_sales ); ?>"><?php echo esc_html( $lmf_sales ); ?> <span aria-hidden="true">&middot;</span> <?php esc_html_e( 'briefs & quotations', 'lemonmint' ); ?></a>
+							<span class="cx-alt"><a href="mailto:<?php echo esc_attr( $lmf_sales ); ?>"><?php echo esc_html( $lmf_sales ); ?></a> <?php esc_html_e( 'for briefs', 'lemonmint' ); ?></span>
 						<?php endif; ?>
 					</dd>
 				</div>

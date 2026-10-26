@@ -88,7 +88,7 @@
 	order: 3;
 	margin-top: 14px;
 	max-width: 19ch;
-	font-size: clamp(14px, 1.05vw, 16px);
+	font-size: var(--fs-meta);
 	font-weight: 500;
 	line-height: 1.45;
 	color: var(--ink-70);
@@ -105,7 +105,7 @@
 .pm-text {
 	max-width: 50ch;
 	margin: clamp(30px, 4vw, 54px) auto 0;
-	font-size: clamp(15px, 1.15vw, 18px);
+	font-size: var(--fs-lead);
 	line-height: 1.65;
 	color: var(--ink-70);
 }
@@ -139,7 +139,7 @@
 	.pm-num { font-size: clamp(3.4rem, 17vw, 5rem); }
 	.pm-rule { display: none; }
 	.pm-label { margin-top: 6px; }
-	.pm-text { font-size: 14.5px; margin-top: 22px; }
+	.pm-text { font-size: var(--fs-meta); margin-top: 22px; }
 	.pm.is-live .pm-b .kicker { margin-bottom: 10px; }
 }
 @media (max-width: 700px) and (max-height: 760px) { .pm.is-live .pm-text { display: none; } }
@@ -196,8 +196,9 @@
 	margin: clamp(44px, 6vw, 84px) 0 0;
 	padding: 0;
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: clamp(20px, 3vw, 48px);
+	/* one column per step: five of them, so no orphan on the second row */
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: clamp(18px, 2.2vw, 36px);
 }
 .hp-steps::before,
 .hp-steps::after {
@@ -230,8 +231,8 @@
 	transition: background .3s ease, border-color .3s ease, transform .3s ease;
 }
 .hp-step.is-on .hp-step-dot { background: var(--mint); border-color: var(--mint); transform: scale(1.15); }
-.hp-step-t { margin: 10px 0 10px; font-size: clamp(1.1rem, 1.5vw, 1.35rem); font-weight: 600; line-height: 1.25; }
-.hp-step p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-70); }
+.hp-step-t { margin: 10px 0 10px; font-size: var(--fs-h4); font-weight: 600; line-height: 1.26; }
+.hp-step p { margin: 0; font-size: var(--fs-meta); line-height: 1.6; color: var(--ink-70); }
 .js-hp .hp-step { opacity: .35; transition: opacity .4s ease; }
 .js-hp .hp-step.is-on { opacity: 1; }
 
@@ -244,7 +245,7 @@
 	padding-top: clamp(24px, 3vw, 36px);
 	border-top: 1px solid var(--rule);
 }
-.hp-guarantee { margin: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 14px; font-weight: 500; }
+.hp-guarantee { margin: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: var(--fs-meta); font-weight: 500; }
 .hp-guarantee span { display: inline-flex; align-items: center; gap: 9px; }
 .hp-guarantee span::before {
 	content: "";
@@ -255,7 +256,9 @@
 	transform: rotate(-45deg) translateY(-2px);
 }
 
-@media (max-width: 860px) {
+/* below this the five columns would be too narrow to read: the strip
+   becomes a vertical timeline instead */
+@media (max-width: 1100px) {
 	.hp-steps { grid-template-columns: minmax(0, 1fr); gap: 30px; padding-left: 34px; }
 	.hp-steps::before, .hp-steps::after { left: 6px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
 	.hp-steps::after { width: 2px; left: 5.5px; transform-origin: 50% 0; transform: scaleY(var(--fill)); }
@@ -345,7 +348,7 @@
 .tv-credit {
 	display: block;
 	padding: 12px 2px 4px;
-	font-size: 13px;
+	font-size: var(--fs-label);
 	line-height: 1.5;
 	color: rgba(247, 245, 239, .75);
 }
@@ -401,7 +404,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
-	font-size: 15px;
+	font-size: var(--fs-body);
 	line-height: 1.45;
 	opacity: 0;
 	transform: translateY(10px);
@@ -414,7 +417,7 @@
 .tv-from {
 	align-self: flex-start;
 	margin-top: 12px;
-	font-size: 12px;
+	font-size: var(--fs-label);
 	font-weight: 600;
 	letter-spacing: .16em;
 	text-transform: uppercase;
@@ -441,7 +444,7 @@
 	.tv.is-live .tv-main { order: 4; max-width: none; align-self: center; width: min(100%, calc((100svh - var(--nav-h) - 300px) * .8 + 2 * var(--perf))); }
 	.tv.is-live .tv-gate { aspect-ratio: 4 / 5; }
 	.tv.is-live .tv-credits { order: 5; margin-top: 16px; min-height: 6.5em; }
-	.tv-cr { font-size: 14px; }
+	.tv-cr { font-size: var(--fs-meta); }
 	.tv-from { margin-top: 6px; }
 }
 

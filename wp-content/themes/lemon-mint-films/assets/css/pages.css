@@ -29,7 +29,7 @@
 .hero-page-lede {
 	margin: 0;
 	max-width: 46ch;
-	font-size: clamp(15px, 1.2vw, 18px);
+	font-size: var(--fs-lead);
 	line-height: 1.55;
 	color: rgba(247, 245, 239, .86);
 }
@@ -82,10 +82,10 @@
 }
 .pg-year-t {
 	margin: 14px 0 0;
-	font-size: 17px;
+	font-size: var(--fs-h4);
 	font-weight: 600;
 }
-.pg-years p { margin: 8px 0 0; color: var(--ink-70); font-size: 15px; max-width: 30ch; }
+.pg-years p { margin: 8px 0 0; color: var(--ink-70); font-size: var(--fs-meta); max-width: 30ch; }
 @media (max-width: 860px) { .pg-years { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 22px; } }
 
 /* ABOUT · people — portraits in film frames */
@@ -190,7 +190,7 @@
 	font-size: clamp(1.3rem, 1.9vw, 1.8rem);
 	line-height: 1;
 }
-.pg-step p { margin: 12px 0 0; color: var(--ink-70); font-size: 15px; }
+.pg-step p { margin: 12px 0 0; color: var(--ink-70); font-size: var(--fs-body); }
 
 /* the playhead — a lemon line with a head, driven by scroll */
 .pg-playhead {
@@ -257,8 +257,8 @@
 	font-size: clamp(2rem, 4.4vw, 4.4rem);
 	transition: transform .45s cubic-bezier(.16, .84, .24, 1);
 }
-.pg-ix-d { grid-column: 2; color: var(--ink-70); font-size: 15px; max-width: 44ch; }
-.pg-ix-go { grid-column: 3; grid-row: 1; font-size: 22px; color: var(--mint); transition: transform .3s ease; }
+.pg-ix-d { grid-column: 2; color: var(--ink-70); font-size: var(--fs-meta); max-width: 44ch; }
+.pg-ix-go { grid-column: 3; grid-row: 1; font-size: 26px; color: var(--mint); transition: transform .3s ease; }
 .pg-index.is-live .pg-ix a { opacity: .3; }
 .pg-index.is-live .pg-ix.is-on a { opacity: 1; }
 .pg-ix.is-on .pg-ix-t { transform: translateX(10px); }
@@ -410,13 +410,13 @@
 	text-transform: uppercase;
 }
 .pg-report-head span { border-right-color: rgba(247, 245, 239, .2); }
-.pg-report-row { border-top: 1px solid var(--rule); font-size: 15px; }
+.pg-report-row { border-top: 1px solid var(--rule); font-size: var(--fs-meta); }
 .pg-roll { color: var(--mint); font-weight: 600; letter-spacing: .06em; }
 .pg-dept {
 	font-family: "Anton", "Arial Narrow", Arial, sans-serif;
 	text-transform: uppercase;
 	letter-spacing: .03em;
-	font-size: 18px;
+	font-size: var(--fs-h4);
 }
 .pg-note { color: var(--ink-70); }
 @media (max-width: 760px) {

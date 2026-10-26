@@ -58,6 +58,33 @@ get_header();
 			<a class="link-u" href="<?php echo esc_url( get_post_type_archive_link( 'lmf_project' ) ); ?>"><?php esc_html_e( 'Clear filters', 'lemonmint' ); ?></a>
 		</p>
 	<?php endif; ?>
+
+	<p class="body-lg" id="wk-empty" hidden style="padding:50px 0">
+		<?php esc_html_e( 'Nothing matches that combination.', 'lemonmint' ); ?>
+		<a class="link-u" href="<?php echo esc_url( get_post_type_archive_link( 'lmf_project' ) ); ?>"><?php esc_html_e( 'Clear filters', 'lemonmint' ); ?></a>
+	</p>
+	<script>
+	/* WordPress has already filtered these server-side, so this agrees with it
+	   and does nothing. Without a server — a static export — it is the filter. */
+	(function () {
+		var q = new URLSearchParams(location.search);
+		var keys = ['svc', 'ind', 'fmt'].filter(function (k) { return q.get(k); });
+		if (!keys.length) { return; }
+		var tiles = [].slice.call(document.querySelectorAll('.grid .tile'));
+		var shown = 0;
+		tiles.forEach(function (t) {
+			var ok = keys.every(function (k) {
+				return (t.getAttribute('data-' + k) || '').split(' ').indexOf(q.get(k)) > -1;
+			});
+			t.hidden = !ok;
+			if (ok) { shown++; }
+		});
+		var count = document.querySelector('.fcount');
+		if (count) { count.textContent = ('0' + shown).slice(-2); }
+		var empty = document.getElementById('wk-empty');
+		if (empty && !shown) { empty.hidden = false; }
+	}());
+	</script>
 </section>
 
 <?php lmf_closing_cta(); ?>

@@ -316,14 +316,86 @@ function get_post_type_archive_link( $type ) {
 	return lmf_x_url( isset( $map[ $type ] ) ? $map[ $type ] : '/' );
 }
 function get_post_type_object( $t ) { return (object) array( 'labels' => (object) array( 'name' => ucfirst( $t ) ) ); }
-function has_term() { return true; }
-function get_the_terms() { return array(); }
-function get_terms() { return array(); }
-function get_term_link( $t ) { return lmf_x_url( '/' ); }
-function wp_get_post_terms() { return array(); }
+/* ── TAXONOMIES ─────────────────────────────────────────────────────────────
+   A small term store, so a service page shows ITS work and the archive's
+   filters count what they say they count. Terms are created on assignment,
+   exactly as the demo installer assigns them. */
+$GLOBALS['LMF_TERMS']     = array(); // taxonomy => slug => term object
+$GLOBALS['LMF_OBJ_TERMS'] = array(); // post id  => taxonomy => term_id[]
+$GLOBALS['LMF_TERM_SEQ']  = 100;
+
+function lmf_x_term( $taxonomy, $name ) {
+	$slug = sanitize_title( $name );
+	if ( ! isset( $GLOBALS['LMF_TERMS'][ $taxonomy ][ $slug ] ) ) {
+		$GLOBALS['LMF_TERMS'][ $taxonomy ][ $slug ] = (object) array(
+			'term_id'  => ++$GLOBALS['LMF_TERM_SEQ'],
+			'name'     => $name,
+			'slug'     => $slug,
+			'taxonomy' => $taxonomy,
+			'count'    => 0,
+		);
+	}
+	return $GLOBALS['LMF_TERMS'][ $taxonomy ][ $slug ];
+}
+function wp_set_object_terms( $id, $terms, $taxonomy, $append = false ) {
+	$ids = ( $append && isset( $GLOBALS['LMF_OBJ_TERMS'][ $id ][ $taxonomy ] ) )
+		? $GLOBALS['LMF_OBJ_TERMS'][ $id ][ $taxonomy ] : array();
+	foreach ( (array) $terms as $t ) {
+		if ( '' === $t || null === $t ) { continue; }
+		$term = lmf_x_term( $taxonomy, $t );
+		if ( ! in_array( $term->term_id, $ids, true ) ) {
+			$ids[] = $term->term_id;
+			$term->count++;
+		}
+	}
+	$GLOBALS['LMF_OBJ_TERMS'][ $id ][ $taxonomy ] = $ids;
+}
+function lmf_x_post_terms( $id, $taxonomy ) {
+	$out = array();
+	if ( empty( $GLOBALS['LMF_OBJ_TERMS'][ $id ][ $taxonomy ] ) ) { return $out; }
+	foreach ( $GLOBALS['LMF_OBJ_TERMS'][ $id ][ $taxonomy ] as $tid ) {
+		foreach ( $GLOBALS['LMF_TERMS'][ $taxonomy ] as $term ) {
+			if ( $term->term_id === $tid ) { $out[] = $term; }
+		}
+	}
+	return $out;
+}
+function get_the_terms( $id = 0, $taxonomy = '' ) {
+	$t = lmf_x_post_terms( is_object( $id ) ? $id->ID : $id, $taxonomy );
+	return $t ? $t : array();
+}
+function wp_get_post_terms( $id = 0, $taxonomy = '', $args = array() ) {
+	$terms = lmf_x_post_terms( $id, $taxonomy );
+	if ( isset( $args['fields'] ) && 'ids' === $args['fields'] ) {
+		return array_map( function ( $t ) { return $t->term_id; }, $terms );
+	}
+	return $terms;
+}
+function has_term( $term = '', $taxonomy = '', $post = null ) {
+	if ( ! $taxonomy ) { return true; }
+	$id = is_object( $post ) ? $post->ID : ( $post ? $post : ( isset( $GLOBALS['post'] ) ? $GLOBALS['post']->ID : 0 ) );
+	return (bool) lmf_x_post_terms( $id, $taxonomy );
+}
+function get_terms( $args = array() ) {
+	$tax = isset( $args['taxonomy'] ) ? $args['taxonomy'] : '';
+	if ( ! $tax || empty( $GLOBALS['LMF_TERMS'][ $tax ] ) ) { return array(); }
+	$out = array();
+	foreach ( $GLOBALS['LMF_TERMS'][ $tax ] as $term ) {
+		if ( ! empty( $args['hide_empty'] ) && ! $term->count ) { continue; }
+		$out[] = $term;
+	}
+	usort( $out, function ( $a, $b ) { return strcmp( $a->name, $b->name ); } );
+	return $out;
+}
+function get_term_link( $t ) {
+	$tax = is_object( $t ) ? $t->taxonomy : '';
+	if ( 'lmf_service_cat' === $tax || 'lmf_industry_cat' === $tax || 'lmf_format' === $tax ) {
+		return lmf_x_url( '/work/' );
+	}
+	return lmf_x_url( '/' );
+}
 function wp_insert_post( $a ) { return 0; }
 function wp_update_post( $a ) { return 0; }
-function wp_set_object_terms() {}
 function get_post_thumbnail_id() { return 0; }
 function get_the_date( $f = '', $p = 0 ) { return gmdate( $f ? $f : 'Y-m-d' ); }
 function get_the_modified_date( $f = '', $p = 0 ) { return gmdate( $f ? $f : 'Y-m-d' ); }
@@ -382,7 +454,7 @@ function bloginfo( $k = '' ) { echo get_bloginfo( $k ); }
 function get_bloginfo( $k = '' ) {
 	$v = array(
 		'name'        => 'Lemon Mint Films',
-		'description' => 'Film, series & podcast, made in Dubai',
+		'description' => 'Dubai’s premium storytelling studio — corporate films, advertising, television, microdramas, podcasts, events and music.',
 		'charset'     => 'UTF-8',
 		'url'         => lmf_x_url( '/' ),
 	);
@@ -498,9 +570,13 @@ class WP_Query {
 		$type    = isset( $args['post_type'] ) ? $args['post_type'] : 'post';
 		$exclude = isset( $args['post__not_in'] ) ? (array) $args['post__not_in'] : array();
 		$n       = isset( $args['posts_per_page'] ) ? (int) $args['posts_per_page'] : 3;
+		$tax     = isset( $args['tax_query'] ) ? $args['tax_query'] : array();
+		$rel     = isset( $tax['relation'] ) ? strtoupper( $tax['relation'] ) : 'AND';
+		unset( $tax['relation'] );
 		$found   = array();
 		foreach ( get_posts( array( 'post_type' => $type ) ) as $p ) {
 			if ( in_array( $p->ID, $exclude, true ) ) { continue; }
+			if ( $tax && ! self::matches( $p->ID, $tax, $rel ) ) { continue; }
 			$found[] = $p;
 			if ( $n > 0 && count( $found ) >= $n ) { break; }
 		}
@@ -508,6 +584,23 @@ class WP_Query {
 		$this->found_posts = count( $found );
 	}
 	public function set_404() {}
+
+	/** One clause of a tax_query against a post's assigned terms. */
+	private static function matches( $id, $clauses, $relation ) {
+		$hits = 0;
+		foreach ( $clauses as $c ) {
+			if ( ! is_array( $c ) || empty( $c['taxonomy'] ) ) { continue; }
+			$field = isset( $c['field'] ) ? $c['field'] : 'term_id';
+			$want  = array_map( 'strval', (array) ( isset( $c['terms'] ) ? $c['terms'] : array() ) );
+			$have  = array();
+			foreach ( lmf_x_post_terms( $id, $c['taxonomy'] ) as $t ) {
+				$have[] = ( 'slug' === $field ) ? $t->slug : ( ( 'name' === $field ) ? $t->name : (string) $t->term_id );
+			}
+			$hit = (bool) array_intersect( $want, $have );
+			if ( $hit ) { $hits++; } elseif ( 'OR' !== $relation ) { return false; }
+		}
+		return 'OR' === $relation ? $hits > 0 : true;
+	}
 }
 class WP_Error {}
 
@@ -553,7 +646,7 @@ foreach ( $demo['industries'] as $i => $n ) {
 	);
 }
 foreach ( $demo['projects'] as $i => $p ) {
-	lmf_x_post(
+	$pid = lmf_x_post(
 		array( 'post_type' => 'lmf_project', 'post_title' => $p['title'], 'post_name' => $p['slug'], 'post_excerpt' => $p['brief'], 'post_content' => $p['brief'], 'menu_order' => $i + 1 ),
 		array(
 			'_lmf_code'      => $p['code'],
@@ -568,6 +661,10 @@ foreach ( $demo['projects'] as $i => $p ) {
 			'_lmf_still'     => isset( $p['kind'] ) ? $p['kind'] : 'wide',
 		)
 	);
+	// the taxonomies, exactly as the demo installer assigns them
+	if ( ! empty( $p['svc'] ) ) { wp_set_object_terms( $pid, $p['svc'], 'lmf_service_cat' ); }
+	if ( ! empty( $p['ind'] ) ) { wp_set_object_terms( $pid, $p['ind'], 'lmf_industry_cat' ); }
+	if ( ! empty( $p['fmt'] ) ) { wp_set_object_terms( $pid, $p['fmt'], 'lmf_format' ); }
 }
 
 // The pages, including the two legal ones with the theme's own default text.

@@ -35,7 +35,7 @@
 	line-height: 1;
 }
 .wk-title a { color: var(--ink); }
-.wk-client { display: block; font-size: 14px; color: var(--ink-70); }
+.wk-client { display: block; font-size: var(--fs-meta); color: var(--ink-70); }
 .wk-res { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--rule); }
 .wk-big {
 	display: block;
@@ -46,13 +46,13 @@
 	line-height: .95;
 	letter-spacing: .01em;
 }
-.wk-out { display: block; margin-top: 8px; font-size: 15px; line-height: 1.5; font-weight: 500; max-width: 36ch; }
+.wk-out { display: block; margin-top: 10px; font-size: var(--fs-body); line-height: 1.55; font-weight: 400; color: var(--ink-70); max-width: 40ch; }
 .wk-go {
 	display: inline-block;
 	margin-top: 18px;
-	font-size: 12px;
+	font-size: var(--fs-label);
 	font-weight: 600;
-	letter-spacing: .16em;
+	letter-spacing: var(--ls-label);
 	text-transform: uppercase;
 	color: var(--ink);
 	padding-bottom: 4px;
@@ -142,7 +142,7 @@
 	padding: 7px 0;
 	border-bottom: 1px solid var(--rule-soft);
 	color: var(--ink-38);
-	font-size: 14.5px;
+	font-size: var(--fs-meta);
 	font-weight: 500;
 	transition: color .3s ease;
 }
@@ -193,7 +193,7 @@
 	font-size: clamp(3rem, 9vw, 10rem);
 	line-height: .9;
 }
-.wk-dive-o { margin: 16px 0 0; max-width: 44ch; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.5; color: rgba(247, 245, 239, .9); }
+.wk-dive-o { margin: 16px 0 0; max-width: 44ch; font-size: var(--fs-lead); line-height: 1.5; color: rgba(247, 245, 239, .9); }
 .wk-dive-o b { font-family: "Anton", "Arial Narrow", Arial, sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .02em; color: var(--warm); margin-right: 6px; }
 .wk-dive-a { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; margin-top: 26px; }
 .wk-dive-more { color: var(--warm); border-color: rgba(247, 245, 239, .5); }
@@ -205,10 +205,10 @@
 	.wk.is-live .wk-head .h2 { max-width: none; font-size: clamp(1.9rem, 8vw, 2.6rem); }
 	.wk.is-live .wk-caps { left: var(--pad); right: var(--pad); width: auto; bottom: clamp(20px, 4svh, 40px); height: 12.5em; }
 	.wk.is-live .wk-title { font-size: 1.7rem; margin-top: 4px; }
-	.wk.is-live .wk-client { font-size: 13px; }
+	.wk.is-live .wk-client { font-size: 14px; }
 	.wk.is-live .wk-res { margin-top: 10px; padding-top: 10px; display: flex; gap: 14px; align-items: baseline; }
 	.wk.is-live .wk-big { font-size: 2.2rem; flex: none; }
-	.wk.is-live .wk-out { margin: 0; font-size: 13.5px; }
+	.wk.is-live .wk-out { margin: 0; font-size: 15px; }
 	.wk.is-live .wk-go { margin-top: 10px; }
 	.wk.is-live .wk-index { display: none; }
 }

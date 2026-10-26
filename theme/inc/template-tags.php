@@ -238,7 +238,25 @@ function lmf_caption_row( $post_id = 0 ) {
  */
 function lmf_tile( $post_id = 0 ) {
 	$post_id = $post_id ? $post_id : get_the_ID();
-	printf( '<a class="tile" href="%s">', esc_url( get_permalink( $post_id ) ) );
+
+	/*
+	 * The tile carries its own terms. WordPress filters server-side and never
+	 * needs them; a static export of this theme has no server, so the archive's
+	 * chips filter on these attributes instead. Harmless either way.
+	 */
+	$slugs = array();
+	foreach ( array( 'svc' => 'lmf_service_cat', 'ind' => 'lmf_industry_cat', 'fmt' => 'lmf_format' ) as $key => $tax ) {
+		$terms = get_the_terms( $post_id, $tax );
+		$list  = array();
+		if ( $terms && ! is_wp_error( $terms ) ) {
+			foreach ( $terms as $t ) {
+				$list[] = $t->slug;
+			}
+		}
+		$slugs[] = sprintf( ' data-%s="%s"', $key, esc_attr( implode( ' ', $list ) ) );
+	}
+
+	printf( '<a class="tile"%s href="%s">', implode( '', $slugs ), esc_url( get_permalink( $post_id ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	lmf_still( $post_id, 'lmf-tile' );
 	lmf_caption_row( $post_id );
 	echo '</a>';

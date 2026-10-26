@@ -1,5 +1,3 @@
 .DS_Store
 .tmp-build/
 node_modules/
-_site-upload.zip
-Claude outputs/

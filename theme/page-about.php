@@ -43,8 +43,8 @@ lmf_page_hero(
 <section class="pg-timeline">
 	<div class="wrap">
 		<div class="pg-head">
-			<span class="kicker"><?php esc_html_e( 'Since 2023', 'lemonmint' ); ?></span>
-			<h2 class="h2"><?php esc_html_e( 'The story so far', 'lemonmint' ); ?></h2>
+			<span class="kicker"><?php esc_html_e( 'What makes us different', 'lemonmint' ); ?></span>
+			<h2 class="h2"><?php esc_html_e( 'Why Lemon Mint', 'lemonmint' ); ?></h2>
 		</div>
 		<ol class="pg-years">
 			<?php foreach ( $c['timeline'] as $t ) : ?>

@@ -187,7 +187,7 @@ body.has-video-hero.nav-solid header#nav .burger { color: var(--ink); }
 	transform: none;
 	transition-delay: .5s;
 }
-.menu-ch { display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.menu-ch { display: flex; flex-direction: column; gap: 6px; font-size: var(--fs-meta); }
 .menu-ch a { color: var(--ink); border-bottom: 1px solid var(--rule); align-self: flex-start; }
 .menu-ch a:hover { border-color: var(--ink); }
 .menu-cta { margin-left: auto; }
