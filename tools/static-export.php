@@ -476,12 +476,32 @@ function body_class( $c = '' ) {
 }
 function post_class( $c = '' ) { echo 'class="' . esc_attr( is_array( $c ) ? implode( ' ', $c ) : $c ) . '"'; }
 function wp_body_open() { do_action( 'wp_body_open' ); }
+/**
+ * A cache-busting stamp for a built asset.
+ *
+ * GitHub Pages serves CSS and JS with a ten-minute cache, and a browser
+ * holds them far longer. A CSS-only change therefore looks like "nothing
+ * happened" on a normal reload. The file's own content decides the stamp,
+ * so a changed file gets a new URL and an unchanged one keeps its cache.
+ *
+ * @param string $src URL as the theme enqueued it (./wp-content/...).
+ * @return string Same URL with ?v=<hash>.
+ */
+function lmf_x_bust( $src ) {
+	$rel = ltrim( (string) $src, '.' );
+	$f   = $GLOBALS['BUILD'] . $rel;
+	if ( false !== strpos( $src, '?' ) || ! is_file( $f ) ) {
+		return $src;
+	}
+	return $src . '?v=' . substr( md5_file( $f ), 0, 8 );
+}
+
 function wp_head() {
 	do_action( 'wp_enqueue_scripts' );
 	foreach ( $GLOBALS['head'] as $h ) { echo $h; }
 	do_action( 'wp_head' );
 	foreach ( $GLOBALS['css'] as $h => $src ) {
-		printf( '<link rel="stylesheet" href="%s">' . "\n", esc_url( $src ) );
+		printf( '<link rel="stylesheet" href="%s">' . "\n", esc_url( lmf_x_bust( $src ) ) );
 	}
 	foreach ( $GLOBALS['inline'] as $css ) { echo "<style>\n" . $css . "\n</style>\n"; }
 }
@@ -492,7 +512,7 @@ function wp_footer() {
 		if ( $item['src'] ) {
 			// The preloader ships as an ES module; WordPress tags it through
 			// the script_loader_tag filter, which this export applies here.
-			$tag = sprintf( '<script%s src="%s"></script>' . "\n", 'lmf-preloader' === $h ? ' type="module"' : '', esc_url( $item['src'] ) );
+			$tag = sprintf( '<script%s src="%s"></script>' . "\n", 'lmf-preloader' === $h ? ' type="module"' : '', esc_url( lmf_x_bust( $item['src'] ) ) );
 			echo apply_filters( 'script_loader_tag', $tag, $h, $item['src'] );
 		}
 		foreach ( $item['after'] as $js ) { echo "<script>\n" . $js . "\n</script>\n"; }
