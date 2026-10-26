@@ -86,7 +86,7 @@ function lmf_home_content() {
 					'type'    => 'Television series',
 					'title'   => 'Khamosh Aahatein',
 					'result'  => '60 episodes',
-					'outcome' => 'A full scripted season produced and delivered episode by episode to platform specification.',
+					'outcome' => 'A full scripted season for Atrangii, delivered episode by episode to platform specification.',
 					'url'     => home_url( '/work/khamosh-aahatein/' ),
 				),
 				array(
@@ -122,7 +122,7 @@ function lmf_home_content() {
 					'type'    => 'Microdrama',
 					'title'   => 'Race Raftaar Roar',
 					'result'  => '45 × 2 min',
-					'outcome' => 'A vertical season shot with an AI-hybrid workflow for mobile-first audiences.',
+					'outcome' => 'A vertical season for StoryTV India, shot with an AI-hybrid workflow for mobile-first audiences.',
 					'url'     => home_url( '/work/rrr-race-raftaar-roar/' ),
 				),
 				array(
@@ -368,12 +368,14 @@ function lmf_home_cases() {
 						<span class="meta wk-n"><?php echo esc_html( sprintf( '%02d / %02d', $i + 1, $n ) ); ?> · <?php echo esc_html( $it['type'] ); ?></span>
 						<h3 class="wk-title"><a href="<?php echo esc_url( $it['url'] ); ?>"><?php echo esc_html( $it['title'] ); ?></a></h3>
 						<?php
-						// A second line only when it says something the title does not.
-						$lmf_cl = isset( $it['client'] ) ? $it['client'] : '';
-						if ( $lmf_cl && 0 !== strcasecmp( $lmf_cl, $it['title'] ) ) :
-							?>
-							<span class="wk-client"><?php echo esc_html( $lmf_cl ); ?></span>
-						<?php endif; ?>
+						/*
+						 * No client line here. Eight captions share one frame, so
+						 * a line that some projects have and others do not moves
+						 * everything below it. The client is named in the sentence
+						 * instead, where it reads as information rather than as a
+						 * label — and on the case page, in full.
+						 */
+						?>
 						<div class="wk-res">
 							<strong class="wk-big"><?php echo esc_html( $it['result'] ); ?></strong>
 							<span class="wk-out"><?php echo esc_html( $it['outcome'] ); ?></span>

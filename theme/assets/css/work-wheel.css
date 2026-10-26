@@ -101,7 +101,10 @@
 	left: var(--pad);
 	bottom: clamp(28px, 7vh, 80px);
 	width: var(--wk-cap, min(26vw, 380px));
-	height: 17.5em;
+	/* tall enough for the longest of the eight: 2-line title, 2-line
+	   result, 3-line sentence, and the link under them. Every caption
+	   uses this same frame, so nothing moves as the wheel turns. */
+	height: 23.5em;
 	padding: 0;
 	margin: 0;
 }
@@ -110,7 +113,10 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: 0;
+	/* anchored at the top: captions grow downward into reserved space
+	   instead of pushing each other's lines up and down as the wheel turns */
+	top: 0;
+	bottom: auto;
 	opacity: 0;
 	transform: translateY(14px);
 	visibility: hidden;
@@ -122,8 +128,21 @@
 	visibility: visible;
 	transition: opacity .45s ease .08s, transform .6s cubic-bezier(.2, .7, .2, 1) .08s, visibility 0s;
 }
-.wk.is-live .wk-title { font-size: clamp(1.8rem, 2.8vw, 3rem); }
-.wk.is-live .wk-big { font-size: clamp(2.8rem, 4.8vw, 5.4rem); }
+/* ---------- the reserved rows ----------
+   Each line of the caption keeps its height whether this project fills it
+   or not, so the eye can rest: the title, the figure, the sentence and the
+   link are at the same height on all eight. */
+.wk.is-live .wk-title {
+	font-size: clamp(1.8rem, 2.8vw, 3rem);
+	min-height: 2em;          /* two lines at line-height 1 */
+}
+.wk.is-live .wk-big {
+	font-size: clamp(2.6rem, 4.4vw, 5rem);
+	min-height: 1.9em;        /* two lines at line-height .95 */
+}
+.wk.is-live .wk-out {
+	min-height: 4.65em;       /* three lines at line-height 1.55 */
+}
 
 .wk.is-live .wk-index { display: none; }
 .wk.is-live.has-index .wk-index {
