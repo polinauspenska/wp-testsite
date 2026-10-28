@@ -16,11 +16,11 @@ get_header();
 <section class="wrap" style="padding-bottom:clamp(56px,8vw,120px)">
 	<div class="filters">
 		<?php
+		// Two ways in, which is how buyers ask: what do you make, and for whom.
 		lmf_filter_group( 'svc', 'lmf_service_cat', __( 'Service', 'lemonmint' ) );
 		lmf_filter_group( 'ind', 'lmf_industry_cat', __( 'Industry', 'lemonmint' ) );
-		lmf_filter_group( 'fmt', 'lmf_format', __( 'Format', 'lemonmint' ) );
 
-		if ( ! empty( $_GET['svc'] ) || ! empty( $_GET['ind'] ) || ! empty( $_GET['fmt'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_GET['svc'] ) || ! empty( $_GET['ind'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			printf(
 				'<a class="fchip" href="%s">%s &#10005;</a>',
 				esc_url( get_post_type_archive_link( 'lmf_project' ) ),
@@ -68,7 +68,7 @@ get_header();
 	   and does nothing. Without a server — a static export — it is the filter. */
 	(function () {
 		var q = new URLSearchParams(location.search);
-		var keys = ['svc', 'ind', 'fmt'].filter(function (k) { return q.get(k); });
+		var keys = ['svc', 'ind'].filter(function (k) { return q.get(k); });
 		if (!keys.length) { return; }
 		var tiles = [].slice.call(document.querySelectorAll('.grid .tile'));
 		var shown = 0;

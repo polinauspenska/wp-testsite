@@ -299,7 +299,7 @@ function lmf_filter_group( $param, $taxonomy, $label ) {
 	$current = isset( $_GET[ $param ] ) ? sanitize_title( wp_unslash( $_GET[ $param ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$base    = get_post_type_archive_link( 'lmf_project' );
 	$keep    = array();
-	foreach ( array( 'svc', 'ind', 'fmt' ) as $p ) {
+	foreach ( array( 'svc', 'ind' ) as $p ) {
 		if ( $p !== $param && ! empty( $_GET[ $p ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$keep[ $p ] = sanitize_title( wp_unslash( $_GET[ $p ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
