@@ -291,13 +291,18 @@
 			if ( diveV && diveV.currentTime > 0.4 ) {
 				try { diveV.currentTime = 0; } catch ( err ) {}
 			}
-			play( diveV, true );
-			diveAudio( soundWant );
+			if ( soundWant ) {
+				diveAudio( true );          // plays, or holds on the poster
+			} else {
+				play( diveV, true );        // the visitor asked for silence
+			}
 		} else if ( ! wantDive && diveOn ) {
 			diveOn = false;
-			diveAudio( false );
+			play( diveV, false );
+			soundLabel();
+		} else if ( ! waiting ) {
+			play( diveV, wantDive );
 		}
-		play( diveV, wantDive );
 	}
 
 	function play( v, want ) {
@@ -310,9 +315,9 @@
 
 	/* ----------------------------------------------------------------------
 	   5b. THE TRACK — the dive is a music production, so it plays with its
-	   own sound. Browsers only allow that once the visitor has interacted
-	   with the page, so we ask, and fall back to silence with the control
-	   showing that the sound is off. One button either way.
+	   own sound or it does not play at all. Browsers only allow sound once
+	   the visitor has interacted with the page: when ours refuses, the film
+	   waits on its poster behind a play button rather than running silently.
 	   ---------------------------------------------------------------------- */
 	var soundBtn  = sec.querySelector( '[data-wk-sound]' );
 	var playBtn   = sec.querySelector( '[data-wk-play]' );
@@ -321,11 +326,10 @@
 	var asked     = false;  // has the visitor touched either control
 
 	function soundLabel() {
-		var on = diveV && ! diveV.muted;
-		// the big press is only for getting the sound started
+		var on = diveV && ! diveV.muted && ! diveV.paused;
+		// the press shows while the film waits; the corner control while it runs
 		dive.classList.toggle( 'has-sound', !! on );
-		dive.classList.toggle( 'asked', asked );
-		if ( playBtn ) { playBtn.tabIndex = ( ! on && ! asked && diveOn ) ? 0 : -1; }
+		if ( playBtn ) { playBtn.tabIndex = waiting && diveOn ? 0 : -1; }
 		if ( ! soundBtn ) { return; }
 		soundBtn.classList.toggle( 'is-off', ! on );
 		soundBtn.setAttribute( 'aria-pressed', on ? 'true' : 'false' );
@@ -334,6 +338,18 @@
 		soundBtn.setAttribute( 'aria-label', on ? 'Turn the sound off' : 'Turn the sound on' );
 	}
 
+	var waiting = false;    // held on the poster until the visitor presses play
+
+	function setWaiting( on ) {
+		waiting = !! on;
+		dive.classList.toggle( 'is-waiting', waiting );
+		soundLabel();
+	}
+
+	/**
+	 * Ask for the film with its sound. want=false simply mutes what is
+	 * already running (the visitor's own choice).
+	 */
 	function diveAudio( want ) {
 		if ( ! diveV ) { return; }
 		if ( ! want ) {
@@ -341,17 +357,21 @@
 			soundLabel();
 			return;
 		}
-		if ( ! soundWant ) { soundLabel(); return; }
 		diveV.muted = false;
 		var p = diveV.play();
 		if ( p && p.catch ) {
 			p.catch( function () {
-				// the browser refused sound: keep the film, drop the audio
-				diveV.muted = true;
-				soundLabel();
-				var q = diveV.play();
-				if ( q && q.catch ) { q.catch( function () {} ); }
+				/*
+				 * Refused. We do not fall back to a silent film: a music
+				 * production playing without its track says the wrong thing.
+				 * The poster holds, and the press is the way in.
+				 */
+				diveV.pause();
+				try { diveV.currentTime = 0; } catch ( err ) {}
+				setWaiting( true );
 			} );
+		} else {
+			setWaiting( false );
 		}
 		soundLabel();
 	}
@@ -362,8 +382,13 @@
 			e.stopPropagation();
 			asked     = true;
 			soundWant = !! ( diveV && diveV.muted );
-			diveAudio( soundWant );
-			if ( soundWant ) { play( diveV, true ); }
+			if ( soundWant ) {
+				diveAudio( true );
+				play( diveV, true );
+			} else {
+				// sound off, film on: that is a choice, not a refusal
+				diveAudio( false );
+			}
 		} );
 	}
 
@@ -378,8 +403,8 @@
 			if ( diveV ) {
 				try { diveV.currentTime = 0; } catch ( err ) {}
 			}
+			setWaiting( false );
 			diveAudio( true );
-			play( diveV, true );
 		} );
 	}
 	soundLabel();
@@ -412,7 +437,7 @@
 				play( src, false );
 				play( diveV, false );
 				diveOn = false;
-				diveAudio( false );
+				soundLabel();
 			}
 		}, { rootMargin: '200px 0px' } ).observe( sec );
 	} else {

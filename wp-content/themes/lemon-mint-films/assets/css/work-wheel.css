@@ -225,9 +225,9 @@
 	clip: rect(0 0 0 0);
 	white-space: nowrap;
 }
-/* once the track is running, the press has done its job */
-.wk-dive.has-sound .wk-play,
-.wk-dive.asked .wk-play { opacity: 0; pointer-events: none; }
+/* the press shows only while the film is waiting for it */
+.wk-play { opacity: 0; pointer-events: none; }
+.wk-dive.is-waiting .wk-play { opacity: var(--dt, 0); pointer-events: auto; }
 
 /* ---------- the sound control ----------
    Bottom right of the dive, on the film itself: a round button in the warm
@@ -260,6 +260,8 @@
 	transition: background .2s ease, border-color .2s ease, opacity .3s ease;
 }
 .wk.is-live .wk-dive:not(.is-on) .wk-sound { pointer-events: none; }
+/* nothing to turn off while the film is still waiting */
+.wk-dive.is-waiting .wk-sound { opacity: 0; pointer-events: none; }
 .wk-sound:hover { background: rgba(17, 17, 17, .5); border-color: var(--warm); }
 .wk-sound-i { display: inline-flex; }
 /* the cross is drawn only when the sound is off, the waves only when it is on */
