@@ -160,7 +160,11 @@ svg.lockup{overflow:visible}
 header#nav{
   position:sticky;top:0;z-index:600;background:var(--warm);
   border-bottom:1px solid var(--rule);
+  transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .35s ease;
 }
+/* the homepage dive is full frame: the header lifts out of the picture */
+.lmf-dive header#nav{transform:translateY(-100%);opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){header#nav{transition:none}}
 .nav-in{display:flex;align-items:center;gap:30px;height:var(--nav-h)}
 .nav-links{display:flex;gap:0;margin-left:6px}
 .nav-links>*{position:relative}

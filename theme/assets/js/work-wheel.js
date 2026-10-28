@@ -273,12 +273,15 @@
 		if ( ir > 0 ) {
 			dive.classList.add( 'is-on' );
 			dive.setAttribute( 'aria-hidden', 'false' );
+			// full frame means full frame: the header lifts away
+			document.documentElement.classList.add( 'lmf-dive' );
 			dive.style.setProperty( '--dr', ( io3( ir ) * Math.hypot( W, H ) * 0.55 ).toFixed( 1 ) + 'px' );
 			dive.style.setProperty( '--dt', clamp( ( d - 0.86 ) / 0.14 ).toFixed( 3 ) );
 			dive.querySelectorAll( 'a, button' ).forEach( function ( l ) { l.tabIndex = d > 0.9 ? 0 : -1; } );
 		} else if ( dive.classList.contains( 'is-on' ) ) {
 			dive.classList.remove( 'is-on' );
 			dive.setAttribute( 'aria-hidden', 'true' );
+			document.documentElement.classList.remove( 'lmf-dive' );
 			dive.style.setProperty( '--dr', '0px' );
 		}
 
@@ -288,11 +291,13 @@
 		if ( wantDive && ! diveOn ) {
 			diveOn = true;
 			// the track starts at its beginning every time the dive does
-			if ( diveV && diveV.currentTime > 0.4 ) {
+			if ( ! started && diveV && diveV.currentTime > 0.4 ) {
 				try { diveV.currentTime = 0; } catch ( err ) {}
 			}
-			if ( soundWant ) {
-				diveAudio( true );          // plays, or holds on the poster
+			if ( waiting ) {
+				soundLabel();               // paused by hand: leave it be
+			} else if ( soundWant ) {
+				diveAudio( true );          // plays, or holds on the first frame
 			} else {
 				play( diveV, true );        // the visitor asked for silence
 			}
@@ -338,12 +343,32 @@
 		soundBtn.setAttribute( 'aria-label', on ? 'Turn the sound off' : 'Turn the sound on' );
 	}
 
-	var waiting = false;    // held on the poster until the visitor presses play
+	var waiting = false;    // the press is showing: not started, or paused by hand
+	var started = false;    // the film has run at least once
 
 	function setWaiting( on ) {
 		waiting = !! on;
 		dive.classList.toggle( 'is-waiting', waiting );
 		soundLabel();
+	}
+
+	/** Start or resume the film with its track. */
+	function diveStart() {
+		if ( ! diveV ) { return; }
+		if ( ! started ) {
+			try { diveV.currentTime = 0; } catch ( err ) {}
+		}
+		started   = true;
+		soundWant = true;
+		setWaiting( false );
+		diveAudio( true );
+	}
+
+	/** Stop it where it stands, and put the press back. */
+	function divePause() {
+		if ( ! diveV ) { return; }
+		diveV.pause();
+		setWaiting( true );
 	}
 
 	/**
@@ -358,6 +383,7 @@
 			return;
 		}
 		diveV.muted = false;
+		started     = true;
 		var p = diveV.play();
 		if ( p && p.catch ) {
 			p.catch( function () {
@@ -367,6 +393,7 @@
 				 * The poster holds, and the press is the way in.
 				 */
 				diveV.pause();
+				started = false;
 				try { diveV.currentTime = 0; } catch ( err ) {}
 				setWaiting( true );
 			} );
@@ -396,17 +423,26 @@
 		playBtn.addEventListener( 'click', function ( e ) {
 			e.preventDefault();
 			e.stopPropagation();
-			asked     = true;
-			soundWant = true;
-			// a press is a gesture, so this one is allowed to carry sound,
-			// and the track starts where it should
-			if ( diveV ) {
-				try { diveV.currentTime = 0; } catch ( err ) {}
-			}
-			setWaiting( false );
-			diveAudio( true );
+			asked = true;
+			// a press is a gesture, so this one is allowed to carry sound
+			diveStart();
 		} );
 	}
+
+	/*
+	 * The film itself is the control: a press on it stops it where it
+	 * stands and puts the play mark back, the next one carries on. The
+	 * buttons and links on top of it keep their own jobs.
+	 */
+	dive.addEventListener( 'click', function ( e ) {
+		if ( e.target.closest( 'a, button' ) ) { return; }
+		if ( ! dive.classList.contains( 'is-on' ) ) { return; }
+		e.preventDefault();
+		e.stopPropagation();
+		asked = true;
+		if ( waiting || diveV.paused ) { diveStart(); } else { divePause(); }
+	} );
+
 	soundLabel();
 
 	/* ----------------------------------------------------------------------
@@ -437,6 +473,7 @@
 				play( src, false );
 				play( diveV, false );
 				diveOn = false;
+				document.documentElement.classList.remove( 'lmf-dive' );
 				soundLabel();
 			}
 		}, { rootMargin: '200px 0px' } ).observe( sec );

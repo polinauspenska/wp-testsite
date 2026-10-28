@@ -227,6 +227,8 @@
 }
 /* the press shows only while the film is waiting for it */
 .wk-play { opacity: 0; pointer-events: none; }
+/* the film takes the press when it is running */
+.wk.is-live .wk-dive.is-on { cursor: pointer; }
 .wk-dive.is-waiting .wk-play { opacity: var(--dt, 0); pointer-events: auto; }
 
 /* ---------- the sound control ----------
