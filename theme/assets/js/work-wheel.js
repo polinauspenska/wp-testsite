@@ -315,12 +315,18 @@
 	   showing that the sound is off. One button either way.
 	   ---------------------------------------------------------------------- */
 	var soundBtn  = sec.querySelector( '[data-wk-sound]' );
-	var soundWant = true;   // what the visitor has chosen
+	var playBtn   = sec.querySelector( '[data-wk-play]' );
+	var soundWant = true;   // sound is the default; the visitor can drop it
 	var diveOn    = false;  // is the dive running
+	var asked     = false;  // has the visitor touched either control
 
 	function soundLabel() {
-		if ( ! soundBtn ) { return; }
 		var on = diveV && ! diveV.muted;
+		// the big press is only for getting the sound started
+		dive.classList.toggle( 'has-sound', !! on );
+		dive.classList.toggle( 'asked', asked );
+		if ( playBtn ) { playBtn.tabIndex = ( ! on && ! asked && diveOn ) ? 0 : -1; }
+		if ( ! soundBtn ) { return; }
 		soundBtn.classList.toggle( 'is-off', ! on );
 		soundBtn.setAttribute( 'aria-pressed', on ? 'true' : 'false' );
 		var t = soundBtn.querySelector( '.wk-sound-t' );
@@ -354,12 +360,29 @@
 		soundBtn.addEventListener( 'click', function ( e ) {
 			e.preventDefault();
 			e.stopPropagation();
+			asked     = true;
 			soundWant = !! ( diveV && diveV.muted );
 			diveAudio( soundWant );
 			if ( soundWant ) { play( diveV, true ); }
 		} );
-		soundLabel();
 	}
+
+	if ( playBtn ) {
+		playBtn.addEventListener( 'click', function ( e ) {
+			e.preventDefault();
+			e.stopPropagation();
+			asked     = true;
+			soundWant = true;
+			// a press is a gesture, so this one is allowed to carry sound,
+			// and the track starts where it should
+			if ( diveV ) {
+				try { diveV.currentTime = 0; } catch ( err ) {}
+			}
+			diveAudio( true );
+			play( diveV, true );
+		} );
+	}
+	soundLabel();
 
 	/* ----------------------------------------------------------------------
 	   6. LOOP — scroll sets a target, the wheel eases toward it

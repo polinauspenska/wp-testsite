@@ -193,6 +193,54 @@
 .wk.is-live .wk-dive.is-on { visibility: visible; }
 .wk-dive-v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .wk-dive::after { content: ""; position: absolute; inset: 0; background: rgba(17, 17, 17, .26); }
+/* ---------- the way in ----------
+   Centred on the film: the press that lets the browser start the track.
+   It is there only until the sound is running; after that the small
+   control in the corner is the only one. */
+.wk-play {
+	position: absolute;
+	left: 50%;
+	top: 46%;
+	z-index: 2;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 14px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--warm);
+	cursor: pointer;
+	opacity: var(--dt, 0);
+	transition: opacity .35s ease;
+}
+.wk-play-c {
+	display: grid;
+	place-items: center;
+	width: clamp(84px, 9vw, 124px);
+	height: clamp(84px, 9vw, 124px);
+	border: 1.5px solid rgba(247, 245, 239, .75);
+	border-radius: 50%;
+	background: rgba(17, 17, 17, .3);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	padding-left: 6px;
+	transition: transform .25s cubic-bezier(.2, .7, .2, 1), background .25s ease, border-color .25s ease;
+}
+.wk-play:hover .wk-play-c { transform: scale(1.06); background: var(--lemon); border-color: var(--lemon); color: var(--ink); }
+.wk-play-t {
+	font-family: "Montserrat", Arial, sans-serif;
+	font-weight: 600;
+	font-size: var(--fs-label);
+	letter-spacing: var(--ls-label);
+	text-transform: uppercase;
+	text-shadow: 0 1px 14px rgba(17, 17, 17, .5);
+}
+/* once the track is running, the big press has done its job */
+.wk-dive.has-sound .wk-play,
+.wk-dive.asked .wk-play { opacity: 0; pointer-events: none; }
+
 /* ---------- the sound control ----------
    Bottom right of the dive, on the film itself: a round button in the warm
    white, with the one line of text beside it on a wide screen. It fades in

@@ -404,6 +404,15 @@ function lmf_home_cases() {
 					<source src="<?php echo esc_url( $w['dive']['webm'] ); ?>" type="video/webm">
 					<source src="<?php echo esc_url( $w['dive']['mp4'] ); ?>" type="video/mp4">
 				</video>
+				<!-- The way in, when the browser will not start the sound by
+					 itself: one press plays the film from the top, with its track. -->
+				<button class="wk-play" type="button" data-wk-play tabindex="-1">
+					<span class="wk-play-c" aria-hidden="true">
+						<svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M6 3.5l14 8.5-14 8.5z"/></svg>
+					</span>
+					<span class="wk-play-t"><?php esc_html_e( 'Play with sound', 'lemonmint' ); ?></span>
+				</button>
+
 				<!-- The track plays with the film. One control, and it says what it
 					 does: a cross through the waves means the sound is off. -->
 				<button class="wk-sound" type="button" data-wk-sound aria-pressed="false" tabindex="-1">
