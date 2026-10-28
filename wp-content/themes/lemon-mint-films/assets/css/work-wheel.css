@@ -194,50 +194,38 @@
 .wk-dive-v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .wk-dive::after { content: ""; position: absolute; inset: 0; background: rgba(17, 17, 17, .26); }
 /* ---------- the way in ----------
-   Centred on the film: the press that lets the browser start the track.
-   It is there only until the sound is running; after that the small
-   control in the corner is the only one. */
+   A thin ring and a triangle, nothing else: the press that lets the
+   browser start the track. Its words are there for screen readers only.
+   It leaves as soon as the sound is running. */
 .wk-play {
 	position: absolute;
 	left: 50%;
-	top: 46%;
+	top: 44%;
 	z-index: 2;
 	transform: translate(-50%, -50%);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 14px;
-	padding: 0;
-	border: 0;
+	display: grid;
+	place-items: center;
+	width: clamp(64px, 6vw, 86px);
+	height: clamp(64px, 6vw, 86px);
+	padding: 0 0 0 4px;
+	border: 1px solid rgba(247, 245, 239, .7);
+	border-radius: 50%;
 	background: none;
 	color: var(--warm);
 	cursor: pointer;
 	opacity: var(--dt, 0);
-	transition: opacity .35s ease;
+	transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s cubic-bezier(.2, .7, .2, 1), opacity .35s ease;
 }
-.wk-play-c {
-	display: grid;
-	place-items: center;
-	width: clamp(84px, 9vw, 124px);
-	height: clamp(84px, 9vw, 124px);
-	border: 1.5px solid rgba(247, 245, 239, .75);
-	border-radius: 50%;
-	background: rgba(17, 17, 17, .3);
-	backdrop-filter: blur(6px);
-	-webkit-backdrop-filter: blur(6px);
-	padding-left: 6px;
-	transition: transform .25s cubic-bezier(.2, .7, .2, 1), background .25s ease, border-color .25s ease;
-}
-.wk-play:hover .wk-play-c { transform: scale(1.06); background: var(--lemon); border-color: var(--lemon); color: var(--ink); }
+.wk-play:hover { background: var(--warm); border-color: var(--warm); color: var(--ink); transform: translate(-50%, -50%) scale(1.04); }
 .wk-play-t {
-	font-family: "Montserrat", Arial, sans-serif;
-	font-weight: 600;
-	font-size: var(--fs-label);
-	letter-spacing: var(--ls-label);
-	text-transform: uppercase;
-	text-shadow: 0 1px 14px rgba(17, 17, 17, .5);
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
 }
-/* once the track is running, the big press has done its job */
+/* once the track is running, the press has done its job */
 .wk-dive.has-sound .wk-play,
 .wk-dive.asked .wk-play { opacity: 0; pointer-events: none; }
 

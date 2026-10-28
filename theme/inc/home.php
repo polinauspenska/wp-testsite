@@ -406,10 +406,8 @@ function lmf_home_cases() {
 				</video>
 				<!-- The way in, when the browser will not start the sound by
 					 itself: one press plays the film from the top, with its track. -->
-				<button class="wk-play" type="button" data-wk-play tabindex="-1">
-					<span class="wk-play-c" aria-hidden="true">
-						<svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M6 3.5l14 8.5-14 8.5z"/></svg>
-					</span>
+				<button class="wk-play" type="button" data-wk-play tabindex="-1" aria-label="<?php esc_attr_e( 'Play with sound', 'lemonmint' ); ?>">
+					<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 4l12 8-12 8z"/></svg>
 					<span class="wk-play-t"><?php esc_html_e( 'Play with sound', 'lemonmint' ); ?></span>
 				</button>
 
