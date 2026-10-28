@@ -81,13 +81,13 @@ function lmf_reel_default_services() {
 			'title' => 'Podcast Production',
 			'text'  => 'A produced show — format, multi-camera recording, full post and the short-form cutdowns.',
 			'url'   => $svc . 'podcast-production/',
-			'image' => $img . '08.jpg',
+			'image' => $img . '07.jpg',
 		),
 		array(
 			'title' => 'Event Videography',
 			'text'  => 'Corporate events and award ceremonies, with reels inside 24–48 hours.',
 			'url'   => $svc . 'event-videography/',
-			'image' => $img . '07.jpg',
+			'image' => $img . '08.jpg',
 		),
 		array(
 			'title' => 'Music Productions',
