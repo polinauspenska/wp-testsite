@@ -63,15 +63,8 @@ while ( have_posts() ) :
 	<!-- The film. Self-hosted and CDN-delivered — no third-party player chrome. -->
 	<section class="wrap" style="padding-top:clamp(24px,3vw,40px)">
 		<div class="player">
-			<?php if ( $video ) : ?>
-				<video controls preload="none" playsinline
-					<?php if ( has_post_thumbnail() ) : ?>poster="<?php echo esc_url( get_the_post_thumbnail_url( $id, 'lmf-film' ) ); ?>"<?php endif; ?>
-					src="<?php echo esc_url( $video ); ?>"></video>
-			<?php else : ?>
-				<?php lmf_still( $id, 'lmf-film', 1280, 720 ); ?>
-				<button class="playbtn" data-reel aria-label="<?php esc_attr_e( 'Play film', 'lemonmint' ); ?>">
-					<svg width="18" height="22" viewBox="0 0 20 24" fill="currentColor" aria-hidden="true"><path d="M0 0l20 12L0 24z"/></svg>
-				</button>
+			<?php lmf_film( $id, 'lmf-film', 1280, 720 ); ?>
+			<?php if ( ! $video ) : ?>
 				<span class="strip"><span class="meta">00:00</span><span class="bar"><i></i></span><span class="meta"><?php echo esc_html( $duration ); ?></span></span>
 			<?php endif; ?>
 		</div>

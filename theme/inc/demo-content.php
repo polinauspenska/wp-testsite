@@ -137,6 +137,64 @@ function lmf_demo_page() {
  *
  * @return array
  */
+/**
+ * The films we hold, by slug. Paths are relative to the theme's assets, so
+ * the installer and the static export resolve them the same way.
+ *
+ * @return array[] slug => array( video, poster )
+ */
+function lmf_demo_films() {
+	$v = '/assets/video/';
+	$i = '/assets/img/stills/';
+	return array(
+		// services
+		'corporate-films'      => array( $v . 'services/corporate-films.mp4', $v . 'services/corporate-films.jpg' ),
+		'ad-films'             => array( $v . 'services/ad-films.mp4', $v . 'services/ad-films.jpg' ),
+		'microdramas'          => array( $v . 'services/microdramas.mp4', $v . 'services/microdramas.jpg' ),
+		'event-videography'    => array( $v . 'services/event-videography.mp4', $v . 'services/event-videography.jpg' ),
+		// a service and a project can share one film
+		'film-tv-production'   => array( $v . 'work/khamosh-aahatein.mp4', $v . 'work/khamosh-aahatein.jpg' ),
+		'music-productions'    => array( $v . 'work/you-cant-break-dubai.mp4', $v . 'work/you-cant-break-dubai.jpg' ),
+		// projects with their own film
+		'khamosh-aahatein'     => array( $v . 'work/khamosh-aahatein.mp4', $v . 'work/khamosh-aahatein.jpg' ),
+		'falcons-of-majlis'    => array( $v . 'work/falcons-of-majlis.mp4', $v . 'work/falcons-of-majlis.jpg' ),
+		'you-cant-break-dubai' => array( $v . 'work/you-cant-break-dubai.mp4', $v . 'work/you-cant-break-dubai.jpg' ),
+
+		/*
+		 * Projects with a frame but no film of their own yet: the still comes
+		 * from the reel that covers them, so the archive shows the work rather
+		 * than a plate. An empty first value means "no video".
+		 */
+		'nkn-property-expo'                => array( '', $i . 'nkn-property-expo.jpg' ),
+		'icons-of-the-uae-ankur-aggarwal'  => array( '', $i . 'icons-of-the-uae-ankur-aggarwal.jpg' ),
+		'icons-of-the-uae-tauseef-khan'    => array( '', $i . 'icons-of-the-uae-tauseef-khan.jpg' ),
+		'icons-of-the-uae-satish-sanpal'   => array( '', $i . 'icons-of-the-uae-satish-sanpal.jpg' ),
+		'icons-of-the-uae-maqsood-muhammed' => array( '', $i . 'icons-of-the-uae-maqsood-muhammed.jpg' ),
+		'rrr-race-raftaar-roar'            => array( '', $i . 'rrr-race-raftaar-roar.jpg' ),
+		'chuppa-hua-race-king'             => array( '', $i . 'chuppa-hua-race-king.jpg' ),
+		'the-final-race'                   => array( '', $i . 'the-final-race.jpg' ),
+	);
+}
+
+/**
+ * The film for one slug, as absolute URLs, or an empty array.
+ *
+ * @param string $slug Post slug.
+ * @return array { video, poster } or empty.
+ */
+function lmf_demo_film( $slug ) {
+	$all = lmf_demo_films();
+	if ( empty( $all[ $slug ] ) ) {
+		return array();
+	}
+	$base = get_template_directory_uri();
+	// an empty path stays empty — "no film", not the theme's own folder
+	return array(
+		$all[ $slug ][0] ? $base . $all[ $slug ][0] : '',
+		$all[ $slug ][1] ? $base . $all[ $slug ][1] : '',
+	);
+}
+
 function lmf_demo_data() {
 	return array(
 		'services' => array(
@@ -567,6 +625,13 @@ function lmf_demo_install() {
 			update_post_meta( $id, '_lmf_keyword', $s[3] );
 			update_post_meta( $id, '_lmf_cta', $s[4] );
 			update_post_meta( $id, '_lmf_still', $s[5] );
+			$film = lmf_demo_film( $s[1] );
+			if ( $film ) {
+				if ( $film[0] ) {
+					update_post_meta( $id, '_lmf_video', $film[0] );
+				}
+				update_post_meta( $id, '_lmf_image', $film[1] );
+			}
 			update_post_meta( $id, '_lmf_diffs', $diffs );
 			update_post_meta( $id, '_lmf_faq', $faq );
 			update_post_meta( $id, '_lmf_kit', $kit );
@@ -631,6 +696,13 @@ function lmf_demo_install() {
 		update_post_meta( $id, '_lmf_process', $p['proc'] );
 		update_post_meta( $id, '_lmf_why', $p['why'] );
 		update_post_meta( $id, '_lmf_still', $p['kind'] );
+		$film = lmf_demo_film( $p['slug'] );
+		if ( $film ) {
+			if ( $film[0] ) {
+				update_post_meta( $id, '_lmf_video', $film[0] );
+			}
+			update_post_meta( $id, '_lmf_image', $film[1] );
+		}
 		update_post_meta(
 			$id,
 			'_lmf_credits',

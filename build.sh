@@ -28,6 +28,8 @@ cp -r theme/inc/preloader/assets "$PLUG_OUT/assets"
 
 # the clips
 mkdir -p "$THEME_OUT/assets/video"
+# the films live once, in the published tree, and are copied back in here;
+# theme/ carries the code, not 26MB of video
 if [ -d "wp-content/themes/lemon-mint-films/assets/video" ]; then
   cp -r wp-content/themes/lemon-mint-films/assets/video/. "$THEME_OUT/assets/video/"
 fi

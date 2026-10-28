@@ -184,9 +184,20 @@ function lmf_kicker( $text ) {
 function lmf_still( $post_id = 0, $size = 'lmf-tile', $w = 900, $h = 600 ) {
 	$post_id = $post_id ? $post_id : get_the_ID();
 
+	// A frame from the film, when the project or service has one.
+	$image = get_post_meta( $post_id, '_lmf_image', true );
+
 	echo '<div class="still">';
 	if ( has_post_thumbnail( $post_id ) ) {
 		echo get_the_post_thumbnail( $post_id, $size, array( 'loading' => 'lazy' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	} elseif ( $image ) {
+		printf(
+			'<img src="%s" alt="%s" width="%d" height="%d" loading="lazy" decoding="async">',
+			esc_url( $image ),
+			esc_attr( get_the_title( $post_id ) ),
+			(int) $w,
+			(int) $h
+		);
 	} else {
 		$kind = get_post_meta( $post_id, '_lmf_still', true );
 		$kind = $kind ? $kind : 'wide';
@@ -519,4 +530,37 @@ function lmf_nav_items() {
 	}
 
 	return apply_filters( 'lmf_nav_items', $items );
+}
+
+/**
+ * The film block: the video when there is one, the placeholder plate with a
+ * play button when there is not. One behaviour in both places.
+ *
+ * @param int    $post_id Post ID.
+ * @param string $size    Image size for the still.
+ * @param int    $w       Still width.
+ * @param int    $h       Still height.
+ */
+function lmf_film( $post_id = 0, $size = 'lmf-film', $w = 1280, $h = 720 ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	$video   = get_post_meta( $post_id, '_lmf_video', true );
+	$poster  = get_post_meta( $post_id, '_lmf_image', true );
+
+	if ( ! $video ) {
+		lmf_still( $post_id, $size, $w, $h );
+		printf(
+			'<button class="playbtn" data-reel aria-label="%s"><svg width="18" height="22" viewBox="0 0 20 24" fill="currentColor" aria-hidden="true"><path d="M0 0l20 12L0 24z"/></svg></button>',
+			esc_attr__( 'Play film', 'lemonmint' )
+		);
+		return;
+	}
+
+	if ( ! $poster && has_post_thumbnail( $post_id ) ) {
+		$poster = get_the_post_thumbnail_url( $post_id, $size );
+	}
+	printf(
+		'<video controls preload="none" playsinline%s src="%s"></video>',
+		$poster ? ' poster="' . esc_url( $poster ) . '"' : '',
+		esc_url( $video )
+	); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }

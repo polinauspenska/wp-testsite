@@ -658,6 +658,27 @@ function comments_template() {}
    CONTENT — the theme's own demo data, as if it had been installed
    ========================================================================== */
 
+/**
+ * The film meta for a slug, if the theme holds one.
+ *
+ * @param string $slug Post slug.
+ * @return array Meta pairs, possibly empty.
+ */
+function lmf_x_film( $slug ) {
+	if ( ! function_exists( 'lmf_demo_film' ) ) {
+		return array();
+	}
+	$film = lmf_demo_film( $slug );
+	if ( ! $film ) {
+		return array();
+	}
+	$meta = array( '_lmf_image' => $film[1] );
+	if ( $film[0] ) {
+		$meta['_lmf_video'] = $film[0];
+	}
+	return $meta;
+}
+
 $demo = lmf_demo_data();
 
 /* Which single pages this run will write, so links to them resolve from the
@@ -671,7 +692,10 @@ $GLOBALS['LMF_X_PAGES'] = array(
 foreach ( $demo['services'] as $i => $s ) {
 	lmf_x_post(
 		array( 'post_type' => 'lmf_service', 'post_title' => $s[0], 'post_name' => $s[1], 'post_excerpt' => $s[2], 'post_content' => $s[2], 'menu_order' => $i + 1 ),
-		array( '_lmf_keyword' => $s[3], '_lmf_cta' => $s[4], '_lmf_still' => $s[5] )
+		array_merge(
+			array( '_lmf_keyword' => $s[3], '_lmf_cta' => $s[4], '_lmf_still' => $s[5] ),
+			lmf_x_film( $s[1] )
+		)
 	);
 }
 foreach ( $demo['industries'] as $i => $n ) {
@@ -694,7 +718,7 @@ foreach ( $demo['projects'] as $i => $p ) {
 			'_lmf_process'   => isset( $p['proc'] ) ? $p['proc'] : '',
 			'_lmf_why'       => isset( $p['why'] ) ? $p['why'] : '',
 			'_lmf_still'     => isset( $p['kind'] ) ? $p['kind'] : 'wide',
-		)
+		) + lmf_x_film( $p['slug'] )
 	);
 	// the taxonomies, exactly as the demo installer assigns them
 	if ( ! empty( $p['svc'] ) ) { wp_set_object_terms( $pid, $p['svc'], 'lmf_service_cat' ); }

@@ -42,7 +42,7 @@ while ( have_posts() ) :
 			<span class="meta"><?php echo esc_html( 'LMF / ' . strtoupper( substr( get_post_field( 'post_name', $id ), 0, 3 ) ) ); ?></span>
 		</div>
 
-		<div class="hero-still"><?php lmf_still( $id, 'lmf-hero', 1680, 720 ); ?></div>
+		<div class="hero-still<?php echo get_post_meta( $id, '_lmf_video', true ) ? ' player' : ''; ?>"><?php lmf_film( $id, 'lmf-hero', 1680, 720 ); ?></div>
 	</section>
 
 	<?php if ( $diffs ) : ?>
