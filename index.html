@@ -38,7 +38,7 @@ html.lmf-locked,html.lmf-locked body{overflow:hidden!important;height:100%}
 <link rel="stylesheet" href="./wp-content/themes/lemon-mint-films/assets/css/hero-video.css?v=d8f5ba68">
 <link rel="stylesheet" href="./wp-content/themes/lemon-mint-films/assets/css/services-reel.css?v=8fa53e20">
 <link rel="stylesheet" href="./wp-content/themes/lemon-mint-films/assets/css/home.css?v=75e13440">
-<link rel="stylesheet" href="./wp-content/themes/lemon-mint-films/assets/css/work-wheel.css?v=e3e47684">
+<link rel="stylesheet" href="./wp-content/themes/lemon-mint-films/assets/css/work-wheel.css?v=d7ceaea8">
 <link rel="stylesheet" href="./wp-content/themes/lemon-mint-films/assets/css/brief.css?v=6f335ce1">
 </head>
 <body class="home has-video-hero">
@@ -265,7 +265,6 @@ html.lmf-locked,html.lmf-locked body{overflow:hidden!important;height:100%}
 			poster="./wp-content/themes/lemon-mint-films/assets/video/lmf-hero-poster.jpg"
 			autoplay muted loop playsinline disablepictureinpicture
 			preload="metadata" tabindex="-1" aria-hidden="true">
-						<source src="./wp-content/themes/lemon-mint-films/assets/video/lmf-hero.webm" type="video/webm">
 						<source src="./wp-content/themes/lemon-mint-films/assets/video/lmf-hero.mp4" type="video/mp4">
 		</video>
 			</div>
@@ -578,6 +577,19 @@ html.lmf-locked,html.lmf-locked body{overflow:hidden!important;height:100%}
 					<source src="./wp-content/themes/lemon-mint-films/assets/video/work/dive.webm" type="video/webm">
 					<source src="./wp-content/themes/lemon-mint-films/assets/video/work/dive.mp4" type="video/mp4">
 				</video>
+				<!-- The track plays with the film. One control, and it says what it
+					 does: a cross through the waves means the sound is off. -->
+				<button class="wk-sound" type="button" data-wk-sound aria-pressed="false" tabindex="-1">
+					<span class="wk-sound-i" aria-hidden="true">
+						<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" fill="currentColor" stroke="none"/>
+							<path class="wk-wave" d="M15.5 9.2a4 4 0 0 1 0 5.6M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/>
+							<path class="wk-cross" d="M16 9.5l5 5M21 9.5l-5 5"/>
+						</svg>
+					</span>
+					<span class="wk-sound-t">Sound on</span>
+				</button>
+
 				<div class="wk-dive-in wrap">
 										<span class="kicker">Original production · Music production</span>
 					<p class="wk-dive-t">You Can&#039;t Break Dubai</p>
@@ -907,7 +919,7 @@ html.lmf-locked,html.lmf-locked body{overflow:hidden!important;height:100%}
 				<form class="bf-form" method="post" action="" data-endpoint="" novalidate>
 					<input type="hidden" name="action" value="lmf_enquiry">
 					<input type="hidden" name="lmf_nonce" value="static">
-					<input type="hidden" name="t" value="1793185095">
+					<input type="hidden" name="t" value="1793189719">
 					<input type="hidden" name="source" value="">
 					<input type="hidden" name="lmf_intent" value="production">
 					<div class="bf-hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
@@ -1016,7 +1028,7 @@ window.LMF_PRELOADER = {"staging":"room","hold":true,"maxWait":6000,"minFill":90
 <script src="./wp-content/themes/lemon-mint-films/assets/js/home.js?v=50308512"></script>
 <script src="./wp-content/themes/lemon-mint-films/assets/js/voices.js?v=9dc63b50"></script>
 <script src="./wp-content/themes/lemon-mint-films/assets/js/promise.js?v=fc30b0c3"></script>
-<script src="./wp-content/themes/lemon-mint-films/assets/js/work-wheel.js?v=42b69f13"></script>
+<script src="./wp-content/themes/lemon-mint-films/assets/js/work-wheel.js?v=bf2e4f27"></script>
 <script src="./wp-content/themes/lemon-mint-films/assets/js/brief.js?v=c70f7486"></script>
 </body>
 </html>

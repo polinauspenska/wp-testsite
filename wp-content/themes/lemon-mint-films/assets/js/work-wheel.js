@@ -272,17 +272,32 @@
 		var ir = clamp( ( d - 0.5 ) / 0.42 );
 		if ( ir > 0 ) {
 			dive.classList.add( 'is-on' );
+			dive.setAttribute( 'aria-hidden', 'false' );
 			dive.style.setProperty( '--dr', ( io3( ir ) * Math.hypot( W, H ) * 0.55 ).toFixed( 1 ) + 'px' );
 			dive.style.setProperty( '--dt', clamp( ( d - 0.86 ) / 0.14 ).toFixed( 3 ) );
-			dive.querySelectorAll( 'a' ).forEach( function ( l ) { l.tabIndex = d > 0.9 ? 0 : -1; } );
+			dive.querySelectorAll( 'a, button' ).forEach( function ( l ) { l.tabIndex = d > 0.9 ? 0 : -1; } );
 		} else if ( dive.classList.contains( 'is-on' ) ) {
 			dive.classList.remove( 'is-on' );
+			dive.setAttribute( 'aria-hidden', 'true' );
 			dive.style.setProperty( '--dr', '0px' );
 		}
 
 		// ---- the films play only while they can be seen
 		play( src, a > 0 && ir < 1 );
-		play( diveV, d > 0.35 );
+		var wantDive = d > 0.35;
+		if ( wantDive && ! diveOn ) {
+			diveOn = true;
+			// the track starts at its beginning every time the dive does
+			if ( diveV && diveV.currentTime > 0.4 ) {
+				try { diveV.currentTime = 0; } catch ( err ) {}
+			}
+			play( diveV, true );
+			diveAudio( soundWant );
+		} else if ( ! wantDive && diveOn ) {
+			diveOn = false;
+			diveAudio( false );
+		}
+		play( diveV, wantDive );
 	}
 
 	function play( v, want ) {
@@ -291,6 +306,59 @@
 			if ( v.preload !== 'auto' ) { v.preload = 'auto'; }
 			if ( v.paused ) { var p = v.play(); if ( p && p.catch ) { p.catch( function () {} ); } }
 		} else if ( ! v.paused ) { v.pause(); }
+	}
+
+	/* ----------------------------------------------------------------------
+	   5b. THE TRACK — the dive is a music production, so it plays with its
+	   own sound. Browsers only allow that once the visitor has interacted
+	   with the page, so we ask, and fall back to silence with the control
+	   showing that the sound is off. One button either way.
+	   ---------------------------------------------------------------------- */
+	var soundBtn  = sec.querySelector( '[data-wk-sound]' );
+	var soundWant = true;   // what the visitor has chosen
+	var diveOn    = false;  // is the dive running
+
+	function soundLabel() {
+		if ( ! soundBtn ) { return; }
+		var on = diveV && ! diveV.muted;
+		soundBtn.classList.toggle( 'is-off', ! on );
+		soundBtn.setAttribute( 'aria-pressed', on ? 'true' : 'false' );
+		var t = soundBtn.querySelector( '.wk-sound-t' );
+		if ( t ) { t.textContent = on ? 'Sound on' : 'Sound off'; }
+		soundBtn.setAttribute( 'aria-label', on ? 'Turn the sound off' : 'Turn the sound on' );
+	}
+
+	function diveAudio( want ) {
+		if ( ! diveV ) { return; }
+		if ( ! want ) {
+			diveV.muted = true;
+			soundLabel();
+			return;
+		}
+		if ( ! soundWant ) { soundLabel(); return; }
+		diveV.muted = false;
+		var p = diveV.play();
+		if ( p && p.catch ) {
+			p.catch( function () {
+				// the browser refused sound: keep the film, drop the audio
+				diveV.muted = true;
+				soundLabel();
+				var q = diveV.play();
+				if ( q && q.catch ) { q.catch( function () {} ); }
+			} );
+		}
+		soundLabel();
+	}
+
+	if ( soundBtn ) {
+		soundBtn.addEventListener( 'click', function ( e ) {
+			e.preventDefault();
+			e.stopPropagation();
+			soundWant = !! ( diveV && diveV.muted );
+			diveAudio( soundWant );
+			if ( soundWant ) { play( diveV, true ); }
+		} );
+		soundLabel();
 	}
 
 	/* ----------------------------------------------------------------------
@@ -320,6 +388,8 @@
 			} else {
 				play( src, false );
 				play( diveV, false );
+				diveOn = false;
+				diveAudio( false );
 			}
 		}, { rootMargin: '200px 0px' } ).observe( sec );
 	} else {

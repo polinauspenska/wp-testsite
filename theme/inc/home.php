@@ -404,6 +404,19 @@ function lmf_home_cases() {
 					<source src="<?php echo esc_url( $w['dive']['webm'] ); ?>" type="video/webm">
 					<source src="<?php echo esc_url( $w['dive']['mp4'] ); ?>" type="video/mp4">
 				</video>
+				<!-- The track plays with the film. One control, and it says what it
+					 does: a cross through the waves means the sound is off. -->
+				<button class="wk-sound" type="button" data-wk-sound aria-pressed="false" tabindex="-1">
+					<span class="wk-sound-i" aria-hidden="true">
+						<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" fill="currentColor" stroke="none"/>
+							<path class="wk-wave" d="M15.5 9.2a4 4 0 0 1 0 5.6M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/>
+							<path class="wk-cross" d="M16 9.5l5 5M21 9.5l-5 5"/>
+						</svg>
+					</span>
+					<span class="wk-sound-t"><?php esc_html_e( 'Sound on', 'lemonmint' ); ?></span>
+				</button>
+
 				<div class="wk-dive-in wrap">
 					<?php
 					$lmf_dl = array_filter( array( $last['client'], $last['type'] ), function ( $v ) use ( $last ) {
