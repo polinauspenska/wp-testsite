@@ -2,9 +2,14 @@
 /**
  * Service page — one per keyword cluster. Never split into thin sub-pages.
  *
+ * All nine run the same seven blocks in the same order. A block with no
+ * content yet keeps its place and says what belongs there, so the pages
+ * stay comparable and the gap is visible rather than quietly dropped.
+ *
  * @package LemonMintFilms
  */
 defined( 'ABSPATH' ) || exit;
+
 get_header();
 
 while ( have_posts() ) :
@@ -92,27 +97,31 @@ while ( have_posts() ) :
 		 A block with nothing behind it is left out, never improvised.
 		 =============================================================== -->
 
-	<?php if ( $info['types'] ) : ?>
-		<section class="sec wrap">
-			<div class="split">
-				<div><?php lmf_kicker( __( 'What we make', 'lemonmint' ) ); ?></div>
-				<div>
-					<h2 class="h2" style="max-width:14ch;margin-bottom:30px"><?php esc_html_e( 'The work this covers', 'lemonmint' ); ?></h2>
+	<section class="sec wrap">
+		<div class="split">
+			<div><?php lmf_kicker( __( 'What we make', 'lemonmint' ) ); ?></div>
+			<div>
+				<h2 class="h2" style="max-width:14ch;margin-bottom:30px"><?php esc_html_e( 'The work this covers', 'lemonmint' ); ?></h2>
+				<?php if ( $info['types'] ) : ?>
 					<ul class="svc-list">
 						<?php foreach ( $info['types'] as $t ) : ?>
 							<li><?php echo esc_html( $t ); ?></li>
 						<?php endforeach; ?>
 					</ul>
-				</div>
+				<?php else : ?>
+					<?php lmf_svc_slot( __( 'The project types this service covers, as the service document lists them.', 'lemonmint' ) ); ?>
+				<?php endif; ?>
 			</div>
-		</section>
-	<?php endif; ?>
+		</div>
+	</section>
 
-	<?php if ( $info['problems'] || $info['uvp'] ) : ?>
-		<section class="sec wrap" style="padding-top:0">
+	<section class="sec wrap" style="padding-top:0">
 			<div class="split">
 				<div><?php lmf_kicker( __( 'What it solves', 'lemonmint' ) ); ?></div>
 				<div>
+					<?php if ( ! $info['problems'] && ! $info['uvp'] ) : ?>
+						<?php lmf_svc_slot( __( 'The client problems this service solves, and the one line on why it is ours.', 'lemonmint' ) ); ?>
+					<?php endif; ?>
 					<?php if ( $info['problems'] ) : ?>
 						<div class="numlist">
 							<?php foreach ( $info['problems'] as $i => $pr ) : ?>
@@ -129,13 +138,12 @@ while ( have_posts() ) :
 				</div>
 			</div>
 		</section>
-	<?php endif; ?>
 
-	<?php if ( $info['process'] ) : ?>
-		<section class="sec wrap" style="padding-top:0">
-			<div class="split">
-				<div><?php lmf_kicker( __( 'How it works', 'lemonmint' ) ); ?></div>
-				<div>
+	<section class="sec wrap" style="padding-top:0">
+		<div class="split">
+			<div><?php lmf_kicker( __( 'How it works', 'lemonmint' ) ); ?></div>
+			<div>
+				<?php if ( $info['process'] ) : ?>
 					<div class="numlist">
 						<?php foreach ( $info['process'] as $i => $st ) : ?>
 							<div>
@@ -144,10 +152,12 @@ while ( have_posts() ) :
 							</div>
 						<?php endforeach; ?>
 					</div>
-				</div>
+				<?php else : ?>
+					<?php lmf_svc_slot( __( 'This service’s own production process, step by step, with its turnaround.', 'lemonmint' ) ); ?>
+				<?php endif; ?>
 			</div>
-		</section>
-	<?php endif; ?>
+		</div>
+	</section>
 
 	<?php if ( $diffs && ! $info['problems'] ) : ?>
 		<section class="sec wrap" style="padding-top:0">
@@ -168,33 +178,39 @@ while ( have_posts() ) :
 		</section>
 	<?php endif; ?>
 
-	<?php if ( $facts ) : ?>
-		<section class="sec wrap" style="padding-top:0">
+	<section class="sec wrap" style="padding-top:0">
 			<div class="split">
 				<div>
 					<?php lmf_kicker( __( 'The detail', 'lemonmint' ) ); ?>
 					<p class="sm" style="margin-top:12px;max-width:26ch"><?php esc_html_e( 'Published because production managers ask first and no brand-facing competitor answers.', 'lemonmint' ); ?></p>
 				</div>
 				<div>
-					<div class="facts">
-						<?php foreach ( $facts as $k ) : ?>
-							<div><span class="k"><?php echo esc_html( $k['k'] ); ?></span><span class="v"><?php echo esc_html( $k['v'] ); ?></span></div>
-						<?php endforeach; ?>
-					</div>
+					<?php if ( $facts ) : ?>
+						<div class="facts">
+							<?php foreach ( $facts as $k ) : ?>
+								<div><span class="k"><?php echo esc_html( $k['k'] ); ?></span><span class="v"><?php echo esc_html( $k['v'] ); ?></span></div>
+							<?php endforeach; ?>
+						</div>
+					<?php else : ?>
+						<?php lmf_svc_slot( __( 'Turnaround, languages, locations, crew, equipment and how it is priced.', 'lemonmint' ) ); ?>
+					<?php endif; ?>
 				</div>
 			</div>
 		</section>
-	<?php endif; ?>
 
-	<?php if ( $work ) : ?>
-		<section class="sec wrap" style="padding-top:0">
-			<div class="sec-head">
-				<div><?php lmf_kicker( __( 'Proof', 'lemonmint' ) ); ?><h2 class="h2"><?php esc_html_e( 'Selected work', 'lemonmint' ); ?></h2></div>
+	<section class="sec wrap" style="padding-top:0">
+		<div class="sec-head">
+			<div><?php lmf_kicker( __( 'Proof', 'lemonmint' ) ); ?><h2 class="h2"><?php esc_html_e( 'Selected work', 'lemonmint' ); ?></h2></div>
+			<?php if ( $work ) : ?>
 				<a class="link-u" href="<?php echo esc_url( add_query_arg( 'svc', $slug, get_post_type_archive_link( 'lmf_project' ) ) ); ?>"><?php esc_html_e( 'Filter all work', 'lemonmint' ); ?></a>
-			</div>
+			<?php endif; ?>
+		</div>
+		<?php if ( $work ) : ?>
 			<div class="grid"><?php foreach ( $work as $w ) { lmf_tile( $w->ID ); } ?></div>
-		</section>
-	<?php endif; ?>
+		<?php else : ?>
+			<?php lmf_svc_slot( __( 'Projects filed under this service appear here — add one in Work and tag it.', 'lemonmint' ) ); ?>
+		<?php endif; ?>
+	</section>
 
 	<?php if ( get_the_content() ) : ?>
 		<section class="sec wrap" style="padding-top:0">
@@ -205,11 +221,13 @@ while ( have_posts() ) :
 		</section>
 	<?php endif; ?>
 
-	<?php if ( $faq ) : ?>
-		<section class="sec wrap" style="padding-top:0">
+	<section class="sec wrap" style="padding-top:0">
 			<div class="split">
 				<div><?php lmf_kicker( __( 'Questions', 'lemonmint' ) ); ?></div>
 				<div>
+					<?php if ( ! $faq ) : ?>
+						<?php lmf_svc_slot( __( 'The six questions clients ask about this service, with the studio’s answers.', 'lemonmint' ) ); ?>
+					<?php endif; ?>
 					<div class="faq">
 						<?php foreach ( $faq as $i => $f ) : ?>
 							<details <?php echo 0 === $i ? 'open' : ''; ?>>
@@ -221,13 +239,14 @@ while ( have_posts() ) :
 				</div>
 			</div>
 		</section>
-	<?php endif; ?>
 
-	<?php if ( $info['related'] ) : ?>
-		<section class="sec wrap" style="padding-top:0">
+	<section class="sec wrap" style="padding-top:0">
 			<div class="split">
 				<div><?php lmf_kicker( __( 'Usually with it', 'lemonmint' ) ); ?></div>
 				<div class="svc-related">
+					<?php if ( ! $info['related'] ) : ?>
+						<?php lmf_svc_slot( __( 'The services that usually come with this one.', 'lemonmint' ) ); ?>
+					<?php endif; ?>
 					<?php
 					foreach ( $info['related'] as $rel ) :
 						$rel_title = lmf_service_title( $rel );
@@ -240,7 +259,6 @@ while ( have_posts() ) :
 				</div>
 			</div>
 		</section>
-	<?php endif; ?>
 
 	<?php lmf_closing_cta(); ?>
 	<?php

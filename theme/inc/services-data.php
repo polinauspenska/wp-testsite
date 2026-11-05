@@ -161,3 +161,16 @@ function lmf_service_title( $slug ) {
 	$post = get_page_by_path( $slug, OBJECT, 'lmf_service' );
 	return $post ? get_the_title( $post ) : '';
 }
+
+/**
+ * An empty block's place-holder: what belongs here, in the studio's words.
+ *
+ * @param string $what One line naming the missing content.
+ */
+function lmf_svc_slot( $what ) {
+	printf(
+		'<div class="svc-slot"><span class="meta">%s</span><p>%s</p></div>',
+		esc_html__( 'To come', 'lemonmint' ),
+		esc_html( $what )
+	);
+}

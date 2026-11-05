@@ -244,6 +244,11 @@ a:hover .still canvas,.tile:hover .still canvas{transform:scale(1.035)}
 @media (max-width:700px){.hero-still .still{aspect-ratio:4/3}}
 
 /* ── SERVICE PAGE — one shape for all nine ─────────────────── */
+/* a block whose content has not arrived keeps its place and says so */
+.svc-slot{border:1px dashed var(--rule);padding:clamp(18px,2.2vw,28px);max-width:56ch}
+.svc-slot .meta{display:block;margin-bottom:8px}
+.svc-slot p{margin:0;font-size:var(--fs-meta);color:var(--ink-55);line-height:1.5}
+.svc-related .svc-slot{flex:1 1 100%}
 /* what we make · what it solves · how it works · the detail ·
    the work · the questions · what comes with it */
 .svc-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,3vw,44px)}
