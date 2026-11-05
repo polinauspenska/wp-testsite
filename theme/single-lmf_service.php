@@ -71,9 +71,9 @@ while ( have_posts() ) :
 			<p class="sm" style="margin-top:14px;max-width:52ch"><?php esc_html_e( 'For', 'lemonmint' ); ?> <?php echo esc_html( $info['audience'] ); ?></p>
 		<?php endif; ?>
 
-		<div style="margin-top:32px;display:flex;gap:26px;align-items:center;flex-wrap:wrap">
-			<a class="btn btn-lemon" href="<?php echo esc_url( add_query_arg( array( 'i' => 'production', 'svc' => get_post_field( 'post_name', $id ) ), home_url( '/contact/' ) ) ); ?>"><?php echo esc_html( $cta ); ?></a>
-			<button class="link-u" data-reel><?php esc_html_e( 'Watch the reel', 'lemonmint' ); ?></button>
+		<?php // One action per surface. The film is on the page already, so it needs no button of its own. ?>
+		<div style="margin-top:32px">
+			<a class="btn btn-lemon" href="<?php echo esc_url( add_query_arg( array( 'i' => 'production', 'svc' => $slug ), home_url( '/contact/' ) ) ); ?>"><?php echo esc_html( $cta ); ?></a>
 		</div>
 
 		<hr class="rule" style="margin-top:clamp(26px,3vw,44px)">
