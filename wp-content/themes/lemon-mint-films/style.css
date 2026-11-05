@@ -234,8 +234,8 @@ a:hover .still canvas,.tile:hover .still canvas{transform:scale(1.035)}
    taller than the window; the width gives way instead. */
 .hero-still.player{
   width:min(100%,calc(74vh * 16 / 9));
-  /* on the page's own left edge, like everything else on it */
-  margin-inline:0 auto;
+  /* centred in the column */
+  margin-inline:auto;
   aspect-ratio:16/9;
   max-height:none;
   background:var(--ink);
