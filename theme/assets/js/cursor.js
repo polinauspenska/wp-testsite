@@ -95,12 +95,17 @@
 		}
 		if ( press ) { tw *= 0.84; th *= 0.84; }
 
-		var k = lock ? 0.26 : 0.2;
+		var k = lock ? 0.34 : 0.22;
 		fx += ( tx - fx ) * k;  fy += ( ty - fy ) * k;
 		fw += ( tw - fw ) * 0.24; fh += ( th - fh ) * 0.24;
 		el.classList.toggle( 'is-lock', lock );
 
-		dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)' + ( lock ? ' scale(0)' : '' );
+		/*
+		 * The dot shrinks over a target but never disappears: the frame eases
+		 * and the system cursor is hidden, so without it there are moments
+		 * with nothing on screen saying where the pointer actually is.
+		 */
+		dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)' + ( lock ? ' scale(.55)' : '' );
 		frame.style.width = fw.toFixed( 1 ) + 'px';
 		frame.style.height = fh.toFixed( 1 ) + 'px';
 		frame.style.transform = 'translate3d(' + ( fx - fw / 2 ).toFixed( 1 ) + 'px,' + ( fy - fh / 2 ).toFixed( 1 ) + 'px,0)';

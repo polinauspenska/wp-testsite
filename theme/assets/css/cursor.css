@@ -12,6 +12,17 @@
 html.has-lmf-cursor,
 html.has-lmf-cursor * { cursor: none !important; }
 
+/* The system caret is hidden, so a stray drag over a link used to leave a
+   blue selection with nothing to explain it. Interactive text is not
+   selectable; running text still is. */
+html.has-lmf-cursor a,
+html.has-lmf-cursor button,
+html.has-lmf-cursor .btn,
+html.has-lmf-cursor .nlink,
+html.has-lmf-cursor summary,
+html.has-lmf-cursor .fchip,
+html.has-lmf-cursor .link-u { -webkit-user-select: none; user-select: none; }
+
 /* fields keep a real text caret — you need to see where you are typing */
 html.has-lmf-cursor input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),
 html.has-lmf-cursor textarea,
