@@ -392,6 +392,9 @@ footer.site{border-top:1px solid var(--rule);padding:clamp(44px,6vw,88px) 0 34px
 @media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.fgrid{grid-template-columns:1fr}}
 .fgrid h5{font-size:var(--fs-label);font-weight:600;letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--mint);margin-bottom:14px}
+/* the heads are links to their hubs, and say so on hover */
+.fgrid h5 a{color:inherit;display:inline-block;padding-bottom:2px;border-bottom:1px solid transparent;transition:border-color .18s ease}
+.fgrid h5 a:hover{border-color:var(--mint)}
 .fgrid a{display:block;font-size:var(--fs-meta);color:var(--ink-70);padding:5px 0;transition:color .16s}
 .fgrid a:hover{color:var(--ink)}
 .flegal{display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap}

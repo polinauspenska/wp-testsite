@@ -55,7 +55,8 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<div>
-				<h5><?php esc_html_e( 'Services', 'lemonmint' ); ?></h5>
+				<?php // the column heads are the hubs they list ?>
+				<h5><a href="<?php echo esc_url( get_post_type_archive_link( 'lmf_service' ) ); ?>"><?php esc_html_e( 'Services', 'lemonmint' ); ?></a></h5>
 				<?php
 				foreach ( get_posts( array( 'post_type' => 'lmf_service', 'numberposts' => -1, 'orderby' => 'menu_order', 'order' => 'ASC' ) ) as $s ) {
 					printf( '<a href="%s">%s</a>', esc_url( get_permalink( $s ) ), esc_html( get_the_title( $s ) ) );
@@ -64,7 +65,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<div>
-				<h5><?php esc_html_e( 'Industries', 'lemonmint' ); ?></h5>
+				<h5><a href="<?php echo esc_url( get_post_type_archive_link( 'lmf_industry' ) ); ?>"><?php esc_html_e( 'Industries', 'lemonmint' ); ?></a></h5>
 				<?php
 				foreach ( get_posts( array( 'post_type' => 'lmf_industry', 'numberposts' => -1, 'orderby' => 'menu_order', 'order' => 'ASC' ) ) as $i ) {
 					printf( '<a href="%s">%s</a>', esc_url( get_permalink( $i ) ), esc_html( get_the_title( $i ) ) );
@@ -73,7 +74,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<div>
-				<h5><?php esc_html_e( 'Studio', 'lemonmint' ); ?></h5>
+				<h5><a href="<?php echo esc_url( home_url( '/studio/' ) ); ?>"><?php esc_html_e( 'Studio', 'lemonmint' ); ?></a></h5>
 				<?php
 				if ( has_nav_menu( 'footer' ) ) {
 					wp_nav_menu( array( 'theme_location' => 'footer', 'container' => false, 'items_wrap' => '%3$s', 'depth' => 1 ) );
