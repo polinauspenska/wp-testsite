@@ -546,12 +546,13 @@ function lmf_film( $post_id = 0, $size = 'lmf-film', $w = 1280, $h = 720 ) {
 	$video   = get_post_meta( $post_id, '_lmf_video', true );
 	$poster  = get_post_meta( $post_id, '_lmf_image', true );
 
+	/*
+	 * No film: the plate on its own. A play button with nothing behind it
+	 * promises something the page cannot give — and outside a positioned
+	 * frame it floated over the headline.
+	 */
 	if ( ! $video ) {
 		lmf_still( $post_id, $size, $w, $h );
-		printf(
-			'<button class="playbtn" data-reel aria-label="%s"><svg width="18" height="22" viewBox="0 0 20 24" fill="currentColor" aria-hidden="true"><path d="M0 0l20 12L0 24z"/></svg></button>',
-			esc_attr__( 'Play film', 'lemonmint' )
-		);
 		return;
 	}
 
