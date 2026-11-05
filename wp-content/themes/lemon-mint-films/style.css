@@ -327,6 +327,8 @@ a:hover .still canvas,.tile:hover .still canvas{transform:scale(1.035)}
 .facts .k{font-size:var(--fs-label);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--mint);font-weight:500}
 .facts .v{font-size:var(--fs-body)}
 .facts .v small{display:block;font-size:14px;color:var(--ink-38);margin-top:3px}
+/* a row whose value has not arrived still holds its line */
+.facts .v.is-pending{color:var(--ink-38)}
 
 /* quotes */
 .quote{display:flex;flex-direction:column;gap:18px}

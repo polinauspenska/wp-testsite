@@ -139,6 +139,41 @@ function lmf_service_info_all() {
 }
 
 /**
+ * THE DETAIL — the same six rows on every service page.
+ *
+ * Three of them are true of the studio whatever the service (they come from
+ * the document's own general answers); three are the service's own. A row
+ * without a value still appears, marked, so the table is the same table on
+ * all nine pages.
+ *
+ * @param string $slug Service slug.
+ * @return array[] { label, value } in a fixed order.
+ */
+function lmf_service_facts( $slug ) {
+	$info = lmf_service_info( $slug );
+	$own  = $info['facts'];
+
+	$studio = array(
+		'Languages' => 'English, Hindi, Arabic and Urdu — with subtitles, voiceover, dubbing and localisation',
+		'Locations' => 'Dubai, Abu Dhabi and across the UAE — our studio, your site, or on location',
+		'Pricing'   => 'Quoted per project, after the scope and the deliverables are agreed',
+	);
+
+	$rows = array();
+	foreach ( array( 'Turnaround', 'Languages', 'Locations', 'Crew', 'Equipment', 'Pricing' ) as $k ) {
+		$value = '';
+		if ( ! empty( $own[ $k ] ) ) {
+			$value = $own[ $k ];
+		} elseif ( ! empty( $studio[ $k ] ) ) {
+			$value = $studio[ $k ];
+		}
+		$rows[] = array( $k, $value );
+	}
+
+	return apply_filters( 'lmf_service_facts', $rows, $slug );
+}
+
+/**
  * One service, always in the full shape.
  *
  * @param string $slug Service slug.

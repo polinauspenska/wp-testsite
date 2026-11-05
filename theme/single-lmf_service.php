@@ -21,7 +21,6 @@ while ( have_posts() ) :
 	$slug    = get_post_field( 'post_name', $id );
 	$info    = lmf_service_info( $slug );
 	$diffs   = lmf_get_pairs( $id, '_lmf_diffs' );
-	$kit     = lmf_get_pairs( $id, '_lmf_kit' );
 	$faq     = lmf_get_faq( $id );
 	$work    = lmf_service_projects( $id, 6 );
 
@@ -40,32 +39,9 @@ while ( have_posts() ) :
 			$faq[] = array( 'q' => $pair[0], 'a' => $pair[1] );
 		}
 	}
-	// Likewise the facts: this service's, or the studio's equipment list.
-	$facts = array();
-	foreach ( $info['facts'] as $k => $v ) {
-		if ( $v ) {
-			$facts[] = array( 'k' => $k, 'v' => $v );
-		}
-	}
-	if ( ! $facts ) {
-		$facts = $kit;
-	}
-	if ( ! $facts && function_exists( 'lmf_studio_page_content' ) ) {
-		// the studio's own kit list, until this service states its own
-		$studio = lmf_studio_page_content();
-		if ( ! empty( $studio['kit'] ) ) {
-			foreach ( $studio['kit'] as $row ) {
-				$facts[] = array( 'k' => $row[0], 'v' => trim( $row[1] . ( ! empty( $row[2] ) ? ' · ' . $row[2] : '' ) ) );
-			}
-		}
-	}
-	$index   = 0;
+	// The detail: the same six rows on every service page.
+	$facts = lmf_service_facts( $slug );
 
-	foreach ( get_posts( array( 'post_type' => 'lmf_service', 'numberposts' => -1, 'orderby' => 'menu_order', 'order' => 'ASC' ) ) as $i => $s ) {
-		if ( (int) $s->ID === (int) $id ) {
-			$index = $i + 1;
-		}
-	}
 	?>
 
 	<section class="wrap" style="padding-top:clamp(40px,5vw,80px)">
@@ -185,15 +161,18 @@ while ( have_posts() ) :
 					<p class="sm" style="margin-top:12px;max-width:26ch"><?php esc_html_e( 'Published because production managers ask first and no brand-facing competitor answers.', 'lemonmint' ); ?></p>
 				</div>
 				<div>
-					<?php if ( $facts ) : ?>
-						<div class="facts">
-							<?php foreach ( $facts as $k ) : ?>
-								<div><span class="k"><?php echo esc_html( $k['k'] ); ?></span><span class="v"><?php echo esc_html( $k['v'] ); ?></span></div>
-							<?php endforeach; ?>
-						</div>
-					<?php else : ?>
-						<?php lmf_svc_slot( __( 'Turnaround, languages, locations, crew, equipment and how it is priced.', 'lemonmint' ) ); ?>
-					<?php endif; ?>
+					<div class="facts">
+						<?php foreach ( $facts as $row ) : ?>
+							<div>
+								<span class="k"><?php echo esc_html( $row[0] ); ?></span>
+								<?php if ( $row[1] ) : ?>
+									<span class="v"><?php echo esc_html( $row[1] ); ?></span>
+								<?php else : ?>
+									<span class="v is-pending"><?php esc_html_e( 'To come', 'lemonmint' ); ?></span>
+								<?php endif; ?>
+							</div>
+						<?php endforeach; ?>
+					</div>
 				</div>
 			</div>
 		</section>
