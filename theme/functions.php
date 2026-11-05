@@ -21,6 +21,7 @@ require_once get_template_directory() . '/inc/meta.php';
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/demo-content.php';
 require_once get_template_directory() . '/inc/services-reel.php';
+require_once get_template_directory() . '/inc/services-data.php';
 require_once get_template_directory() . '/inc/studio.php';
 require_once get_template_directory() . '/inc/home.php';
 require_once get_template_directory() . '/inc/pages.php';
